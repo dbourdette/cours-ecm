@@ -1,0 +1,556 @@
+
+include::../../header.adoc[]
+
+= Annexe B : L'architecture MVC
+
+.Le MVC en 3 phrases
+****
+MVC découpe une application en 3 aspects : Model, Vue et Controller.
+
+C'est un pattern présent dans de nombreux languages et environnements.
+
+C'est une division du code en sous technologies adaptées à chaque aspect.
+****
+
+== Synthèse
+
+L'architecture MVC repose sur la séparation des responsabilités.
+
+[align="center"]
+image::mvc2.png[]
+
+* le front controller dispatch les requêtes vers le bon Controller
+* le Controller traite la requête à l'aide de sous composants et services
+* la View s'occupe du rendu html
+
+NOTE: le front controller est fourni par Spring, le reste est à la charge du développeur.
+
+== Diagramme détaillé
+
+include::mvc.adoc[]
+
+== Configuration
+
+Spring MVC ne brille pas pour sa *convention over configuration* (en partie à cause de JEE et en partie à cause de Spring).
+
+La configuration se divise en 3 parties.
+
+=== web.xml
+
+C'est le fichier de configuration standard JEE pour les applications web.
+
+Le *descripteur de déploiement* (web.xml) comporte ce qu'il faut afin de charger le contexte spring
+
+[source,xml]
+.Extrait du web.xml
+----
+<!-- Handles Spring requests -->
+<servlet>
+ <servlet-name>spring</servlet-name>
+ <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+ <load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+ <servlet-name>spring</servlet-name> <1>
+ <url-pattern>/</url-pattern> <2>
+</servlet-mapping>
+----
+<1> nom de la servlet
+<2> pattern d'interception
+
+Le contrôleur frontal (DispatcherServlet) intercepte toutes les requêtes (mapping sur /).
+
+Le nom de la servlet (ici *spring*) détermine le nom par défaut du fichier spring associé : WEB-INF/*spring*-servlet.xml
+
+=== spring-servlet.xml
+
+C'est un contexte spring dédié à la configuration du mvc
+
+[source,xml]
+----
+<!-- Activation des annotations -->
+<context:annotation-config />
+
+<!-- Enregistrement de convertisseurs et formatteurs spécifiques au mvc -->
+<mvc:annotation-driven />
+
+<!-- Gestion des fichiers statiques -->
+<mvc:default-servlet-handler />
+
+<!-- Chargement des controllers -->
+<context:component-scan base-package="fr.cmm.controller" /> <1>
+
+<!-- Définition de la Locale pour les opérations de formattage -->
+<bean id="localeResolver" class="...FixedLocaleResolver">
+   <property name="defaultLocale" value="fr_FR" />
+</bean>
+
+<!-- Configure la technologie de templating -->
+<bean id="jspViewResolver" class="...InternalResourceViewResolver">
+ <property name="viewClass" value="...JstlView" />
+ <property name="prefix" value="/WEB-INF/jsp/" />
+ <property name="suffix" value=".jsp" />
+</bean>
+----
+<1> notre package java contenant les controllers
+
+NOTE: un component-scan permet de charger tous les composants Spring contenu dans un package java.
+
+NOTE: Il est possible de faire la même configuration en java.
+
+=== SpringConfig
+
+C'est la configuration qui contient les services.
+
+[source,xml]
+.Chargement depuis le web.xml
+----
+<listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+<context-param>
+  <param-name>contextClass</param-name>
+  <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+</context-parm>
+<context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>fr.cmm.SpringConfig</param-value> <1>
+</context-param>
+----
+<1> Classe java contenant la configuration
+
+Voici la configuration pour notre projet
+
+[source,java]
+.SpringConfig.java
+----
+@Configuration
+@ComponentScan("fr.cmm.service")
+public class SpringConfig {
+    @Inject
+    private Environment env;
+
+    @Bean
+    public String getDbName() {
+        if (env.acceptsProfiles(INTEG)) {
+            return "cmm-integ";
+        } else {
+            return "cmm";
+        }
+    }
+
+    @Bean
+    public DB db() throws UnknownHostException {
+        return new MongoClient().getDB(getDbName());
+    }
+
+    @Bean
+    public GridFS gridFS() throws UnknownHostException {
+        return new GridFS(db());
+    }
+
+    @Bean
+    public Jongo jongo() throws UnknownHostException {
+        return new Jongo(db());
+    }
+
+    @Bean
+    public MongoCollection recipeCollection() throws UnknownHostException {
+        MongoCollection collection = jongo().getCollection("recipes");
+
+        collection.ensureIndex("{randomLocation: '2d'}");
+
+        return collection;
+    }
+}
+----
+
+NOTE: Il est possible de faire la même configuration en xml mais c'est beaucoup moins souple.
+
+Nous n'allons pas étudier cette configuration ici, c'est le sujet en link:../C-di/index.html[annexe C]
+
+== Les Controllers
+
+Les Controllers sont chargés depuis la configuration `spring-servlet.xml`.
+
+Un Controller est un composant Spring qui est chargé de traiter les requêtes HTTP.
+
+=== HelloWorldController
+
+Un Controller est une classe java annoté avec `@Controller`
+
+[source,java]
+.Exemple de Controller
+----
+@Controller
+public class HelloWorldController {
+   @RequestMapping("/hello") <1>
+   public void hello(HttpServletResponse response) throws IOException { <2>
+     response.getWriter().write("Hello !"); <3>
+   }
+}
+----
+<1> Cette méthode traite les requpetes vers /hello
+<2> Le type de retour est `void`, il n'y a donc pas de forward vers une vue
+<3> On écrit directement dans la réponse
+
+NOTE: Une méthode mappée est appelée *handler*
+
+La liste les http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-arguments[paramètres supportés] par les handlers est disponible dans le doc de Spring MVC
+
+=== Le forward vers la vue
+
+C'est le retour habituel pour un Controller : passer la main à la vue.
+
+Pour demander à spring de passer la main à une jsp, on peut retourner le nom du fichier.
+
+[source,java]
+----
+@Controller
+public class HelloWorldController {
+  @RequestMapping("/hello")
+  public String hello(String name) {
+    return "hello";
+  }
+}
+----
+
+NOTE: Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configuration dans `spring-servlet.xml`
+
+Retourner une chaîne de caractères est interprété comme un forward vers une vue.
+
+La liste complète des http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc-ann-return-types[retours possibles] est est disponible dans le doc de Spring MVC
+
+=== Le modèle et la vue
+
+Le rôle du controller est de préparer le modèle de données.
+
+[source,java]
+----
+@Controller
+public class HelloWorldController {
+  @RequestMapping("/hello")
+  public String hello(Model model) {
+    model.addAttribute("name", "world"); <1>
+
+    return "hello";
+  }
+}
+----
+<1> On ajoute une donnée "name" au modèle
+
+La vue peut ensuite utiliser ce modèle.
+
+[source,html]
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>...</head>
+ <body>Hello ${name} !</body>
+</html>
+
+== Annotations
+
+La annotations permettent de configurer les Controllers.
+
+Voici les annotations principales.
+
+=== @RequestMapping
+
+`@RequestMapping` permet de déclarer un handler.
+
+Il est possible d'annoter un Controller
+
+[source,java]
+----
+@Controller
+@RequestMapping("/admin") <1>
+public class HelloWorldController {
+    // handlers
+}
+----
+<1> `@RequestMapping` se cumule à tous les handlers du Controller
+
+Ou bien juste une méthode
+
+[source,java]
+----
+@Controller
+public class HelloWorldController {
+  @RequestMapping("/hello")
+  public String hello() {
+    return "hello";
+  }
+}
+----
+
+Il est possible de limiter la portée en paramétrant l'annotation
+
+[source,java]
+----
+@Controller
+public class HelloWorldController {
+  @RequestMapping(value = "/hello", method = RequestMethod.GET) <1>
+  public String hello() {
+    return "hello";
+  }
+}
+----
+<1> Uniquement les requtêtes de type GET
+
+Void la documentation de l'annotation https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html[RequestMapping]
+
+=== @PathVariable
+
+Il est aussi possible de découper le chemin de la requête et de s'en servir comme paramètre.
+
+Par exemple pour une requête comme `\http://localhost:8080/hello/Peter`
+
+[source,java]
+@Controller
+public class HelloWorldController {
+  @RequestMapping("/hello/{name}")
+  public void hello(HttpServletResponse response, @PathVariable String name) throws IOException {
+    response.getWriter().write("Hello " + name + " !");
+  }
+}
+
+Cela permet de construire des urls élégantes plutôt que de reposer sur des paramètres.
+
+=== @RequestParam
+
+Les paramètres de la requête peuvent être déclarés comme des paramètres de la méthode.
+
+Par exemple pour une requête comme `\http://localhost:8080/hello?name=Steven`
+
+[source,java]
+@Controller
+public class HelloWorldController {
+  @RequestMapping("/hello")
+  public void hello(HttpServletResponse response, String name) throws IOException {
+    response.getWriter().write("Hello " + name + " !");
+  }
+}
+
+Void la documentation de l'annotation https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestParam.html[RequestParam]
+
+Le framework est capable de convertir les paramètres vers le bon type de données
+
+Par exemple pour `\http://localhost:8080/hello?value=10`
+
+[source,java]
+@Controller
+public class HelloWorldController {
+    @RequestMapping("/hello")
+    public void hello(HttpServletResponse response, Integer value) throws IOException {
+        response.getWriter().write("Hello " + value + " !");
+    }
+}
+
+IMPORTANT: En cas d'erreur de conversion (/hello?value=xyz) une erreur 400 (Bad Request) est lancée.
+
+=== @RequestBody et @ResponseBody
+
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-requestbody[`@RequestBody`] permet de convertir le body de la requête HTTP en paramètre du handler
+
+[source,java]
+----
+@RequestMapping(path = "/something", method = RequestMethod.PUT)
+public void handle(@RequestBody String body) throws IOException {
+    ...
+}
+----
+
+http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-responsebody[`@ResponseBody`] permet de convertir le type de retour du handler en body de la réponse HTPP.
+
+[source,java]
+----
+@RequestMapping(path = "/something")
+@ResponseBody
+public String helloWorld() {
+    return "Hello World";
+}
+----
+
+NOTE: En configurant spring, il devient facile de lire ou d'écrire du JSON ou du XML.
+
+=== @ModelAttribute
+
+Il y a usages possible pour cette annotation.
+
+==== Sur une méthode
+
+Elle permet d'ajouter un élément dans le modèle pour toutes les méthodes du controller.
+
+[source,java]
+----
+@ModelAttribute("defaultAccount") <1>
+public Account defaultAccount() {
+    return accountManager.findDefaultAccount();
+}
+----
+<1> defaultAccount sera disponible dans le handler et la vue
+
+Voir http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods
+
+==== Sur un argument de méthode
+
+L'argument est récupéré du modèle. Si le modèle ne le connait pas, l'argument va être instancié et ajouté au modèle. Une fois dans le modèle, l'argument est rempli avec tous les paramètres de la requête qui correspondent à ses propriétés.
+
+[source,java]
+----
+@RequestMapping(path = "/owners/{ownerId}/pets/{petId}/edit", method = RequestMethod.POST)
+public String processSubmit(@ModelAttribute Pet pet) {
+    ...
+}
+----
+
+Voir http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args
+
+== Les formulaires
+
+Spring mvc propose un gestion assez classique des formulaires.
+
+Nous allons prendre le formulaire suivant comme exemple.
+
+++++
+<form method="post" action="/editPerson"><span class="pln">nom </span><input type="text" name="name"><span class="pun">,</span><span class="pln"> age </span><input type="text" name="age"><span class="pln"> </span><input type="submit"></form>
+++++
+
+Le code jsp qui correspondant.
+
+[source,xml]
+<form:form commandName="person" method="post" action="/editPerson">
+   nom <form:input path="name">
+   ,age <form:input path="age">
+   <form:submit>
+   <form:hidden path="id">
+</form:form>
+
+Pour ce formulaire, nous créons la classe suivante.
+
+[source,java]
+----
+public class PersonForm {
+   private Long id;
+
+   private String name;
+
+   private Integer age;
+
+   // getters and setters
+}
+----
+
+Par convention, il est pratique d'utiliser le suffixe Form.
+
+Cependant, n'importe quelle classe avec les accesseurs disponibles pour les champs du formulaire ferait l'affaire.
+
+Il est même possible d'utiliser des objets du domaine métier qui serviront à la persistance.
+
+Le contrôleur supporte l'affichage et la modification de la donnée
+
+[source,java]
+----
+@Controller
+@RequestMapping("/editPerson")
+public class PersonController {
+
+   @RequestMapping(method = RequestMethod.GET)
+   public String form(Long id, Model model) {
+      // aller cherche la personne en base
+
+      // forwarder vers la vue
+   }
+
+   @RequestMapping(method = RequestMethod.POST)
+   public String submit(@ModelAttribute("person") PersonForm person, BindingResult result) {
+        // gérer les erreurs
+
+        // sauver et faire un redirect
+   }
+}
+----
+
+=== Binding et validation
+
+Le framework spring aide à la gestion des formulaires sur 2 points essentiels
+
+* Le binding : prendre les chaînes de caractères dans la requête et remplir l'objet
+* La validation : noter toutes les erreurs de conversion lors du binding et être capable d'afficher des messages d'erreur
+
+La JSR 303 (bean validation) simplifie la configuration de la validation.
+
+[source,java]
+@NotEmpty
+private String name;
+
+[source,java]
+----
+@RequestMapping(method = RequestMethod.POST)
+public String post(@ModelAttribute("person") @Valid PersonForm form, BindingResult result) {
+    if (result.hasError()) {
+        return "form";
+    }
+
+    // suite
+}
+----
+
+=== Redirect after POST
+
+Lors du POST du formulaire, des données sont envoyées au serveur.
+
+L'état de la base de données change.
+
+Faire un refresh sur un navigateur consiste a refaire la même requête.
+
+Dans notre cas, un refresh ferait une deuxième écriture en base.
+
+Il est donc impératif que le contrôleur fasse un redirect après une modification en base.
+
+Ce pattern est appelé redirect after POST
+
+Cela permet d'éviter l'insert de doublons en base et d'assurer le fonctionnement normal du bouton back du navigateur.
+
+== Tests avec MockMvc
+
+Afin de tester un Controller que celui ci soit en condition réelle, dans un conteneur Spring.
+
+Pour cela, Spring MVC propose un classe $MockMvc$ et un support pour les tests de Controller.
+
+[source,java]
+.Exemple de test avec MockMvc
+----
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+
+// ...
+
+WebApplicationContext wac = ...; <1>
+
+MockMvc mockMvc = webAppContextSetup(wac).build(); <2>
+
+mockMvc.perform(get("/form")) <3>
+ .andExpect(status().isOk()) <4>
+ .andExpect(content().mimeType("text/html")) <4>
+ .andExpect(forwardedUrl("/WEB-INF/layouts/main.jsp")); <4>
+----
+<1> Obtention du WebApplicationContext
+<2> Création du MockMvc
+<3> Appel sur le Controller au travers de Spring MVC
+<4> Vérifications
+
+
+.import static
+****
+Afin de simplifier la notation dans ces tests, on utilise des imports statiques.
+
+Cela permet d'appeler toutes les méthodes statiques des classes importées comme cela comme si elles étaient locales.
+
+Ainsi on écrit `get("/form")` au lieu de `MockMvcRequestBuilders.get("/form")`
+
+Dans ce genre de situation, cela permet de rendre le code plus succint et lisible.
+****
+

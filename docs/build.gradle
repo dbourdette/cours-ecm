@@ -1,0 +1,47 @@
+
+plugins {
+    id "org.asciidoctor.convert" version "1.5.2" // https://github.com/asciidoctor/asciidoctor-gradle-plugin && http://asciidoctor.org/
+    id "com.bluepapa32.watch" version "0.1.5"
+    id "com.github.jruby-gradle.base" version "0.3.0"
+    id "org.ajoberstar.github-pages" version "1.2.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+asciidoctor {
+    dependsOn jrubyPrepareGems
+
+    requires = ['asciidoctor-diagram']
+
+    gemPath = jrubyPrepareGems.outputDir
+
+    resources {
+        from('src/docs/asciidoc') {
+            include '**/*.png', '**/*.jpg', '**/*.css', '**/*.otf', '**/*.woff', '**/*.ttf', '**/*.js', '**/*.html'
+        }
+    }
+
+    attributes 'source-highlighter' : 'coderay', 'linkcss': '', 'last-update-label': '', 'nofooter': ''
+}
+
+watch {
+    asciidoc {
+        files fileTree(dir: 'src/docs/asciidoc', include: '**/*')
+        tasks 'asciidoctor'
+    }
+}
+
+githubPages {
+  repoUri = 'git@github.com:dbourdette/cours-ecm.git'
+  pages {
+     from(file('build/asciidoc/html5')) {
+     	into '.'
+     }
+  }
+}
+
+dependencies {
+    gems 'rubygems:asciidoctor-diagram:1.2.1'
+}

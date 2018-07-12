@@ -1,0 +1,155 @@
+
+include::../../header.adoc[]
+
+= Bugs dans les services
+
+Voici la liste des bugs répertoriés en relation avec les services
+
+NOTE: link:../C-DI/index.html[l'annexe C] explique le principe de l'injection de dépendances
+
+== SER-1 : ObjectId invalide
+
+.https://docs.mongodb.org/manual/reference/object-id/
+****
+In MongoDB, documents stored in a collection require a unique _id field that acts as a primary key.
+
+ObjectId is a 12-byte BSON type, constructed using:
+
+* a 4-byte value representing the seconds since the Unix epoch,
+* a 3-byte machine identifier,
+* a 2-byte process id, and
+* a 3-byte counter, starting with a random value.
+****
+
+La page http://localhost:8080/recette/123pasvalide456 fait une 500
+
+image::500.png[]
+
+Avec la stack (dans le terminal) :
+
+[source]
+----
+Servlet.service() for servlet [spring] in context with path [] threw exception [Request processing failed; nested exception is java.lang.IllegalArgumentException: invalid ObjectId [123pasvalide456]] with root cause
+java.lang.IllegalArgumentException: invalid ObjectId [123pasvalide456]
+	at org.bson.types.ObjectId.<init>(ObjectId.java:200)
+	at org.bson.types.ObjectId.<init>(ObjectId.java:186)
+	at fr.cmm.service.RecipeService.findById(RecipeService.java:47)
+	at fr.cmm.controller.IndexController.recette(IndexController.java:77)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	...
+----
+
+La ligne qui pose problème est dans `RecipeService` :
+
+[source,java]
+----
+return recipeCollection.findOne(new ObjectId(id)).as(Recipe.class); <1>
+----
+<1> `new ObjectId(id)` échoue si `id` n'a pas le bon format
+
+Rajoutez un test `findByIdWithInvalidId()` dans `RecipeServiceTest` qui s'assure que le service renvoie `null` dans ce cas.
+
+== SER-2 : countByQuery et pagination
+
+Le service `RecipeService` semble bien fontionner pour la recherche.
+
+Par contre `RecipeService.countByQuery(query)` ne prend pas en compte la query afin de déterminer le nombre de résultats disponibles.
+
+Ajoutez des tests sur cette méthode afin de s'assurer de son fonctionnement.
+
+Grâce aux tests, nous pouvons nous permettre de factoriser le code entre `countByQuery` et `findByQuery`.
+
+.pagination
+Dans la page `recettes.jsp` nous avons mis en place une pagination. Mais celle-ci prend elle en compte le paramètre de recherche 'tag' ?
+
+Si ce n'est pas le cas, la recherche serait perdue dès que l'on navigue...
+
+Comment pourrait on faire pour corriger cela si ce n'est pas déjà fait.
+
+== SER-3 La home contient des doublons
+
+La page de home est construite à l'aide de la méthode `randomColumns()`
+
+[source,java]
+----
+private Columns randomColumns() {
+  Columns columns = new Columns();
+
+  columns.add(recipeService.findRandom(10));
+  columns.add(recipeService.findRandom(10));
+  columns.add(recipeService.findRandom(10));
+
+  return columns;
+}
+----
+
+Or 2 appels différents à `recipeService.findRandom(10)` peut renvoyer deux fois les mêmes recettes.
+
+L'implémenation de `findRandom(int count)` repose sur une astuce en mongodb.
+
+[source,java]
+----
+public Iterator<Recipe> findRandom(int count) {
+  return recipeCollection.find("{randomLocation: {$near: [#, 0]}}", Math.random()).limit(count).as(Recipe.class);
+}
+----
+
+On prend les `count` recettes les plus proches d'un point sur une droite.
+Pour faire cela, la classe `Recipe` à un attribut spécial `randomLocation`, initialisé à la création de l'object.
+
+[source,java]
+.randomLocation
+----
+private double[] randomLocation = new double[] {Math.random(), 0};
+----
+
+.https://docs.mongodb.org/manual/reference/operator/query/near/
+****
+Specifies a point for which a geospatial query returns the documents from nearest to farthest.
+
+The $near operator can specify either a GeoJSON point or legacy coordinate point.
+
+$near requires a geospatial index.
+****
+
+Comment faire pour éviter d'avoir plusieurs fois la même recette sur la home ?
+
+Comment mettre en place des tests pour couvrir ce point ?
+
+.Limitations
+****
+Aller chercher les recettes par paquets permet de faire moins de requête en base.
+
+Cependant, comme la répartition des recettes sur la droite est figée, les requêtes proches remonteront donc souvent ensemble.
+****
+
+Pouvez vous imaginer une meilleure façon d'obtenir une liste aléatoire de recettes ?
+
+== SER-4 Recette du moment
+
+Chaque `Recipe` à une date associée.
+
+Comment pourrait on utiliser celle ci afin que la page 'recette du moment' remonte de préférence une recette avec date proche de la date courante ?
+
+le but est de remplacer
+
+[source,java]
+----
+model.put("recipe", recipeService.findRandom(1).next());
+----
+
+Par quelque chose de la sorte
+
+[source,java]
+----
+model.put("recipe", recipeService.findCurrent());
+----
+
+C'est assez délicat de tester cela humainement en regardant les pages du site.
+
+Les tests devraient nous permettre de garantir ce bon fonctionnement.
+
+Cependant, le service va devoir gérer utiliser la date courante. Il serait pratique de pouvoir voyager dans le temps afin de pouvoir tester le résultat à différents moments en gardant le même jeu de test de recettes.
+
+Comment pourrait faire cela ? Comment fournir la date et l'heure au service afin que cela soit simple pour les tests et reste valide lorsque l'application tourne normalement ?

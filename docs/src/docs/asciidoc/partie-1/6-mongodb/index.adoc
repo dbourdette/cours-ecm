@@ -1,0 +1,200 @@
+
+include::../../header.adoc[]
+
+image::banner.png[width=100%]
+
+Mongo db est une base de données qui contient des documents.
+
+Les données sont stockées en Binary JSON (BSON).
+
+Nous allons l'utiliser afin de stocker nos données.
+
+== Des documents
+
+Un document est une structure de données flexible. La tructure peut être riche, par opposition à des clés-valeurs.
+
+Les documents Mongo db sont des structures arborescentes pouvant contenir des tableaux.
+
+[source]
+.exemple
+----
+{
+   _id: ObjectId("5099803df3f4948bd2f98391"),
+   name: { first: "Alan", last: "Turing" },
+   birth: new Date('Jun 23, 1912'),
+   death: new Date('Jun 07, 1954'),
+   contribs: [ "Turing machine", "Turing test", "Turingery" ],
+   views : NumberLong(1250000)
+}
+----
+
+C'est un arbre classique JSON avec un attribut _id de type ObjectId.
+
+.Not Only SQL (wikipedia)
+****
+En informatique, *NoSQL* (Not only SQL en anglais) désigne une catégorie de systèmes de gestion de base de données (SGBD) qui n'est plus fondée sur l'architecture classique des *bases relationnelles*. L'unité logique n'y est plus la table, et les données ne sont en général pas manipulées avec SQL.
+****
+
+== Collections
+
+Les documents sont rangés dans des *collections* (l'équivalent des tables en sql).
+
+Les collections sont beaucoup moins rigides que les tables :
+il n'y a pas de schéma et donc chaque document peut avoir sa propre structure.
+
+Cela n'empêche pas de pouvoir positionner des index sur les propriétés afin d'assurer la performance des lectures.
+
+== Shell & Javascript
+
+Pour interagir avec la base, il est possible d'utiliser le shell mongo.
+
+****
+The mongo shell is an interactive *JavaScript* interface to MongoDB and is a component of the MongoDB package.
+You can use the mongo shell to query and update data as well as perform administrative operations.
+****
+
+L'https://docs.mongodb.org/manual/reference/method/[api mongo] est riche et bien documentée.
+
+.Exemple de requête
+----
+db.inventory.find( { type: 'food', price: { $lt: 9.95 } } ) <1>
+----
+<1> on cherche les documents de type 'food' avec un prix inférieur à 9.95 dans la collection 'inventory'
+
+En java, on utilise un **driver**.
+Selon le language et les frameworks, la façon d'interagir avec la base mongo peut donc varier.
+
+== Replica Sets
+
+L'origine des bases NoSql vise la performance sur des volumes de données importants.
+
+Mongodb propose des replica sets : un groupe de process qui maintiennent les mêmes données.
+
+Cela apporte *haute disponibilité* (tolérance à la panne) et *redondance* (tolérance à la perte de données sur un noeud).
+
+Un replica set contient toujours un serveur primaire et des secondaires.
+
+.Replicat set
+image::replica-set.png[align="center"]
+
+Pour augmenter la performance, il est possible que les clients viennent lire sur les secondaires.
+Il se peut donc qu'au moment de la lecture, les données ne soient pas encore répliquées vers les secondaires.
+
+.Eventual Consistency
+[quote, Amazon, Eventual Consistency]
+the storage system guarantees that if no new updates are made to the object, eventually all accesses will return the last updated value.
+
+== Sharding
+
+Le sharding est l'éclatement des données en sous ensembles.
+
+Cela permet aux requêtes d'être distribuées entres plusieurs serveurs afin de travailler sur des volumes plus faibles.
+
+.Shards
+image::shards.png[align="center"]
+
+Afin de pouvoir répartir une collection sur plusieurs serveurs, il faut définir une clé de sharding.
+
+Les données seront alors réparties en fonction de cette clé.
+
+.Logs
+****
+Un exemple de sharding pourrait concerner les logs : le volume est souvent imposant.
+
+Il serait possible de diviser les logs en se basant sur la date du log.
+
+Ainsi, les requêtes seraient réparties entre les noeuds pour plus de perfomance.
+****
+
+== Map reduce
+
+Une des opération qui a rendu célèbre les bases NoSQL est le *map-reduce* : c'est un mécanisme de traitement en masse des données afin de fournir un résultat aggrégé.
+
+* map : transformation des résultats
+* reduce : aggrégation du résultat
+
+.Map reduce
+image::map-reduce.png[align="center"]
+
+Le principe se marie idéalement avec du sharding où les opération peuvent opérer sur tous les noeuds en même temps avant que le résultat final soit aggrégé.
+
+== SQL vs MongoDB
+
+Les qualités d'une base SQL sont :
+
+* *A* tomicité : une transaction se fait au complet ou pas du tout
+* *C* ohérence : chaque transaction amènera le système d'un état valide à un autre état valide
+* *I* solation : toute transaction doit s'exécuter comme si elle était la seule sur le système
+* *D* urabilité : une transaction finalisée altère les données façon permanente et resistante à la panne
+
+Or mongodb ne supporte ni transaction, ni clé étrangère. Donc pas d'**ACID**ité.
+
+En contrepartie de ces défauts, mongodb apporte plus de perfomance, plus de souplesse et plus de simplicité.
+
+== Installation
+
+Pour installer mongodb on passe par homebrew :
+
+[source.terminal]
+----
+projects$ brew install mongodb
+==> Downloading https://homebrew.bintray.com/bottles/mongodb-3.0.6.yosemite.bottle.tar.gz
+######################################################################## 100,0%
+==> Pouring mongodb-3.0.6.yosemite.bottle.tar.gz
+==> Caveats
+To have launchd start mongodb at login:
+  ln -sfv /usr/local/opt/mongodb/*.plist ~/Library/LaunchAgents
+Then to load mongodb now:
+  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist
+Or, if you don't want/need launchctl, you can just run:
+  mongod --config /usr/local/etc/mongod.conf
+==> Summary
+🍺  /usr/local/Cellar/mongodb/3.0.6: 17 files, 159M
+----
+
+== Création du répertoire de données
+
+[source.terminal]
+----
+projects$ mkdir mongodb-data <1>
+----
+<1> ce répertoire contiendra les données de la base
+
+== Lancer la base
+
+Une fois installée, il suffit de lancer la base.
+
+[source.terminal]
+----
+projects$ mongod --dbpath mongodb-data
+2015-06-12T17:53:52.757+0200 I JOURNAL  [initandlisten] journal dir=mongodb-data/journal
+2015-06-12T17:53:52.757+0200 I JOURNAL  [initandlisten] recover : no journal files present, no recovery needed
+2015-06-12T17:53:52.783+0200 I JOURNAL  [durability] Durability thread started
+2015-06-12T17:53:52.783+0200 I CONTROL  [initandlisten] MongoDB starting : pid=3015 port=27017 dbpath=mongodb-data 64-bit host=jaadtwo.local
+2015-06-12T17:53:52.783+0200 I JOURNAL  [journal writer] Journal writer thread started
+2015-06-12T17:53:52.783+0200 I CONTROL  [initandlisten] db version v3.0.1
+2015-06-12T17:53:52.784+0200 I CONTROL  [initandlisten] git version: nogitversion
+2015-06-12T17:53:52.784+0200 I CONTROL  [initandlisten] build info: Darwin mavericksvm.local 13.4.0 Darwin Kernel Version 13.4.0: Wed Dec 17 19:05:52 PST 2014; root:xnu-2422.115.10~1/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2015-06-12T17:53:52.784+0200 I CONTROL  [initandlisten] allocator: system
+2015-06-12T17:53:52.784+0200 I CONTROL  [initandlisten] options: { storage: { dbPath: "mongodb-data" } }
+2015-06-12T17:53:52.850+0200 I NETWORK  [initandlisten] waiting for connections on port 27017 <1>
+----
+<1> La base écoute sur le port 27017
+
+La base est prête à recevoir des connexions.
+
+== Robomongo
+
+On pourrait utiliser le shell mais une interface graphique est plus simple pour viasualisé les résultats des requêtes.
+
+Il existe beaucoup de https://docs.mongodb.org/ecosystem/tools/administration-interfaces/[clients graphiques]
+
+Nous utiliserons http://robomongo.org/[robomongo].
+
+Installez ce logiciel et connectez vous à la base en local sur le port 27017.
+
+Une fois connecté, vous pouvez créer une base, des collections et faire de multiples https://docs.mongodb.org/manual/tutorial/query-documents/[requêtes].
+
+image::robomongo.png[]
+
+include::../../footer.adoc[]

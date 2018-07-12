@@ -1,0 +1,15 @@
+
+image::mvc.png[width=100%]
+
+1. La DispatcherServlet reçoit la requête.
+1. La DispatcherServlet demande au HandlerMapping de choisir la bonne méthode (handler) sur le bon Controller.
+1. La DispatcherServlet demande à un HandlerAdapter d'appeler le Controller.
+1. Le HandlerAdapter appelle le Controller.
+1. Le Controller fait son travail avec l'aide des services et retourne le modèle de données et une référence à la vue qui doit s'exécuter.
+1. La DispatcherServlet demande au ViewResolver de résoudre la référence vers la View.
+1. La DispatcherServlet exécute la View.
+1. La View crée le rendu final de la page.
+
+source sur http://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/Overview/SpringMVCOverview.html[http://terasolunaorg.github.io]
+
+NOTE: Certaines étapes de ce cheminement sont optionnelles.

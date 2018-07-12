@@ -1,0 +1,44 @@
+:stylesheet: style.css
+
+image::banner.jpg[alt='Applications web en java']
+
+Java est un language *fortement typé*.
+
+Avec une certaine lourdeur syntaxique, il semble peu adapté au web.
+
+*Son environnement d'exécution* et ses nombreux *frameworks* le rendent pourtant incontournable.
+
+== Partie 1 : la forge logicielle : pratiques et outils
+
+Avant de rentrer de le projet, nous devons mettre en place quelques outils.
+
+. link:partie-1/1-github/index.html[Github]
+. link:partie-1/2-gradle/index.html[Gradle]
+. link:partie-1/3-intellij/index.html[Intellij]
+. link:partie-1/4-java/index.html[Java]
+. link:partie-1/5-tdd/index.html[TDD]
+. link:partie-1/6-mongodb/index.html[Mongodb]
+
+== Partie 2 : Bienvenue chez S4U
+
+Votre premier jour chez S4U.
+
+. link:partie-2/1-contexte/index.html[Contexte]
+. link:partie-2/2-projet/index.html[Le projet]
+. link:partie-2/3-architecture/index.html[Architecture logicielle]
+. link:partie-2/4-fork-and-clone/index.html[Récupération du projet]
+
+== Partie 3 : Tripalium
+
+Voici la liste des points à finaliser ou corriger.
+
+. link:partie-3/1-jsp/index.html[Templates jsp]
+. link:partie-3/2-mvc/index.html[Le MVC]
+. link:partie-3/3-services/index.html[Les services]
+. link:partie-3/4-wish-list/index.html[Digressions]
+
+== Annexes
+* A : link:partie-3/A-jsp/index.html[Les Java Server Pages] (JSP)
+* B : link:partie-3/B-mvc/index.html[Le MVC]
+* C : link:partie-3/C-DI/index.html[L'injection de dépendances]
+

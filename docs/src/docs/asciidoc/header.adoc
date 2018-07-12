@@ -1,0 +1,7 @@
+:stylesheet: ../../style.css
+:toc: left
+:numbered:
+:experimental:
+:icons: font
+
+link:../../index.html[<< Retour à l'index]

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Intro</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../lib/reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../lib/reveal.js/css/theme/black.css" id="theme">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Damien Bourdette @RTL Net</h1>
+        </section>
+
+        <section>
+            <img src="22-rue-bayard.jpg" alt="22 rue bayard">
+            <p>22 rue bayard 75008 Paris</p>
+        </section>
+
+        <section>
+            <h3>Applications web en java</h3>
+
+            <p>Le web est un domaine en perpétuelle évolution.</p>
+
+            <p>Le java n'y est pas majoritaire.</p>
+
+            <p>Nous allons voir ses forces et faiblesses.</p>
+        </section>
+
+        <section>
+            <h3>Plan du cours</h3>
+
+            <ol>
+                <li>Pratiques et outils</li>
+                <li>Présentation du projet</li>
+                <li>Exercices</li>
+            </ol>
+        </section>
+
+        <section>
+            <p>http://dbourdette.github.io/cours-ecm/</p>
+        </section>
+    </div>
+</div>
+<script src="../lib/reveal.js/lib/js/head.min.js"></script>
+<script src="../lib/reveal.js/js/reveal.js"></script>
+
+<script>
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: '../lib/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: '../lib/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '../lib/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '../lib/reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: '../lib/reveal.js/plugin/zoom-js/zoom.js', async: true },
+            { src: '../lib/reveal.js/plugin/notes/notes.js', async: true }
+        ]
+    });
+
+</script>
+</body>
+</html>

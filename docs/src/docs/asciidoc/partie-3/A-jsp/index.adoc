@@ -1,0 +1,455 @@
+
+include::../../header.adoc[]
+
+= Annexe A : Les Java Server Pages (JSP)
+
+.Les JSP en 3 phrases
+****
+C'est la technologie de création de rendu en JEE.
+
+C'est du HTML avec un peu d'inserts qui pilotent la génération.
+
+La synthaxe permet une factorisation simple et une bonne maintenabilité.
+****
+
+Voici un exemple de jsp
+
+[source,html]
+.hello.jsp
+----
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head></head>
+   <body>
+      Hello ${name1} <1>
+      <c:if test="${name2}">and ${name2}</c:if> ! <2>
+   </body>
+</html>
+----
+<1> Expression language (EL) afin d'écrire des valeurs dans la page
+<2> Custom tag afin de controller le flot dans la page
+
+Les mécaniques de génération sont riches afin de créer le rendu html.
+
+On peut aussi faire du XML ou du JSON mais ce n'est pas le plus adapté.
+
+Les jsp sont compilées en code java au moment de leur interprétation, avant d'être exécutées.
+
+== Les directives jsp
+
+Les directives sont des méta données.
+
+Le format d'une directive est le suivant.
+
+[source,html]
+<%@ directive { attribut="valeur" } %>
+
+Par exemple afin de contrôler le type mime et l'encoding de la page.
+
+[source,html]
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+Ou bien l'inclusion d'un autre fichier.
+
+[source,html]
+<%@ include file="autre_fichier.jsp" %>
+
+== Les actions jsp
+
+Les actions JSP sont des balises qui appellent des fonctions sur serveur HTTP
+
+Le format d'une action est le suivant.
+
+[source,html]
+<jsp:action { attribut="valeur" } />
+
+Par exemple, un include s'écrit comme suit.
+
+[source,html]
+<jsp:include page="autre_fichier.jsp" >
+   <jsp:param name="monParam" value="valeur" />
+</jsp:include>
+
+NOTE: En pratique, les actions sont peu utilisées car il existe des mécanismes plus puissants.
+
+== Variables implicites
+
+Les variables implicites sont des variables qui sont présentes dans toutes les jsp.
+
+.Quelques variables implicites
+|===
+|Nom |Signification
+
+|out
+|le JSPWriter utilisé pour envoyer la réponse HTTP au client
+
+|page
+|la page courante
+
+|pageContext
+|les données associées à la page entière
+
+|request
+|la requête `HttpServletRequest` courante
+
+|response
+|la réponse `HttpServletResponse` courante
+
+|session
+|la session `HttpSession` associée à la requête
+
+|cookie
+|les cookies
+
+|header
+|tous les headers
+
+|param
+|tous paramètres
+|===
+
+NOTE: Il est rare d'avoir besoin de ces variables implicites dans les jsp.
+
+[source,html]
+.exemple: afficher tous les cookies
+----
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<html>
+<head><title>Cookie display</title></head>
+<body>
+  <h2>Here are all the Available Cookies</h2>
+    <ul>
+      <c:forEach var="cookies" items="${cookie}">
+        <li>
+            <c:out value="${cookies.key}"/>: <c:out value="${cookies.value.value}"/>
+        </li>
+      </c:forEach>
+    </ul>
+</body>
+</html>
+----
+
+== Expression language
+
+C'est une notation simple et puissante utilisable partout dans les jsp.
+
+[source,html]
+${expression}
+
+Elle permet de récupérer une valeur en parcourant tous les *scopes* (page, request, session et application).
+
+L'expression suivante
+
+[source,java]
+${cart.items[2].name}
+
+Correspond en java à
+
+[source,java]
+----
+Cart cart = (Cart) request.getSession().getAttribute("cart");
+
+String name = cart.getItems().get(2).getName();
+
+response.getWriter().write(name);
+----
+
+IMPORTANT: La notation ${...} n'escape pas les caratères &, < et > qui posent problème en HTML
+
+=== Opérateurs
+
+L'expession language propose des opérateurs bien pratiques.
+
+.Opérateurs EL
+|===
+|Opérateur |Signification
+
+|.
+|Naviguer vers une propriété
+
+|[]
+|Opérateur tableau ( `${person["name"]}` ou `${rows[2]}` )
+
+|empty
+|Teste si un objet est null ou vide
+
+|+
+|Addition
+
+|-
+|Soustraction
+
+|*
+|Multiplication
+
+|/
+|Division
+
+|== / eq
+|Égalité
+
+|!= / neq
+|Inégalité
+
+|< / lt
+|Inférieur
+
+|<= / e
+|Inférieur ou égal
+
+|> / gt
+|Supérieur
+
+|>= / ge
+|Supérieur ou égal
+
+|% / mod
+|Modulo
+
+|&& / and
+|Et
+
+||| / or
+|Ou
+
+|!
+|Négation
+|===
+
+
+== Custom tags et fonctions
+
+Les taglib (librairies de tags) sont chargées comme suit
+
+[source,html]
+<%@ taglib prefix="mataglib" uri="/WEB-INF/tld/util.tld" %>
+
+Une taglib peut contenir des tags et des fonctions.
+
+[source,xml]
+.exemple : /WEB-INF/tld/util.tld
+----
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib
+  xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd" version="2.0">
+
+    <!-- propriétés de la taglib -->
+    <tlib-version>1.0</tlib-version>
+    <short-name>util</short-name>
+    <uri>http://com.acme.tags/util</uri>
+
+    <tag>
+        <!-- nom du tag -->
+        <name>pagination</name>
+        <!-- classe java contenant le code du tag -->
+        <tagclass>com.acme.tag.PaginationTag</tagclass>
+        <body-content>empty</body-content>
+        <info>Helper tag that builds a Pagination object used to build paginations menus.</info>
+        <!-- liste des attributs supportés -->
+        <attribute>
+            <name>items</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <function>
+        <!-- nom de la fonction -->
+        <name>slug</name>
+        <!-- classe java contenant le code de la fonction -->
+        <function-class>com.acme.FormatUtils</function-class>
+        <!-- signature de la méthode *statique* dans la classe java -->
+        <function-signature>java.lang.String slug(java.lang.String)</function-signature>
+    </function>
+</taglib>
+----
+
+NOTE: Par convention, les fichier tld vont dans `WEB-INF/tld`
+
+NOTE: Il est possible de packager ces éléments dans une librairie .jar afin de les réutiliser dans différents projets.
+
+=== Functions
+
+Une fonction permet d'appeler du code java plus adapté à un traitement complexe.
+
+[source,java]
+${mataglib:faitca("valeur1")}
+
+=== Custom tag
+
+Un custom tag ressemble à un tag HTML classique.
+
+[source,html]
+----
+<div>
+    <h2>title</h2>
+    <mataglib:faituntruc att1="valeur1" att2="valeur2" >
+<div>
+----
+
+A la lecture, ils semblent faire partie de l'arbre DOM HTML.
+
+=== Tag files
+
+Un tag file (.tag) est une manière simplifiée de définir un custom tag : la tld devient optionnelle.
+
+[source,html]
+.exemple : /WEB-INF/tags/fragments/hello.tag
+----
+<%@ tag body-content="empty" pageEncoding="UTF-8" %> <1>
+
+<%@ attribute name="name" required="true" %> <2>
+
+<h2><font color="black">hello ${name}!</font></h2> <3>
+----
+<1> paramétrage de la taglib
+<2> définition du paramètre name obligatoire
+<3> synthaxe jsp classique
+
+NOTE: Par convention, les fichiers tag sont placé dans /WEB-INF/tags/.
+
+A l'usage, dans un autre fichier :
+
+[source,html]
+----
+<%@ taglib prefix="fragments" tagdir="/WEB-INF/tags/fragments" %>
+
+<fragments:hello name="John" />
+----
+
+NOTE: Cela remplace très agréablement la directive include ou l'action jsp:include.
+
+== Jstl
+
+La Java server pages Standard Tag Library est la librairie de tag la plus utilisée.
+
+Elle contient 5 taglibs.
+
+.JSTL
+|===
+|Librairie |Préfixe |Uri
+
+|Core
+|c
+|http://java.sun.com/jsp/jstl/core
+
+|Format
+|fmt
+|http://java.sun.com/jsp/jstl/fmt
+
+|Functions
+|fn
+|http://java.sun.com/jsp/jstl/functions
+
+|XML
+|x
+|http://java.sun.com/jsp/jstl/xml
+
+|SQL
+|sql
+|http://java.sun.com/jsp/jstl/sql
+|===
+
+NOTE: Il est peu conseillé d'utilisé les librairies XML et SQL
+
+=== Core
+
+Ce sont les actions de base.
+
+[source,html]
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+.Tags les plus importants
+|===
+|Tag |Utilité
+
+|if
+|branchement conditionnel
+
+|choose / when / otherwise
+|branchement conditionnel de type switch / case
+
+|forEach
+|boucle for
+
+|set
+|affecte une valeur dans un scope
+
+|out
+|affiche une valeur en escapant les &, < et >
+|===
+
+[source,html]
+.exemple
+<c:if test="${empty name}">Nom inconnu</c:if>
+
+=== Format
+
+La librairie pour le formattage.
+
+[source,html]
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+.Tags les plus importants
+|===
+|Tag |Utilité
+
+|formatDate
+|Formattage d'une date
+
+|parseDate
+|Parsing d'une date
+
+|formatNumber
+|Formattage d'un nombre
+
+|parseNumber
+|Parsing d'un nombre
+
+|message / setBundle / bundle
+|Affichage de messages
+|===
+
+[source,html]
+.exemple
+<fmt:formatDate value="${date}" pattern="dd/MM/yyyy" />
+
+=== Fonctions
+
+Des fonctions à utiliser avec l'EL
+
+[source,html]
+<%@ taglib uri="http://java.sun.com/jstl/functions" prefix="fn" %>
+
+Les fonctions sont :
+
+* contains( java.lang.String, java.lang.String)
+* containsIgnoreCase( java.lang.String, java.lang.String)
+* endsWith( java.lang.String, java.lang.String)
+* escapeXml( java.lang.String)
+* indexOf( java.lang.String, java.lang.String)
+* join( java.lang.String[], java.lang.String)
+* length( java.lang.Object)
+* replace( java.lang.String, java.lang.String, java.lang.String)
+* split( java.lang.String, java.lang.String)
+* startsWith( java.lang.String, java.lang.String)
+* substring( java.lang.String, int, int)
+* substringAfter( java.lang.String, java.lang.String)
+* substringBefore( java.lang.String, java.lang.String)
+* toLowerCase( java.lang.String)
+* toUpperCase( java.lang.String)
+* trim( java.lang.String)
+
+[source,java]
+.exemple
+----
+${fn:escapeXml("les <balises> xml & html")} <1>
+----
+<1> produit `"les \&lt;balises\&gt; xml \&amp; html"` qui respecte le HTML

@@ -1,0 +1,10 @@
+== prerequesite
+
+jdk8 up and running
+
+== notes
+
+gradlew
+gradle tR
+gradle tomcatRun debug
+

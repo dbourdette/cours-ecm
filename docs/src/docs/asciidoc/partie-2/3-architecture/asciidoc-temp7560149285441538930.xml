@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?><?asciidoc-toc?>
+<?asciidoc-numbered?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>Architecture de l’application</title>
+<date>2015-11-20</date>
+</info>
+<simpara><link xlink:href="../../index.html">&lt;&lt; Retour à l’index</link></simpara>
+<section xml:id="_architecture_de_l_application">
+<title>Architecture de l’application</title>
+<section xml:id="_vision_globale">
+<title>vision globale</title>
+<simpara>L’architecture est composée d’une application web qui est reliée à une base de données mongodb.</simpara>
+<simpara>L’application est en java et est packagée sous le format standard <emphasis role="strong">war</emphasis>.</simpara>
+<simpara>Mongodb est une base NOSQL qui stocke des documents en format BSON (Binary JSON).</simpara>
+</section>
+<section xml:id="_technology_stack">
+<title>technology stack</title>
+<simpara>Voici la liste des principales technologies utilisées dans notre projet.</simpara>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="java.png"/>
+</imageobject>
+<textobject><phrase>java.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara>Java est un language de programmation orienté objet.</simpara>
+<simpara>Java, c’est aussi la jvm qui permet de faire tourner les programmes et le jdk qui contient la librairie standard et le compilateur.</simpara>
+<simpara>Java Enterprise Edition (JEE) est un ensemble de librairies supplémentaires et outils pour le développement d’applications.</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="gradle.png"/>
+</imageobject>
+<textobject><phrase>gradle.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="https://gradle.org/">Gradle</link> est un outils de build pour beaucoup de languages (java, groovy, scala, c…​)</simpara>
+<simpara>Il est écrit en groovy et se configure à l’aide d’un language spécifique (DSL)</simpara>
+<simpara>Il est plus récent et plus souple que son concurent principal : maven</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="tomcat.png"/>
+</imageobject>
+<textobject><phrase>tomcat.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="http://tomcat.apache.org/">Tomcat</link> est un serveur web pouvant lancer des applications java.</simpara>
+<simpara>Il est open source et offre de très bonnes performances.</simpara>
+<simpara>C’est celui que l’on va utiliser pour le développement.</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="spring.png"/>
+</imageobject>
+<textobject><phrase>spring.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="http://projects.spring.io/spring-framework/">Spring</link> est un framework par injection de dépendances (DI).</simpara>
+<simpara>Spring a aussi un module MVC pour le web, que nous utilisons.</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="mongo.jpg"/>
+</imageobject>
+<textobject><phrase>mongo.jpg</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="https://www.mongodb.org/">MongoDB</link> est une base données NOSQL orientée document.</simpara>
+<simpara>Un document est un arbre json qui est stocké en Binary JSON (BSON). Ce sont des structures souples, sans schéma.</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="bootstrap.png"/>
+</imageobject>
+<textobject><phrase>bootstrap.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="http://getbootstrap.com/">Bootstrap</link> est un framework html, css et javascript pour développer des pages responsives.</simpara>
+<simpara>Développé initialement en interne chez twitter, il est aujourd’hui très largement utilisé.</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="jquery.png"/>
+</imageobject>
+<textobject><phrase>jquery.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="http://jquery.com/">jquery</link> est un framework javascript très populaire.</simpara>
+<simpara>Il est simple mais néanmoins très puissant.</simpara>
+<simpara>Il est utilisé par certaines fonctionnalités de boostrap.</simpara>
+</sidebar>
+<sidebar>
+<informalfigure role="left">
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100" fileref="bower.png"/>
+</imageobject>
+<textobject><phrase>bower.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara><link xlink:href="http://bower.io/">Bower</link> est un outils de gestion de dépendances pour librairies front (css et js).</simpara>
+<simpara>Dans notre projet, on s’en sert pour récupérer jquery et bootstrap.</simpara>
+</sidebar>
+</section>
+<section xml:id="_structure_de_projet_standard">
+<title>structure de projet standard</title>
+<simpara>Notre projet suit le <link xlink:href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">Standard Directory Layout</link> introduit par Maven</simpara>
+<simpara>par défaut, Gradle suit ce standard :</simpara>
+<screen>src <co xml:id="CO1-1"/>
+├─ main <co xml:id="CO1-2"/>
+|  ├─ [language 1] <co xml:id="CO1-3"/>
+|  ├─ [language 2]
+└─ test <co xml:id="CO1-4"/>
+   ├─ [language 1]
+   ├─ [language 2]</screen>
+<calloutlist>
+<callout arearefs="CO1-1">
+<para>toutes les sources</para>
+</callout>
+<callout arearefs="CO1-2">
+<para>le code de l’application</para>
+</callout>
+<callout arearefs="CO1-3">
+<para>le code est segmenté par language</para>
+</callout>
+<callout arearefs="CO1-4">
+<para>le code des test</para>
+</callout>
+</calloutlist>
+<important>
+<simpara><emphasis role="strong">Convention over configuration</emphasis> : cette arborescence est une convention, si on la suit, il n’y a pas besoin de configuration.</simpara>
+</important>
+<simpara>Dans notre cas pour une application web JEE :</simpara>
+<screen>src
+├─ main
+|  ├─ java <co xml:id="CO2-1"/>
+|  ├─ resources <co xml:id="CO2-2"/>
+|  └─ webapp <co xml:id="CO2-3"/>
+|     ├─ WEB-INF <co xml:id="CO2-4"/>
+|     └─ META-INF <co xml:id="CO2-5"/>
+└─ test
+   ├─ java
+   └─ resources</screen>
+<calloutlist>
+<callout arearefs="CO2-1">
+<para>notre code en java</para>
+</callout>
+<callout arearefs="CO2-2">
+<para>les fichiers qui vont aussi dans le classpath</para>
+</callout>
+<callout arearefs="CO2-3">
+<para>les fichiers qui vont à la racine de l’application web</para>
+</callout>
+<callout arearefs="CO2-4">
+<para>fichiers de configuration protégés</para>
+</callout>
+<callout arearefs="CO2-5">
+<para>fichiers de méta données protégés</para>
+</callout>
+</calloutlist>
+<simpara>Cette distribution est pratique pour le développement.</simpara>
+<simpara>Au build, gradle remettra tout ces répertoires dans le bon ordre à l’intérieur du fichier war généré.</simpara>
+<sidebar>
+<title>WEB-INF/classes</title>
+<simpara>Au lancement, WEB-INF/classes sera ajouté au classpath.</simpara>
+<simpara>WEB-INF/classes ne fait pas partie des sources mais est généré au build.</simpara>
+<simpara>WEB-INF/classes contiendra les classes java et tous les fichiers présents dans main/resources</simpara>
+</sidebar>
+</section>
+<section xml:id="_structure_de_l_app">
+<title>structure de l’app</title>
+<simpara>L’application a une structure traditionnelle MVC pour le web.</simpara>
+<simpara>Le rôle des composants :</simpara>
+<itemizedlist>
+<listitem>
+<simpara>request dispatcher : il est fournit par le framework. Il 'dispatch' les requêtes entrantes vers les bons controllers / vues.</simpara>
+</listitem>
+<listitem>
+<simpara>controllers : ils recoivent la requête, utilisent les services et pilotent le rendu.</simpara>
+</listitem>
+<listitem>
+<simpara>services : on y range la <emphasis role="strong">logique métier</emphasis>.</simpara>
+</listitem>
+<listitem>
+<simpara>JSP views : ce sont les templates qui produisent le html.</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Cette division permet d’utiliser le language ou la technologie la plus adaptée pour chaque partie de l’application.</simpara>
+</section>
+<section xml:id="_vue_s_quentielle">
+<title>vue séquentielle</title>
+<simpara>En pratique chaque composant est appelé dans un ordre bien précis afin de remplir son role.</simpara>
+<simpara>Voici la vision complète</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata contentwidth="100%" fileref="mvc.png"/>
+</imageobject>
+<textobject><phrase>mvc.png</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<itemizedlist>
+<listitem>
+<simpara>La DispatcherServlet reçoit la requête.</simpara>
+</listitem>
+<listitem>
+<simpara>La DispatcherServlet demande au HandlerMapping de choisir la bonne méthode (handler) sur le bon Controller.</simpara>
+</listitem>
+<listitem>
+<simpara>La DispatcherServlet demande à un HandlerAdapter d’appeler le Controller.</simpara>
+</listitem>
+<listitem>
+<simpara>Le HandlerAdapter appelle le Controller.</simpara>
+</listitem>
+<listitem>
+<simpara>Le Controller fait son travail avec l’aide des services et retourne le modèle de données et une référence à la vue qui doit s’exécuter.</simpara>
+</listitem>
+<listitem>
+<simpara>La DispatcherServlet demande au ViewResolver de résoudre la référence vers la View.</simpara>
+</listitem>
+<listitem>
+<simpara>La DispatcherServlet exécute la View.</simpara>
+</listitem>
+<listitem>
+<simpara>La View crée le rendu final de la page.</simpara>
+</listitem>
+</itemizedlist>
+<simpara><link xlink:href="http://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/Overview/SpringMVCOverview.html">source sur http://terasolunaorg.github.io</link></simpara>
+<note>
+<simpara>Certaines étapes de ce cheminement sont optionnelles.</simpara>
+</note>
+</section>
+<section xml:id="_tests_et_tdd">
+<title>tests et TDD</title>
+<simpara>L’application dispose de plusieurs types de tests</simpara>
+<itemizedlist>
+<listitem>
+<simpara>tests unitaires avec junit4</simpara>
+</listitem>
+<listitem>
+<simpara>tests d’intégration avec junit4 et spring mocks</simpara>
+</listitem>
+<listitem>
+<simpara>tests d’interface avec junit4 et selenium (+ fluentlenium)</simpara>
+</listitem>
+</itemizedlist>
+<simpara>Ces tests couvrent les points importants de l’application et nous assurent un meilleur niveau de qualité.</simpara>
+</section>
+</section>
+</article>

@@ -1,0 +1,30 @@
+include::../../header.adoc[]
+
+:stylesheet: ../../style.css
+:icons: font
+
+image::banner.jpg[width="100%"]
+
+== Bienvenue chez S4U
+
+Vous venez de signer votre premier contrat chez S4U, la SSII experte.
+
+Vous avez été accueilli par Jack Power, le CEO emblématique.
+
+Vous avez le droit à cette magnifique link:welcome.html[Présentation]
+
+NOTE: S4U est une société de service à taille humaine.
+
+Vous êtes un peu sceptique, mais bon, vous voulez vous aussi devenir expert.
+
+[NOTE]
+.Agilité
+****
+La pensée Agile peut être résumée par le http://agilemanifesto.org/[Manifeste Agile]
+
+Ce sont 4 principes fondamentaux qui ont des répercussions fortes dans le monde du développement.
+
+On peut aussi résumer cela par : ce sont des humains qui réalisent les projets et ils doivent réfléchir.
+****
+
+include::../../footer.adoc[]
