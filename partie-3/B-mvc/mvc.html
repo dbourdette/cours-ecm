@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Untitled</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<link rel="stylesheet" href="./asciidoctor.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="imageblock">
+<div class="content">
+<img src="mvc.png" alt="mvc" width="100%">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>La DispatcherServlet reçoit la requête.</p>
+</li>
+<li>
+<p>La DispatcherServlet demande au HandlerMapping de choisir la bonne méthode (handler) sur le bon Controller.</p>
+</li>
+<li>
+<p>La DispatcherServlet demande à un HandlerAdapter d&#8217;appeler le Controller.</p>
+</li>
+<li>
+<p>Le HandlerAdapter appelle le Controller.</p>
+</li>
+<li>
+<p>Le Controller fait son travail avec l&#8217;aide des services et retourne le modèle de données et une référence à la vue qui doit s&#8217;exécuter.</p>
+</li>
+<li>
+<p>La DispatcherServlet demande au ViewResolver de résoudre la référence vers la View.</p>
+</li>
+<li>
+<p>La DispatcherServlet exécute la View.</p>
+</li>
+<li>
+<p>La View crée le rendu final de la page.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>source sur <a href="http://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/Overview/SpringMVCOverview.html">http://terasolunaorg.github.io</a></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Certaines étapes de ce cheminement sont optionnelles.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</body>
+</html>

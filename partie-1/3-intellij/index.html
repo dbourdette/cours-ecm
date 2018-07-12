@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Projets et modules</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_projets_et_modules">1. Projets et modules</a></li>
+<li><a href="#_préférences">2. Préférences</a></li>
+<li><a href="#_création_du_projet">3. Création du projet</a></li>
+<li><a href="#_mise_à_jour_du_build_gradle">4. Mise à jour du build.gradle</a></li>
+<li><a href="#_maintenant">5. Maintenant</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="banner.png" alt="banner" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>Un IDE est un environnement complet qui permet de travailler plus vite en regroupant de multiples outils de développement dans une même interface.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">JetBrains</div>
+<div class="paragraph">
+<p>Intellij est développé par <a href="https://www.jetbrains.com/">JetBrains</a> qui maitient tout une suite de logiciels pour divers languages : languages front, php, python, ruby&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Intellij existe en 2 versions : <strong>communautaire</strong> et <strong>ultimate</strong>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>La version <strong>communautaire</strong> est suffisante pour faire du java, du groovy ou du scala.</p>
+</li>
+<li>
+<p>La version <strong>ultimate</strong> rajoute le web, jee et d&#8217;avantages de languages et plateformes (<a href="https://www.jetbrains.com/idea/features/">toutes les features</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Intellij ultimate n&#8217;est pas gratuit mais ses qualités justifient amplement un tarif qui n&#8217;est pas très élevé.</p>
+</div>
+<div class="ulist">
+<div class="title">Alternatives</div>
+<ul>
+<li>
+<p><strong>Eclipse</strong> : l&#8217;IDE le plus utilisé car il est extrêmement complet et gratuit. Ses nombreux plugins font sa richesse.</p>
+</li>
+<li>
+<p><strong>Netbeans</strong> : c&#8217;est l&#8217;IDE de référence développé par Oracle. Il est gratuit et suit très bien les spécifications jee. Ce n&#8217;est pourtant pas l&#8217;environnement de choix pour les utilisateurs avancés.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Nous allons intégrer notre projet naissant dans Intellij</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Eclipse vs Intellij vs NetBeans</div>
+<div class="paragraph">
+<p>On choisit tous, plus ou moins, son language, son environnement, ses outils et toutes ses choses qui impactent notre productivité et notre bonheur à programmer.</p>
+</div>
+<div class="paragraph">
+<p>Mon expérience est que, malgré les qualités des autres produits, la famille de produits de JetBrains (dont Intellij) reste très supérieure.</p>
+</div>
+<div class="paragraph">
+<p>A chacun donc son avis, vous avez le mien.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_projets_et_modules">1. Projets et modules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Un <strong>projet</strong> est la structure de base. C&#8217;est tout ce qu&#8217;on voit dans la fenêtre.</p>
+</div>
+<div class="paragraph">
+<p>Il définit un sdk (software development kit) et un niveau de compatibilité du language java (1.7, 1.8&#8230;&#8203;).</p>
+</div>
+<div class="paragraph">
+<p>Il contient 1 ou plusieurs <strong>modules</strong>. Un module contient des fichiers sources.</p>
+</div>
+<div class="paragraph">
+<p>Chaque module est indépendant et possède ses fichiers et ses librairies.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_préférences">2. Préférences</h2>
+<div class="sectionbody">
+<div class="openblock float-group">
+<div class="content">
+<div class="paragraph">
+<p><span class="image left"><a class="image" href="prefs.png"><img src="prefs.png" alt="preferences" width="300px" title="Préférences"></a></span></p>
+</div>
+<div class="paragraph">
+<p>Les préférences sont accessibles via le menu <span class="menuseq"><b class="menu">File</b>&#160;<i class="fa fa-angle-right caret"></i> <b class="submenu">Other settings</b>&#160;<i class="fa fa-angle-right caret"></i> <b class="menuitem">Default Settings&#8230;&#8203;</b></span></p>
+</div>
+<div class="paragraph">
+<p>Elles sont aussi disponibles via l&#8217;icône <span class="image"><img src="settings-icon.png" alt="settings"></span> de la barre d&#8217;outils et le raccourçi <span class="keyseq"><kbd>⌘</kbd>+<kbd>,</kbd></span></p>
+</div>
+<div class="paragraph">
+<p>Elles permettent de régler beaucoup des aspects de l&#8217;IDE : formattage des sources, environnement java&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="paragraph">
+<p><span class="image left"><a class="image" href="project.png"><img src="project.png" alt="project" width="300px" title="Projet"></a></span></p>
+</div>
+<div class="paragraph">
+<p>La structure du projet est accessible via l&#8217;icône <span class="image"><img src="project-icon.png" alt="project structure"></span>.</p>
+</div>
+<div class="paragraph">
+<p>On peut y voir les librairies utilisées, la configuration des modules, les dépendances&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_création_du_projet">3. Création du projet</h2>
+<div class="sectionbody">
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<a class="image" href="project-1.png"><img src="project-1.png" alt="project 1" width="300px"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Au lancement d&#8217;Intellij, on choisit 'Import project'</p>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<a class="image" href="project-2.png"><img src="project-2.png" alt="project 2" width="300px"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Puis on choisit le fichier <strong>build.gradle</strong> de notre test-project</p>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<a class="image" href="project-3.png"><img src="project-3.png" alt="project 3" width="300px"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>On laisse tout par défaut pour l&#8217;import gradle</p>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<a class="image" href="project-4.png"><img src="project-4.png" alt="project 4" width="300px"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Si tout c&#8217;est bien passé, nous avons notre projet avec le module test-project</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mise_à_jour_du_build_gradle">4. Mise à jour du build.gradle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A chaque mise à jour du build.gradle (ajout d&#8217;une dépendance par exemple), Intellij doit prendre en compte les modifications.</p>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<a class="image" href="gradle-auto-import.png"><img src="gradle-auto-import.png" alt="gradle auto import" width="300px"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Soit on active la mise à jour automatique (j&#8217;ai déjà eu quelques soucis avec cette option).</p>
+</div>
+</div>
+</div>
+<div class="openblock float-group">
+<div class="content">
+<div class="imageblock left">
+<div class="content">
+<a class="image" href="refresh-gradle.png"><img src="refresh-gradle.png" alt="refresh gradle" width="300px"></a>
+</div>
+</div>
+<div class="paragraph">
+<p>Soit il faut mettre à jour à chaque modification.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_maintenant">5. Maintenant</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Notre projet de test est prêt à recevoir du code.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project $ tree
+.
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── settings.gradle
+└── test-project.iml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

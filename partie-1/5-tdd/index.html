@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Le cycle de développement</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_le_cycle_de_développement">1. Le cycle de développement</a>
+<ul class="sectlevel2">
+<li><a href="#_la_boucle_dajout_de_fonctionnalité">1.1. La boucle d&#8217;ajout de fonctionnalité</a></li>
+<li><a href="#_avantages">1.2. Avantages</a></li>
+</ul>
+</li>
+<li><a href="#_junit">2. jUnit</a></li>
+<li><a href="#_un_cas_pratique">3. Un cas pratique</a>
+<ul class="sectlevel2">
+<li><a href="#_répertoires_de_source">3.1. Répertoires de source</a></li>
+<li><a href="#_package_fr_ecm_test">3.2. package fr.ecm.test</a></li>
+<li><a href="#_calculator_java">3.3. Calculator.java</a></li>
+<li><a href="#_calculatortest_java">3.4. CalculatorTest.java</a></li>
+<li><a href="#_premier_test">3.5. Premier test</a></li>
+<li><a href="#_faire_passer_le_test">3.6. Faire passer le test</a></li>
+<li><a href="#_test_suivant">3.7. Test suivant</a></li>
+<li><a href="#_division">3.8. Division</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="banner.png" alt="banner" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>Le développement par les tests est une technique de développement Agile</p>
+</div>
+<div class="sect1">
+<h2 id="_le_cycle_de_développement">1. Le cycle de développement</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_la_boucle_dajout_de_fonctionnalité">1.1. La boucle d&#8217;ajout de fonctionnalité</h3>
+<div class="paragraph">
+<p>Voici la boucle immuable du TDD</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="TDD%20cycle.png" alt="TDD cycle" width="380" height="518">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_avantages">1.2. Avantages</h3>
+<div class="paragraph">
+<p>C&#8217;est une pratique, au départ, contre intuitive. Elle a de multiple avantages :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On se place en tant qu&#8217;utilisateur de ce que l&#8217;on construit</p>
+</li>
+<li>
+<p>Le code est testé et on réduit le risque de régression</p>
+</li>
+<li>
+<p>On aboutit à un design plus ouvert / plus flexible</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_junit">2. jUnit</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://en.wikipedia.org/wiki/Kent_Beck">Kent Beck</a> est à l&#8217;origine du TDD et des frameworks xUnit.</p>
+</div>
+<div class="paragraph">
+<p>En java, jUnit est un framework permettant d&#8217;écrire des tests unitaires.</p>
+</div>
+<div class="paragraph">
+<p>En version 4, un test s&#8217;écrit :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.junit</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.Assert</span>.*;
+<span class="keyword">import</span> <span class="include">java.util</span>.*;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">ArrayListTest</span> { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    <span class="directive">private</span> <span class="predefined-type">ArrayList</span> list;
+
+    <span class="annotation">@Before</span>
+    <span class="directive">public</span> <span class="type">void</span> setUp() { <i class="conum" data-value="2"></i><b>(2)</b>
+        list = <span class="keyword">new</span> <span class="predefined-type">ArrayList</span>();
+    }
+
+    <span class="annotation">@After</span>
+    <span class="directive">public</span> <span class="type">void</span> tearDown() { <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> empty() { <i class="conum" data-value="4"></i><b>(4)</b>
+        assertTrue(list.isEmpty());
+    }
+
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> add() { <i class="conum" data-value="4"></i><b>(4)</b>
+        collection.add(<span class="string"><span class="delimiter">&quot;</span><span class="content">itemA</span><span class="delimiter">&quot;</span></span>);
+        assertEquals(<span class="integer">1</span>, list.size());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>le nom de la classe testée suffixée par Test</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>exécuté avant chaque test</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>exécuté après chaque test</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>2 tests</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_un_cas_pratique">3. Un cas pratique</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nous allons coder un peu afin de voir ce que les tests peuvent apporter au développement.</p>
+</div>
+<div class="sect2">
+<h3 id="_répertoires_de_source">3.1. Répertoires de source</h3>
+<div class="paragraph">
+<p>Dans notre 'test-project' nous ajoutons les répertoires suivants :</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ mkdir -p src/main/java src/test/java</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>src/main/java</code> va contenir nos sources java</p>
+</li>
+<li>
+<p><code>src/test/java</code> va contenir nos tests java</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_package_fr_ecm_test">3.2. package fr.ecm.test</h3>
+<div class="paragraph">
+<p>Puis on ajoute le package <code>fr.ecm.tp</code> dans <code>src/main/java</code></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="add-package.png" alt="add package"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_calculator_java">3.3. Calculator.java</h3>
+<div class="paragraph">
+<p>On ajoute la classe <code>Calculator</code> dans le package <code>fr.ecm.tp</code></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="add-class.png" alt="add class"></span></p>
+</div>
+<div class="listingblock">
+<div class="title">Calculator.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">fr.ecm.tp</span>;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Calculator</span> {
+    <span class="directive">public</span> <span class="type">int</span> add(<span class="type">int</span> a, <span class="type">int</span> b) {
+        <span class="keyword">return</span> <span class="integer">0</span>;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pour le moment, on est a peu près sûr que cette classe ne fait ce qu&#8217;elle devrait.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_calculatortest_java">3.4. CalculatorTest.java</h3>
+<div class="paragraph">
+<p>En faisant un <span class="keyseq"><kbd>alt</kbd>+<kbd>return</kbd></span> sur le nom de la classe on peut facilement ajouter un test</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="create-test.png" alt="create test"></span></p>
+</div>
+<div class="paragraph">
+<p>On choisit Junit4</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="create-test-junit4.png" alt="create test junit4"></span></p>
+</div>
+<div class="paragraph">
+<p>Le fichier <code>CalculatorTest.java</code> va automatiquement dans le package <code>fr.ecm.tp</code> de <code>src/test/java</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+il est possible de créer cette classe de test sans le raccourçi intellij, mais pourquoi perdre du temps ?
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_premier_test">3.5. Premier test</h3>
+<div class="paragraph">
+<p>Nous rajoutons notre premier test</p>
+</div>
+<div class="listingblock">
+<div class="title">CalculatorTest.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">fr.ecm.tp</span>;
+
+<span class="keyword">import</span> <span class="include">org.junit.Test</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.Assert</span>.*;
+
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CalculatorTest</span> {
+    <span class="directive">private</span> Calculator calculator = <span class="keyword">new</span> Calculator();
+
+    <span class="annotation">@Test</span>
+    <span class="directive">public</span> <span class="type">void</span> add() { <i class="conum" data-value="1"></i><b>(1)</b>
+        assertEquals(<span class="integer">3</span>, calculator.add(<span class="integer">1</span>, <span class="integer">2</span>));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>On teste la méthode <code>add(int, int)</code></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>On lance le test en faisant un click droit sur la classe</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="launch-test.png" alt="launch test"></span></p>
+</div>
+<div class="paragraph">
+<p>Ce qui donne le résultat</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="test-result.png" alt="test result"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_faire_passer_le_test">3.6. Faire passer le test</h3>
+<div class="paragraph">
+<p>Faites ce qu&#8217;il faut pour que le test passe.</p>
+</div>
+<div class="paragraph">
+<p>Après cela, pour le moment, il n&#8217;y a pas grand chose à améliorer (to refactor).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_test_suivant">3.7. Test suivant</h3>
+<div class="paragraph">
+<p>La soustraction n&#8217;est pas très intéressante (ce n&#8217;est qu&#8217;une addition déguisée).</p>
+</div>
+<div class="paragraph">
+<p>Faire le test et puis le code pour la multiplication <code>calculator.multiply(6, 4)</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_division">3.8. Division</h3>
+<div class="paragraph">
+<p>La division présente un petit plus, que se passe t il si on fait un <code>calcultator.divide(3, 0)</code> ?</p>
+</div>
+<div class="paragraph">
+<p>Le test est l&#8217;occation de prendre une <strong>décision</strong> sur le comportement de cette méthode <code>divide</code>.</p>
+</div>
+<div class="paragraph">
+<p>Il y a plusieurs possibilités :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>lancer une exception adaptée</p>
+</li>
+<li>
+<p>faire un <code>assert</code></p>
+</li>
+<li>
+<p>retourner une valeur remarquable (-1 ?)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dans notre cas, l&#8217;exception la plus adaptée est <code>IllegalArgumentException</code></p>
+</div>
+<div class="paragraph">
+<p>Le test de la condition aux limites peut s&#8217;écrire</p>
+</div>
+<div class="listingblock">
+<div class="title">CalculatorTest.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>(expected = <span class="exception">IllegalArgumentException</span>.class)
+<span class="directive">public</span> <span class="type">void</span> divideByZero() {
+    calculator.divide(<span class="integer">3</span>, <span class="integer">0</span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ecrire les tests <code>divide</code> et <code>divideByZero</code> et le code associé.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Pour aller plus loin</div>
+<div class="paragraph">
+<p><span class="image right"><img src="tdd.jpg" alt="TDD" width="100"></span></p>
+</div>
+<div class="paragraph">
+<p>Le Test Driven Development (TDD) est une pratique simple et extraordinairement enrichissante.</p>
+</div>
+<div class="paragraph">
+<p>Elle simplifie l&#8217;activité de coding et aide à produire du code plus ouvert.</p>
+</div>
+<div class="paragraph">
+<p>Le TDD n&#8217;est pas une spécificité java, cela s&#8217;applique à tous les languages.</p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.amazon.fr/Test-Driven-Development-Kent-Beck/dp/0321146530">Test Driven Development: By Example</a> explique les mécaniques du développement par les tests.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

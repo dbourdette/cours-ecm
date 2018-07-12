@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Compilation et bytecode</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_compilation_et_bytecode">1. Compilation et bytecode</a></li>
+<li><a href="#_organisation">2. Organisation</a>
+<ul class="sectlevel2">
+<li><a href="#_packages">2.1. Packages</a></li>
+<li><a href="#_import">2.2. Import</a></li>
+</ul>
+</li>
+<li><a href="#_types_primitifs">3. Types primitifs</a></li>
+<li><a href="#_types_objets">4. Types objets</a>
+<ul class="sectlevel2">
+<li><a href="#_class">4.1. class</a></li>
+<li><a href="#_interface">4.2. interface</a></li>
+<li><a href="#_enum">4.3. enum</a></li>
+<li><a href="#_annotation">4.4. annotation</a></li>
+</ul>
+</li>
+<li><a href="#_méthode_main_et_exécution">5. Méthode main et exécution</a></li>
+<li><a href="#_stacktrace">6. stacktrace</a></li>
+<li><a href="#_gestion_de_la_mémoire">7. gestion de la mémoire</a></li>
+<li><a href="#_lévolution_du_language">8. l&#8217;évolution du language</a></li>
+<li><a href="#_une_plateforme_riche_et_diverse">9. Une plateforme riche et diverse</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="banner.png" alt="banner" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>Java est un language objet dont la synthaxe est dérivée du C.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est un language <strong>fortement typé</strong> : les contrôles sont effecutés à la compilation.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+ce document ne contient que quelques rappels et n&#8217;est pas du tout exhaustif
+</td>
+</tr>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_compilation_et_bytecode">1. Compilation et bytecode</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les fichiers .java sont compilés en .class qui contiennent du byte code.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="compilation.png" alt="compilation">
+</div>
+</div>
+<div class="paragraph">
+<p>Les fichiers .class peuvent être exécuté partout ou il y a une <strong>Java Virtual Machine</strong> (jvm).</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Write once, run anywhere</div>
+<div class="paragraph">
+<p>"<strong>Write once, run anywhere</strong>" (<strong>WORA</strong>), or sometimes write once, run everywhere (<strong>WORE</strong>), is a slogan created by <a href="https://en.wikipedia.org/wiki/Sun_Microsystems">Sun Microsystems</a> to illustrate the <a href="https://en.wikipedia.org/wiki/Cross-platform">cross-platform</a> benefits of the <a href="https://en.wikipedia.org/wiki/Java_(programming_language)">Java language</a>.<sup><a href="https://en.wikipedia.org/wiki/Write_once,_run_anywhere#cite_note-1">[1</a>]</sup><sup><a href="https://en.wikipedia.org/wiki/Write_once,_run_anywhere#cite_note-2">[2</a>]</sup> Ideally, this means Java can be developed on any device, compiled into a standard <a href="https://en.wikipedia.org/wiki/Bytecode">bytecode</a> and be expected to run on any device equipped with a <a href="https://en.wikipedia.org/wiki/Java_virtual_machine">Java virtual machine</a> (JVM). The installation of a JVM or Java interpreter on chips, devices or software packages has become an industry standard practice.</p>
+</div>
+<div class="paragraph">
+<p>source <a href="https://en.wikipedia.org/wiki/Write_once,_run_anywhere" class="bare">https://en.wikipedia.org/wiki/Write_once,_run_anywhere</a></p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>La commande <code>javac</code> de compilation fait partie du <strong>Java Development Kit</strong> (JDK).</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>javac -classpath lib1.jar;lib2.jar Hello.java</code></pre>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">classpath</div>
+<div class="paragraph">
+<p>La jvm va chercher les Classes java nécessaires à l&#8217;exécution d&#8217;un programme java dans le <strong>classpath</strong>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>En pratique, la commande de compilation devient rapidement très complexe. Fort heureusement, c&#8217;est l&#8217;IDE ou le système de build qui a la charge de générer et piloter celle ci.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_organisation">2. Organisation</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_packages">2.1. Packages</h3>
+<div class="paragraph">
+<p>Les classes java sont organisées en <strong>packages</strong> (répertoires).</p>
+</div>
+<div class="paragraph">
+<p>Il est possible d&#8217;avoir un même nom de classe dans des packages différents.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_import">2.2. Import</h3>
+<div class="paragraph">
+<p>Un <code>import</code> permet d&#8217;utiliser une autre classe depuis la classe courante.</p>
+</div>
+<div class="paragraph">
+<p>Au lancement de l&#8217;application, toutes les classes présentes dans le classpath sont disponibles à l&#8217;import.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_types_primitifs">3. Types primitifs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les types primitifs sont byte, short, int, long, float, double, boolean et char.</p>
+</div>
+<div class="paragraph">
+<p>Tous les autres types sont des objets héritant de la classe Object.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_types_objets">4. Types objets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le code est structurée en classes, interfaces, enums et annotations.</p>
+</div>
+<div class="sect2">
+<h3 id="_class">4.1. class</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">Person</span> {
+
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est le type qui permet de définir une classe avec ses méthodes et ses attributs (public, protected, private et package)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_interface">4.2. interface</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">interface</span> <span class="class">Runnable</span> {
+  <span class="type">void</span> run();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Une interface ne peut définir que des méthodes publiques et des constantes. Une classe peut alors 'implémenter' une interface.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">MyClass</span> <span class="directive">implements</span> <span class="predefined-type">Runnable</span> {
+  <span class="annotation">@Override</span>
+  <span class="directive">public</span> <span class="type">void</span> run() {
+    <span class="comment">// code</span>
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>L&#8217;interface définit généralement un contrat que les classes l&#8217;implémentant doivent respecter. L&#8217;interface ne se soucie des détails de l&#8217;implémentation.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Java 8 et les interfaces</div>
+<div class="paragraph">
+<p>Il existe 2 nouveautés en java 8 pour les interfaces :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>on a le droit d&#8217;y écrire des méthodes statiques,</p>
+</li>
+<li>
+<p>une méthode indiquée comme <code>default</code> peut contenir du code.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enum">4.3. enum</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">enum</span> Gender {
+  MALE, FEMALE;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est une liste finie typée. Elle peut contenir des méthodes et des attributs.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_annotation">4.4. annotation</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Retention</span>(<span class="predefined-type">RetentionPolicy</span>.RUNTIME) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="annotation">@Target</span>(<span class="predefined-type">ElementType</span>.TYPE) <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="directive">public</span> <span class="annotation">@interface</span> Validate {
+
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>L&#8217;annotation sera présente au runtime</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Elle est applicable sur des classes</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Comme son nom l&#8217;indique, elle sert à annoter (marquer) un autre élément, un peu comme un label ou un tag.</p>
+</div>
+<div class="listingblock">
+<div class="title">utilisation</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Validate</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">MyModel</span> {
+
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_méthode_main_et_exécution">5. Méthode main et exécution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>L&#8217;exécution d&#8217;une classe java se fait avec la commande java</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>java -classpath lib1.jar;lib2.jar Hello</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Afin de pouvoir être exécutée, cette classe Hello doit posséder une méthode main avec la signature suivante.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
+    ...
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_stacktrace">6. stacktrace</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Lorsqu&#8217;une exception est levée (ex: <code>throw new IllegalArgumentException('name must be not null')</code>), le flow d&#8217;exécution est arrêté et elle remonte vers l&#8217;appelant.</p>
+</div>
+<div class="paragraph">
+<p>Au moment où elle est levée, l&#8217;exception capture la pile d&#8217;appels. Il est possible d&#8217;afficher cette pile (stacktrace), par exemple :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">java.io.FileNotFoundException: my_file.txt <i class="conum" data-value="1"></i><b>(1)</b>
+        at java.io.FileInputStream.&lt;init&gt;(<span class="predefined-type">FileInputStream</span>.java) <i class="conum" data-value="2"></i><b>(2)</b>
+        at java.io.FileInputStream.&lt;init&gt;(<span class="predefined-type">FileInputStream</span>.java)
+        at Main.main(Main.java:<span class="integer">19</span>) <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>nous avons une <code>FileNotFoundException</code> qui a pour message 'my_file.txt'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>la ligne générant cette erreur est dans le constructeur de FileInputStream</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>nous sommes passé par la méthode main de la class Main à la ligne 19</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Cela peut sembler un peu indigeste au départ mais c&#8217;est très complet et donc très utile.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gestion_de_la_mémoire">7. gestion de la mémoire</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En java, on ne gère pas la mémoire à la main : nous sommes dans un environnement managé.</p>
+</div>
+<div class="paragraph">
+<p>La mémoire est segmentée afin d&#8217;y répartir les objets chargés.</p>
+</div>
+<div class="paragraph">
+<p>Des stratégies complexes pilotent les données en mémoire.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="memory.jpg" alt="memory">
+</div>
+</div>
+<div class="paragraph">
+<p>Le <strong>garbage collector</strong> (GC) surveille les objets devenus inutiles et libère la mémoire correspondante.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_lévolution_du_language">8. l&#8217;évolution du language</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En 20 ans, le language à subit beaucoup d&#8217;évolutions :</p>
+</div>
+<div class="paragraph">
+<p>TODO : table avec versions</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>java 1.4 (2002)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>assert : assertion</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>java 1.5 / 5.0 (2004)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>generiques (List&lt;T&gt;)</p>
+</li>
+<li>
+<p>annotations (@Annotation)</p>
+</li>
+<li>
+<p>autoboxing / unboxing ex: <code>Integer i = 10; int j = i;</code></p>
+</li>
+<li>
+<p>enums</p>
+</li>
+<li>
+<p>varargs ex: <code>public void tags(String&#8230;&#8203; tags)</code></p>
+</li>
+<li>
+<p>imports statiques ex: <code>import static org.junit.Assert.assertEquals</code></p>
+</li>
+<li>
+<p>for each loops ex: <code>for (String tag : tags) {&#8230;&#8203;}</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>java 6.0 (2006)</p>
+</li>
+<li>
+<p>java 7.0 (projet coin)</p>
+<div class="ulist">
+<ul>
+<li>
+<p>strings dans les switch</p>
+</li>
+<li>
+<p>notation plus lisible pour les numériques ex: <code>int value = 100_000;</code></p>
+</li>
+<li>
+<p>multi catch ex: <code>try { &#8230;&#8203; } catch (FirstException | SecondException ex) { &#8230;&#8203; }</code></p>
+</li>
+<li>
+<p>opérateur diamant ex: <code>List&lt;String&gt; values = new ArrayList&lt;&gt;()</code></p>
+</li>
+<li>
+<p>try with resources ex: <code>try (Statement stmt = con.createStatement()) { stmt.executeQuery(query); }</code></p>
+</li>
+<li>
+<p>varargs simplifiés</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>java 8.0</p>
+<div class="ulist">
+<ul>
+<li>
+<p>lambdas (closures pour java)</p>
+</li>
+<li>
+<p>java date and time API</p>
+</li>
+<li>
+<p>default methods sur les interfaces</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Malgré ces évolutions, la compatibilité avec les versions passées est très bonne.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_une_plateforme_riche_et_diverse">9. Une plateforme riche et diverse</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La richesse de la plateforme est essentiellement due aux librairies issues de la communauté.</p>
+</div>
+<div class="paragraph">
+<p>Voici quelques exemples :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://hibernate.org/">hibernate</a></p>
+</li>
+<li>
+<p><a href="https://spring.io/">spring</a></p>
+</li>
+<li>
+<p><a href="https://github.com/google/guice">guice</a></p>
+</li>
+<li>
+<p><a href="https://lucene.apache.org/core/">lucene</a></p>
+</li>
+<li>
+<p><a href="http://www.joda.org/joda-time/">joda time</a> qui a inspiré la java date and time API de java 8</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>La liste est extrêmement longue, entre innnovation et reprise de ce qui se fait dans les autres languages.</p>
+</div>
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

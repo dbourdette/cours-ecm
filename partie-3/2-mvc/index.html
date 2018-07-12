@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Bugs dans les controllers MVC</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_bugs_dans_les_controllers_mvc">Bugs dans les controllers MVC</a>
+<ul class="sectlevel1">
+<li><a href="#_mvc_1_page_contact_cassée">1. MVC-1 : Page contact cassée</a></li>
+<li><a href="#_mvc_2_la_recherche_est_perdue">2. MVC-2 : La recherche est perdue</a></li>
+<li><a href="#_mvc_3_pageindex_invalide">3. MVC-3 : pageIndex invalide</a></li>
+<li><a href="#_mvc_4_problème_de_pagination">4. MVC-4 : Problème de pagination</a></li>
+<li><a href="#_mvc_5_getpages_dans_pagination">5. MVC-5 : getPages() dans Pagination</a></li>
+<li><a href="#_mvc_6_recette_inconnue">6. MVC-6 : Recette inconnue</a></li>
+<li><a href="#_mvc_7_pages_404_et_500">7. MVC-7 : Pages 404 et 500</a></li>
+<li><a href="#_mvc_8_messages_de_validation">8. MVC-8 : Messages de validation</a></li>
+<li><a href="#_mvc_9_logs">9. MVC-9 : Logs</a>
+<ul class="sectlevel2">
+<li><a href="#_ajout_de_log4j">9.1. Ajout de log4j</a></li>
+<li><a href="#_configuration">9.2. Configuration</a></li>
+</ul>
+</li>
+<li><a href="#_mvc_10_sécurisation">10. MVC-10 : Sécurisation</a>
+<ul class="sectlevel2">
+<li><a href="#_ajout_de_spring_security">10.1. Ajout de spring-security</a></li>
+<li><a href="#_ajout_de_lintercepteur">10.2. Ajout de l&#8217;intercepteur</a></li>
+<li><a href="#_ajout_de_la_configuration">10.3. Ajout de la configuration</a></li>
+</ul>
+</li>
+<li><a href="#_mvc_11_déconnexion">11. MVC-11 Déconnexion</a></li>
+<li><a href="#_mvc_12_bouton_éditer">12. MVC-12 Bouton 'éditer'</a></li>
+<li><a href="#_mvc_13_formulaire_de_login">13. MVC-13 Formulaire de login</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<h1 id="_bugs_dans_les_controllers_mvc" class="sect0">Bugs dans les controllers MVC</h1>
+<div class="paragraph">
+<p>Voici la liste des bugs répertoriés en relation avec le MVC</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Les modifications dans les controllers nécessitent de redémarrer le serveur <code>gradle tomcatRun</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="../B-mvc/index.html">l&#8217;annexe B</a> résume les concepts liés au MVC pour le web
+</td>
+</tr>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_mvc_1_page_contact_cassée">1. MVC-1 : Page contact cassée</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Le lien "Nous contacter" dans le footer fait une 404</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="404.png" alt="404">
+</div>
+</div>
+<div class="paragraph">
+<p>Corrigez la classe <code>IndexController</code> afin que ce lien fonctionne.</p>
+</div>
+<div class="paragraph">
+<p>Il y a des tests en place pour <code>IndexController</code> dans la classe <code>IndexControllerTest</code>, profitez en pour rajouter un test pour cette méthode <code>contact()</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="../B-mvc/index.html">L&#8217;annexe B</a> couvre les tests des Controllers avec MockMvc.
+Pour <code>IndexControllerTest</code> on a aussi utilisé une librairie de mock : <a href="http://mockito.org/">Mockito</a>.
+Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une connexion à la base pour le test.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_2_la_recherche_est_perdue">2. MVC-2 : La recherche est perdue</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dans la page /recettes, si je fais une recherche les résultats s&#8217;affichent bien.</p>
+</div>
+<div class="paragraph">
+<p>Par contre, la boite de recherche est vidée.</p>
+</div>
+<div class="paragraph">
+<p>Par exemple sur /recettes?tag=alsace la boite de recherche est :</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="search-form.png" alt="search form">
+</div>
+</div>
+<div class="paragraph">
+<p>Que faut il faire dans <code>IndexController</code> et dans <code>recettes.jsp</code> afin que le contenu de l&#8217;input soit correct ?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_3_pageindex_invalide">3. MVC-3 : pageIndex invalide</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Lors de la recherche sur /recettes, le <code>SearchForm</code> possède un paramètre <code>pageIndex</code>.</p>
+</div>
+<div class="paragraph">
+<p>Ainsi, on peut faire aller sur la page 2 via la requête /recettes?pageIndex=2</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">1 based ou 0 based</div>
+<div class="paragraph">
+<p>Nous avons choisi d&#8217;utiliser un index partant de 1 pour la première page.</p>
+</div>
+<div class="paragraph">
+<p>Nous avons fait cela car l&#8217;index est visible pour l&#8217;utilisateur et que commencer à 1 est plus logique pour un humain.</p>
+</div>
+<div class="paragraph">
+<p>Attention, les APIs commencent généralement à 0, ce qui peut engendrer bon nombre de problèmes.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Cependant, que se passe t il si un utilisateur change l&#8217;index à la main en mettant 0 ou un nombre négatif ?</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="500-bad-index.png" alt="500 bad index">
+</div>
+<div class="title">Figure 1. Une erreur affreuse</div>
+</div>
+<div class="paragraph">
+<p>Notre code n&#8217;est pas du tout protégé&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Que peut on faire ?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_4_problème_de_pagination">4. MVC-4 : Problème de pagination</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La pagination semble avoir un problème, elle ne semble pas indiquer toujours le bon nombre de pages.</p>
+</div>
+<div class="paragraph">
+<p>Le code pour compter le nombre de pages est le suivant :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">int</span> getPageCount() {
+  <span class="keyword">return</span> (<span class="type">int</span>) count / pageSize;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Par exemple, si il y a 20 éléments en base et que pageSize vaut 50, <code>getPageCount()</code> va donner 0.</p>
+</div>
+<div class="paragraph">
+<p>Ajoutez et faites passer des tests unitaires afin de couvrir les cas suivants :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>count est un multiple de pageSize</p>
+</li>
+<li>
+<p>count n&#8217;est pas un multiple de pageSize</p>
+</li>
+<li>
+<p>condition aux limites : count == 0</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Doit on tester le cas pageSize == 0 ?</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Tests unitaires</div>
+<div class="paragraph">
+<p>Certains tests peuvent paraitre inutiles puisque le code fonctionne déjà.</p>
+</div>
+<div class="paragraph">
+<p>Oui mais une fois les tests en place, ils assureront qu&#8217;il n&#8217;y a pas de régression.</p>
+</div>
+<div class="paragraph">
+<p>Avec de l&#8217;intégration continue, chaque commit relance les tests : on saura immédiatement que le build est cassé.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_5_getpages_dans_pagination">5. MVC-5 : getPages() dans Pagination</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Pas loin de la méthode <code>getPagesCount()</code> de MVC-4, on peut voir que le résultat de <code>getPages()</code> est hardcodé.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="predefined-type">List</span> getPages() {
+    <span class="keyword">return</span> asList(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En passant par des tests unitaires, faire une impémentation correcte de cette méthode.</p>
+</div>
+<div class="paragraph">
+<p>Le fonctionnement souhaitée pour la navigation est de se contruire autour de l&#8217;index courant en essayant de mettre jusqu&#8217;a 10 éléments.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Test driven</div>
+<div class="paragraph">
+<p>Il n&#8217;est pas facile de deviner quel sera le bon algorithme.</p>
+</div>
+<div class="paragraph">
+<p>En commençant par les cas simples, par les tests, on construit la solution par petits bouts.</p>
+</div>
+<div class="paragraph">
+<p>Un fois en place, les tests nous permettront de retoucher (refactoring) le code en s&#8217;assurant qu&#8217;on ne casse rien.</p>
+</div>
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Magic number</div>
+<div class="paragraph">
+<p>La pagination fait au plus 10 éléments. Ce chiffre risque d&#8217;apparaitre plusieurs fois dans le code.</p>
+</div>
+<div class="paragraph">
+<p>Cela ne va pas sembler évident à quelqu&#8217;un venant relire le code.</p>
+</div>
+<div class="paragraph">
+<p>Afin d&#8217;éviter ce sentiment de chiffre venu de nul part, il est bon d&#8217;en faire une constante dans la classe <code>Pagination</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> PAGINATION_SIZE = <span class="integer">10</span>;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_6_recette_inconnue">6. MVC-6 : Recette inconnue</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Pour le moment, on a très peu de gestion d&#8217;erreur.</p>
+</div>
+<div class="paragraph">
+<p>Si on va sur <a href="http://localhost:8080/recette/56375619d4c603aa4eb412dd" class="bare">http://localhost:8080/recette/56375619d4c603aa4eb412dd</a> on obtient une page très vide et cassée.</p>
+</div>
+<div class="paragraph">
+<p>Dans ce cas, on voudrait obtenir une 404 (page not found).</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="404-no-title.png" alt="404 no title">
+</div>
+</div>
+<div class="paragraph">
+<p>En passant par les tests, s&#8217;assurer que l&#8217;obtient bien une 404 depuis <code>IndexController</code> lorsque la recette n&#8217;existe pas.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Mockito</div>
+<div class="paragraph">
+<p>Afin de ne pas avoir à remplir la base pour les tests, on utilise la librairie Mockito.</p>
+</div>
+<div class="paragraph">
+<p>Elle permet d&#8217;obtenir un faux RecipeService que l&#8217;on va pouvoir piloter depuis le test.</p>
+</div>
+<div class="paragraph">
+<p>Cela permet donc de tester notre IndexController en isolation du reste de notre code.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Comment retourner une 404 depuis un Controller ? On pourra <a href="http://lmgtfy.com/?q=return+404+spring+mvc">s&#8217;aider de google</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_7_pages_404_et_500">7. MVC-7 : Pages 404 et 500</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Actuellement, nos pages 404 (ex: /plop) et 500 (ex: /recette/plop) sont affreuses : ce sont les pages par défaut de tomcat.</p>
+</div>
+<div class="paragraph">
+<p>Elles affichent les stacktraces, ce qui est bien pratique, mais pour le visiteur du site, c&#8217;est affreux.</p>
+</div>
+<div class="paragraph">
+<p>Nous allons donc ajouter des pages d&#8217;erreur plus jolies.</p>
+</div>
+<div class="listingblock">
+<div class="title">Gestion d&#8217;erreur dans le web.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Error pages handling --&gt;</span>
+<span class="tag">&lt;error-page&gt;</span>
+    <span class="tag">&lt;error-code&gt;</span>404<span class="tag">&lt;/error-code&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="tag">&lt;location&gt;</span>/404<span class="tag">&lt;/location&gt;</span>
+<span class="tag">&lt;/error-page&gt;</span>
+<span class="tag">&lt;error-page&gt;</span>
+    <span class="tag">&lt;error-code&gt;</span>500<span class="tag">&lt;/error-code&gt;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="tag">&lt;location&gt;</span>/500<span class="tag">&lt;/location&gt;</span>
+<span class="tag">&lt;/error-page&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>En cas d&#8217;erreur 404, on redirige vers la page /404</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>En cas d&#8217;erreur 500, on redirige vers la page /500</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Cette gestion d&#8217;erreur se fait au niveau conteneur de Servlet (tomcat).</p>
+</div>
+<div class="paragraph">
+<p>Or notre servlet Spring est mappée sur <code>/</code> (normalament, ça veut dire 'tout'). Le conteneur manque un peu d&#8217;intelligence, il faut rajouter les mappings suivant :</p>
+</div>
+<div class="listingblock">
+<div class="title">Mapping supplémentaire pour la Servlet Spring</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;servlet-mapping&gt;</span>
+  <span class="tag">&lt;servlet-name&gt;</span>spring<span class="tag">&lt;/servlet-name&gt;</span>
+  <span class="tag">&lt;url-pattern&gt;</span>/404<span class="tag">&lt;/url-pattern&gt;</span>
+<span class="tag">&lt;/servlet-mapping&gt;</span>
+<span class="tag">&lt;servlet-mapping&gt;</span>
+  <span class="tag">&lt;servlet-name&gt;</span>spring<span class="tag">&lt;/servlet-name&gt;</span>
+  <span class="tag">&lt;url-pattern&gt;</span>/500<span class="tag">&lt;/url-pattern&gt;</span>
+<span class="tag">&lt;/servlet-mapping&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ajoutez ces entrées ainsi que les <code>@RequestMapping</code> correspondant dans <code>IndexController</code></p>
+</div>
+<div class="paragraph">
+<p>Enfin, ajoutez le fichier jsp qui affiche un message d&#8217;excuse. Un seul fichier jsp peut servir pour les 2 cas.</p>
+</div>
+<div class="paragraph">
+<p>Maintenant, <a href="http://localhost:8080/recette/56375619d4c603aa4eb412dd" class="bare">http://localhost:8080/recette/56375619d4c603aa4eb412dd</a> doit retourner une page d&#8217;erreur présentable.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="404-nice.png" alt="404 nice">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_8_messages_de_validation">8. MVC-8 : Messages de validation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A l&#8217;édition d&#8217;une recette, si on ne met pas le titre ou la date, on obtient une erreur :</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="validation-error.png" alt="validation error">
+</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est <code>AdminController</code> qui fait la gestion d&#8217;erreur.</p>
+</div>
+<div class="listingblock">
+<div class="title">Handler de post du formulaire</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RequestMapping</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">/recettes/edit</span><span class="delimiter">&quot;</span></span>, method = POST)
+<span class="directive">public</span> <span class="predefined-type">String</span> post(<span class="annotation">@ModelAttribute</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">command</span><span class="delimiter">&quot;</span></span>) <span class="annotation">@Valid</span> Recipe recipe, BindingResult result, RedirectAttributes redirectAttributes) {
+  <span class="keyword">if</span> (result.hasErrors()) { <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">admin/recipe/form</span><span class="delimiter">&quot;</span></span>;
+  }
+
+  recipeService.save(recipe);
+
+  redirectAttributes.addFlashAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">flashMessage</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">La recette a été sauvée</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="2"></i><b>(2)</b>
+
+  <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">redirect:/admin/recettes/edit?id=</span><span class="delimiter">&quot;</span></span> + recipe.getId(); <i class="conum" data-value="3"></i><b>(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>En cas d&#8217;erreur, on redirige vers la vue</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>En cas de succès, on ajoute un message flash</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Redirect after POST</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">addFlashAttribute(name, value)</div>
+<div class="paragraph">
+<p>Le scope flash est une zone qui contient des données qui seront disponibles uniquement lors de la prochaine requête.</p>
+</div>
+<div class="paragraph">
+<p>Il permet donc d&#8217;y ranger des objets juste avant un redirect.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;alternative serait de mettre des paramètres dans l&#8217;url du redirect, ce qui serait moins joli.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Puis la jsp affiche les erreurs présentes</p>
+</div>
+<div class="listingblock">
+<div class="title">Affichage de l&#8217;erreur pour le title</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;spring:bind</span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">form-group ${status.error ? 'has-error' : ''}</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="tag">&lt;label</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">control-label</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">for</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>Titre ${fn:escapeXml(status.errorMessage)}<span class="tag">&lt;/label&gt;</span> <i class="conum" data-value="3"></i><b>(3)</b>
+    <span class="tag">&lt;form:input</span> <span class="attribute-name">cssClass</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">form-control</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">placeholder</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">Titre</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/spring:bind&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>On indique à spring qu&#8217;on va travailler sur le champs 'title' afin d&#8217;avoir accès aux erreurs pour ce champs</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Classe css 'has-error' en cas d&#8217;erreur</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Le message d&#8217;erreur à coté du nom du champs</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Mais d&#8217;où vient le message "ne peut pas être vide" qui apparait ?</p>
+</div>
+<div class="paragraph">
+<p>Il serait possible d&#8217;utiliser l&#8217;objet <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/validation/BindingResult.html"><code>BindingResult</code></a> afin de gérer la validation nous même.</p>
+</div>
+<div class="listingblock">
+<div class="title">Validation Manuelle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">if</span> (title == <span class="predefined-constant">null</span> || <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>.equals(title)) {
+  result.rejectValue(<span class="string"><span class="delimiter">&quot;</span><span class="content">title</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">notEmpty</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">est obligatoire</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cependant nous avons choisi d&#8217;utiliser <code>@Valid</code> dans notre Controller. Cela permet d&#8217;utiliser les annotionas de <a href="http://beanvalidation.org/">Bean Validation</a>.</p>
+</div>
+<div class="paragraph">
+<p>Dans notre <code>Recipe</code> nous avons donc :</p>
+</div>
+<div class="listingblock">
+<div class="title">Bean Validation dans le modèle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@NotEmpty</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="directive">private</span> <span class="predefined-type">String</span> title;
+
+<span class="annotation">@NotNull</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="directive">private</span> <span class="predefined-type">Date</span> date = <span class="keyword">new</span> <span class="predefined-type">Date</span>();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Le titre ne peut pas être null ou vide</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>La date ne peut pas être null</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Les 2 approches (manuelle et Bean Validation) peuvent être combinées en fonction des besoins. Toutes les erreurs finissent dans BindingResult.</p>
+</div>
+<div class="paragraph">
+<p>Trouvez comment avoir les messages d&#8217;erreur suivant : "Titre est obligatoire" et "Date est obligatoire".</p>
+</div>
+<div class="paragraph">
+<p>Comment pourrait on faire si on souhaite ne pas pouvoir anti dater une recette uniquement à la création de celle ci ? (c&#8217;est une question assez rhétorique, il y a peu de chance que cela soit intéressant dans notre cas).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_9_logs">9. MVC-9 : Logs</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Actuellement, nous n&#8217;avons rien fait afin de configurer les logs.</p>
+</div>
+<div class="paragraph">
+<p>Lorsqu&#8217;on lance un test unitaire qui charge un contexte spring, on peut voir les lignes suivantes :</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="logs.png" alt="logs">
+</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est très verbeux car on a toutes les traces à partir du niveau INFO.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est en rouge parce que le code utilise la sortie error (stderr via <code>System.err</code>) par défaut.</p>
+</div>
+<div class="paragraph">
+<p>Le problème en java est qu&#8217;il existe plusieurs librairies de log (java.util.logging, log4j&#8230;&#8203;).</p>
+</div>
+<div class="paragraph">
+<p>Pour faire encore plus simple, il existe aussi des wrappeurs comme <a href="http://www.slf4j.org/">SLF4J</a> (Simple Logging Facade for Java) ou <a href="https://commons.apache.org/proper/commons-logging/">commons-logging</a></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Librairies et wrappers</div>
+<div class="paragraph">
+<p>Il n&#8217;y avait pas de librairie de gestion de log aux débuts de java. Beaucoup de librairies existent aujourd&#8217;hui sans vraiment de vainceur.</p>
+</div>
+<div class="paragraph">
+<p>En théorie, il faudrait une configuration pour chaque librairie de log utilisée par notre code mais aussi les librairies.</p>
+</div>
+<div class="paragraph">
+<p>Pour ne pas avoir à subir cela, on peut utiliser un wrapper qui va s&#8217;adapter à la situation.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Pour résumer, c&#8217;est joyeusement compliqué juste pour gérer les logs.</p>
+</div>
+<div class="paragraph">
+<p>java.util.logging étant plus pauvre que log4j, la plupart des librairies utilisent log4j (ou log4j2) ou un wrapper (slf4j ou commons-logging).</p>
+</div>
+<div class="sect2">
+<h3 id="_ajout_de_log4j">9.1. Ajout de log4j</h3>
+<div class="paragraph">
+<p>On commence par ajouter log4j à nos librairies</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="add-log4j.png" alt="add log4j">
+</div>
+</div>
+<div class="paragraph">
+<p>Il faut bien s&#8217;assurer que la librairie est bien présente ensuite dans la liste des dépendances du projet.</p>
+</div>
+<div class="paragraph">
+<p>Si on relance notre test, on devrait voir :</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="logs-log4j.png" alt="logs log4j">
+</div>
+</div>
+<div class="paragraph">
+<p>Log4j est actif mais mal configuré.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuration">9.2. Configuration</h3>
+<div class="paragraph">
+<p>Il existe plusieurs façon de configurer log4j.</p>
+</div>
+<div class="paragraph">
+<p>On va passer par un fichier <code>log4j.properties</code> à la racine du classpath.</p>
+</div>
+<div class="paragraph">
+<p>Il suffit donc de rajouter ce fichier dans <code>src/test/resources</code> :</p>
+</div>
+<div class="listingblock">
+<div class="title">log4j.properties</div>
+<div class="content">
+<pre>log4j.rootLogger=ERROR, console <i class="conum" data-value="1"></i><b>(1)</b>
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender <i class="conum" data-value="2"></i><b>(2)</b>
+log4j.appender.console.layout=org.apache.log4j.PatternLayout <i class="conum" data-value="3"></i><b>(3)</b>
+
+log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <i class="conum" data-value="4"></i><b>(4)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Définition du root logger en niveau ERROR avec 'console' comme appender (sortie)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>L&#8217;appender 'console' va écrire via le ConsoleAppender (System.out et System.err)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>la sortie de 'console' est formattée</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Format de la sortie</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Configuration</div>
+<div class="paragraph">
+<p>Il existe de très nombreuses options de Configurartion.</p>
+</div>
+<div class="paragraph">
+<p>Par exemple, pour les Appenders, on trouve un FileAppender, un RollingFileAppender et même des Appenders capables d&#8217;écrire en base ou vers un service réseau.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Les logs en rouge doivent avoir disparu.</p>
+</div>
+<div class="paragraph">
+<p>Il est possible (et recommandé) de faire de même pour l&#8217;application en production.
+Par exemple, on pourrait mettre un fichier de configuration log4j dans <code>src/main/resources</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_10_sécurisation">10. MVC-10 : Sécurisation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Actuellement, tout le monde peut accéder à /admin et donc administrer notre site.</p>
+</div>
+<div class="paragraph">
+<p>La librairie la plus complète pour ce genre de besoin est <a href="http://projects.spring.io/spring-security/">spring security</a>. Comme son nom peut le laisser entendre, elle se marie assez bien avec un projet spring.</p>
+</div>
+<div class="sect2">
+<h3 id="_ajout_de_spring_security">10.1. Ajout de spring-security</h3>
+<div class="paragraph">
+<p>Comme pour log4j, on rajoute la librairie</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>compile 'org.springframework.security:spring-security-core:4.0.3.RELEASE'
+compile 'org.springframework.security:spring-security-config:4.0.3.RELEASE'
+compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il faut penser à recharger le projet dans l&#8217;onglet gradle.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ajout_de_lintercepteur">10.2. Ajout de l&#8217;intercepteur</h3>
+<div class="paragraph">
+<p>Spring security doit intercepter toutes les requêtes.</p>
+</div>
+<div class="listingblock">
+<div class="title">web.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;filter&gt;</span>
+    <span class="tag">&lt;filter-name&gt;</span>springSecurityFilterChain<span class="tag">&lt;/filter-name&gt;</span>
+    <span class="tag">&lt;filter-class&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="tag">&lt;/filter-class&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="tag">&lt;/filter&gt;</span>
+<span class="tag">&lt;filter-mapping&gt;</span>
+    <span class="tag">&lt;filter-name&gt;</span>springSecurityFilterChain<span class="tag">&lt;/filter-name&gt;</span>
+    <span class="tag">&lt;url-pattern&gt;</span>/*<span class="tag">&lt;/url-pattern&gt;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="tag">&lt;/filter-mapping&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Le filtre spring security</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Intercepte toutes les requêtes</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Le mieux est de place ce filtre avant l&#8217;encoding-filter, afin qu&#8217;il soit traversé en premier. L&#8217;ordre dans le web.xml est important.</p>
+</div>
+<div class="paragraph">
+<p>Ainsi, avant d&#8217;arriver sur la <code>DispatcherServlet</code>, les requêtes passeront au travers du <code>DelegatingFilterProxy</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ajout_de_la_configuration">10.3. Ajout de la configuration</h3>
+<div class="paragraph">
+<p>Il reste a configurer spring security.</p>
+</div>
+<div class="listingblock">
+<div class="title">Modification du ContextLoaderListener dans le web.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;listener&gt;</span>
+    <span class="tag">&lt;listener-class&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/listener-class&gt;</span>
+<span class="tag">&lt;/listener&gt;</span>
+<span class="tag">&lt;context-param&gt;</span>
+    <span class="tag">&lt;param-name&gt;</span>contextClass<span class="tag">&lt;/param-name&gt;</span>
+    <span class="tag">&lt;param-value&gt;</span>org.springframework.web.context.support.AnnotationConfigWebApplicationContext<span class="tag">&lt;/param-value&gt;</span>
+<span class="tag">&lt;/context-param&gt;</span>
+<span class="tag">&lt;context-param&gt;</span>
+    <span class="tag">&lt;param-name&gt;</span>contextConfigLocation<span class="tag">&lt;/param-name&gt;</span>
+    <span class="tag">&lt;param-value&gt;</span>fr.cmm.SpringConfig, fr.cmm.SpringSecurity<span class="tag">&lt;/param-value&gt;</span>
+<span class="tag">&lt;/context-param&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Et la classe java correspondante</p>
+</div>
+<div class="listingblock">
+<div class="title">fr.cmm.SpringSecurity</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
+<span class="annotation">@EnableWebSecurity</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SpringSecurity</span> <span class="directive">extends</span> WebSecurityConfigurerAdapter {
+    <span class="annotation">@Inject</span>
+    <span class="directive">public</span> <span class="type">void</span> configureGlobal(AuthenticationManagerBuilder auth) <span class="directive">throws</span> <span class="exception">Exception</span> { <i class="conum" data-value="1"></i><b>(1)</b>
+        auth
+            .inMemoryAuthentication() <i class="conum" data-value="2"></i><b>(2)</b>
+                .withUser(<span class="string"><span class="delimiter">&quot;</span><span class="content">user</span><span class="delimiter">&quot;</span></span>).password(<span class="string"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>).roles(<span class="string"><span class="delimiter">&quot;</span><span class="content">ADMIN</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+
+    <span class="annotation">@Override</span>
+    <span class="directive">protected</span> <span class="type">void</span> configure(HttpSecurity http) <span class="directive">throws</span> <span class="exception">Exception</span> { <i class="conum" data-value="4"></i><b>(4)</b>
+        http
+            .authorizeRequests()
+                .antMatchers(<span class="string"><span class="delimiter">&quot;</span><span class="content">/admin/**</span><span class="delimiter">&quot;</span></span>).authenticated() <i class="conum" data-value="5"></i><b>(5)</b>
+            .and()
+                .formLogin(); <i class="conum" data-value="6"></i><b>(6)</b>
+            .and()
+                .logout() <i class="conum" data-value="7"></i><b>(7)</b>
+                .logoutSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
+                .logoutRequestMatcher(<span class="keyword">new</span> AntPathRequestMatcher(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>));
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configuration globale</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>La base des utilisateurs est en mémoire. En production, nous aurions très certainement une base de données afin de stocker les utilisateurs.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>On ajoute un utilisateur avec le role ADMIN.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Configuration des requêtes http</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>/admin/** nécessite d&#8217;être authentifié</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Le login est disponible via un formulaire</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Gestion du logout.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Lorsque l&#8217;on cherche a accéder à une page admin, on a le formulaire suivant.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="auth-form.png" alt="auth form">
+</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est bien, c&#8217;est pas très joli, mais on ne peut plus se déconnecter : )</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_11_déconnexion">11. MVC-11 Déconnexion</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Il est nécessaire de pouvoir se déconnecter. Nous allons ajouter un lien dans la navbar sur toutes les pages.</p>
+</div>
+<div class="paragraph">
+<p>Afin de rajouter le lien de façon condionelle, nous utilisons la lib de <a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/taglibs.html">customs tags pour spring security</a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>compile 'org.springframework.security:spring-security-taglibs:4.0.3.RELEASE'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dans <code>header.tag</code> faites apparaitre un lien 'déconnexion' si l&#8217;utilisateur est <code>isAuthenticated()</code> à l&#8217;aide de la lib</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="error">&lt;</span>%@ taglib prefix=&quot;sec&quot; uri=&quot;http://www.springframework.org/security/tags&quot; %<span class="error">&gt;</span>
+
+...
+
+<span class="tag">&lt;sec:authorize</span> <span class="attribute-name">access</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">isAuthenticated()</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    ...
+<span class="tag">&lt;/sec:authorize&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La doc de boostrap sur la navbar : <a href="http://getbootstrap.com/components/#navbar" class="bare">http://getbootstrap.com/components/#navbar</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="navbar-logout.png" alt="navbar logout">
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">CSRF</div>
+<div class="paragraph">
+<p>Afin de pouvoir utiliser un lien simple pour la déconnexion nous avons utiliser la config</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cela désactive la protection Cross Site Request Forgery pour le logout.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est déconseillé par spring security. Il faudrait utiliser un formulaire plutôt qu&#8217;un lien.</p>
+</div>
+<div class="paragraph">
+<p>Voir la doc sur le <a href="http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#csrf-logout">logout avec le filtre CSRF</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_12_bouton_éditer">12. MVC-12 Bouton 'éditer'</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Si l&#8217;utilisateur est connecté et possède le role 'ADMIN', pourquoi ne pas lui ajouter un bouton éditer disponible depuis une recette ?</p>
+</div>
+<div class="paragraph">
+<p>Cette fois, le contrôle de l&#8217;accès se fait avec <code>hasRole('ADMIN')</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Autorisations</div>
+<div class="paragraph">
+<p>Ici, nous donnons des droits uniquement aux ADMINs.</p>
+</div>
+<div class="paragraph">
+<p>Nous pourrions avoir d&#8217;autres types d&#8217;utilisateurs et profiter du login afin d&#8217;autoriser les commentaires, les notations, l&#8217;ajout de recettes pour les éditeurs&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>Dans les jsp comme dans les contrôleurs, spring security permet de régler finement les autorisations.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_mvc_13_formulaire_de_login">13. MVC-13 Formulaire de login</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Actuellement, le formulaire de login est moche. En s&#8217;aidant de la doc <a href="http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#jc-form">spring security</a> et <a href="http://getbootstrap.com/css/#forms">bootstrap</a> mettez en ligne un formulaire de login dans l&#8217;esprit du site.</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

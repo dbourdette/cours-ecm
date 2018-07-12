@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Annexe B : L&#8217;architecture MVC</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_annexe_b_larchitecture_mvc">Annexe B : L&#8217;architecture MVC</a>
+<ul class="sectlevel1">
+<li><a href="#_synthèse">1. Synthèse</a></li>
+<li><a href="#_diagramme_détaillé">2. Diagramme détaillé</a></li>
+<li><a href="#_configuration">3. Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#_web_xml">3.1. web.xml</a></li>
+<li><a href="#_spring_servlet_xml">3.2. spring-servlet.xml</a></li>
+<li><a href="#_springconfig">3.3. SpringConfig</a></li>
+</ul>
+</li>
+<li><a href="#_les_controllers">4. Les Controllers</a>
+<ul class="sectlevel2">
+<li><a href="#_helloworldcontroller">4.1. HelloWorldController</a></li>
+<li><a href="#_le_forward_vers_la_vue">4.2. Le forward vers la vue</a></li>
+<li><a href="#_le_modèle_et_la_vue">4.3. Le modèle et la vue</a></li>
+</ul>
+</li>
+<li><a href="#_annotations">5. Annotations</a>
+<ul class="sectlevel2">
+<li><a href="#_requestmapping">5.1. @RequestMapping</a></li>
+<li><a href="#_pathvariable">5.2. @PathVariable</a></li>
+<li><a href="#_requestparam">5.3. @RequestParam</a></li>
+<li><a href="#_requestbody_et_responsebody">5.4. @RequestBody et @ResponseBody</a></li>
+<li><a href="#_modelattribute">5.5. @ModelAttribute</a></li>
+</ul>
+</li>
+<li><a href="#_les_formulaires">6. Les formulaires</a>
+<ul class="sectlevel2">
+<li><a href="#_binding_et_validation">6.1. Binding et validation</a></li>
+<li><a href="#_redirect_after_post">6.2. Redirect after POST</a></li>
+</ul>
+</li>
+<li><a href="#_tests_avec_mockmvc">7. Tests avec MockMvc</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<h1 id="_annexe_b_larchitecture_mvc" class="sect0">Annexe B : L&#8217;architecture MVC</h1>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Le MVC en 3 phrases</div>
+<div class="paragraph">
+<p>MVC découpe une application en 3 aspects : Model, Vue et Controller.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est un pattern présent dans de nombreux languages et environnements.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est une division du code en sous technologies adaptées à chaque aspect.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synthèse">1. Synthèse</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>L&#8217;architecture MVC repose sur la séparation des responsabilités.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="mvc2.png" alt="mvc2">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>le front controller dispatch les requêtes vers le bon Controller</p>
+</li>
+<li>
+<p>le Controller traite la requête à l&#8217;aide de sous composants et services</p>
+</li>
+<li>
+<p>la View s&#8217;occupe du rendu html</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+le front controller est fourni par Spring, le reste est à la charge du développeur.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_diagramme_détaillé">2. Diagramme détaillé</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="mvc.png" alt="mvc" width="100%">
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>La DispatcherServlet reçoit la requête.</p>
+</li>
+<li>
+<p>La DispatcherServlet demande au HandlerMapping de choisir la bonne méthode (handler) sur le bon Controller.</p>
+</li>
+<li>
+<p>La DispatcherServlet demande à un HandlerAdapter d&#8217;appeler le Controller.</p>
+</li>
+<li>
+<p>Le HandlerAdapter appelle le Controller.</p>
+</li>
+<li>
+<p>Le Controller fait son travail avec l&#8217;aide des services et retourne le modèle de données et une référence à la vue qui doit s&#8217;exécuter.</p>
+</li>
+<li>
+<p>La DispatcherServlet demande au ViewResolver de résoudre la référence vers la View.</p>
+</li>
+<li>
+<p>La DispatcherServlet exécute la View.</p>
+</li>
+<li>
+<p>La View crée le rendu final de la page.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>source sur <a href="http://terasolunaorg.github.io/guideline/1.0.1.RELEASE/en/Overview/SpringMVCOverview.html">http://terasolunaorg.github.io</a></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Certaines étapes de ce cheminement sont optionnelles.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration">3. Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Spring MVC ne brille pas pour sa <strong>convention over configuration</strong> (en partie à cause de JEE et en partie à cause de Spring).</p>
+</div>
+<div class="paragraph">
+<p>La configuration se divise en 3 parties.</p>
+</div>
+<div class="sect2">
+<h3 id="_web_xml">3.1. web.xml</h3>
+<div class="paragraph">
+<p>C&#8217;est le fichier de configuration standard JEE pour les applications web.</p>
+</div>
+<div class="paragraph">
+<p>Le <strong>descripteur de déploiement</strong> (web.xml) comporte ce qu&#8217;il faut afin de charger le contexte spring</p>
+</div>
+<div class="listingblock">
+<div class="title">Extrait du web.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Handles Spring requests --&gt;</span>
+<span class="tag">&lt;servlet&gt;</span>
+ <span class="tag">&lt;servlet-name&gt;</span>spring<span class="tag">&lt;/servlet-name&gt;</span>
+ <span class="tag">&lt;servlet-class&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/servlet-class&gt;</span>
+ <span class="tag">&lt;load-on-startup&gt;</span>1<span class="tag">&lt;/load-on-startup&gt;</span>
+<span class="tag">&lt;/servlet&gt;</span>
+<span class="tag">&lt;servlet-mapping&gt;</span>
+ <span class="tag">&lt;servlet-name&gt;</span>spring<span class="tag">&lt;/servlet-name&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+ <span class="tag">&lt;url-pattern&gt;</span>/<span class="tag">&lt;/url-pattern&gt;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+<span class="tag">&lt;/servlet-mapping&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>nom de la servlet</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>pattern d&#8217;interception</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Le contrôleur frontal (DispatcherServlet) intercepte toutes les requêtes (mapping sur /).</p>
+</div>
+<div class="paragraph">
+<p>Le nom de la servlet (ici <strong>spring</strong>) détermine le nom par défaut du fichier spring associé : WEB-INF/<strong>spring</strong>-servlet.xml</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_spring_servlet_xml">3.2. spring-servlet.xml</h3>
+<div class="paragraph">
+<p>C&#8217;est un contexte spring dédié à la configuration du mvc</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Activation des annotations --&gt;</span>
+<span class="tag">&lt;context:annotation-config</span> <span class="tag">/&gt;</span>
+
+<span class="comment">&lt;!-- Enregistrement de convertisseurs et formatteurs spécifiques au mvc --&gt;</span>
+<span class="tag">&lt;mvc:annotation-driven</span> <span class="tag">/&gt;</span>
+
+<span class="comment">&lt;!-- Gestion des fichiers statiques --&gt;</span>
+<span class="tag">&lt;mvc:default-servlet-handler</span> <span class="tag">/&gt;</span>
+
+<span class="comment">&lt;!-- Chargement des controllers --&gt;</span>
+<span class="tag">&lt;context:component-scan</span> <span class="attribute-name">base-package</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">fr.cmm.controller</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+
+<span class="comment">&lt;!-- Définition de la Locale pour les opérations de formattage --&gt;</span>
+<span class="tag">&lt;bean</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">localeResolver</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">...FixedLocaleResolver</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultLocale</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">fr_FR</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span>
+
+<span class="comment">&lt;!-- Configure la technologie de templating --&gt;</span>
+<span class="tag">&lt;bean</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">jspViewResolver</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">...InternalResourceViewResolver</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+ <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">viewClass</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">...JstlView</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+ <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">prefix</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/WEB-INF/jsp/</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+ <span class="tag">&lt;property</span> <span class="attribute-name">name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">suffix</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">.jsp</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/bean&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>notre package java contenant les controllers</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+un component-scan permet de charger tous les composants Spring contenu dans un package java.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Il est possible de faire la même configuration en java.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_springconfig">3.3. SpringConfig</h3>
+<div class="paragraph">
+<p>C&#8217;est la configuration qui contient les services.</p>
+</div>
+<div class="listingblock">
+<div class="title">Chargement depuis le web.xml</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;listener&gt;</span>
+  <span class="tag">&lt;listener-class&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/listener-class&gt;</span>
+<span class="tag">&lt;/listener&gt;</span>
+<span class="tag">&lt;context-param&gt;</span>
+  <span class="tag">&lt;param-name&gt;</span>contextClass<span class="tag">&lt;/param-name&gt;</span>
+  <span class="tag">&lt;param-value&gt;</span>org.springframework.web.context.support.AnnotationConfigWebApplicationContext<span class="tag">&lt;/param-value&gt;</span>
+<span class="tag">&lt;/context-parm&gt;</span>
+<span class="tag">&lt;context-param&gt;</span>
+  <span class="tag">&lt;param-name&gt;</span>contextConfigLocation<span class="tag">&lt;/param-name&gt;</span>
+  <span class="tag">&lt;param-value&gt;</span>fr.cmm.SpringConfig<span class="tag">&lt;/param-value&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="tag">&lt;/context-param&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Classe java contenant la configuration</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Voici la configuration pour notre projet</p>
+</div>
+<div class="listingblock">
+<div class="title">SpringConfig.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
+<span class="annotation">@ComponentScan</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">fr.cmm.service</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">SpringConfig</span> {
+    <span class="annotation">@Inject</span>
+    <span class="directive">private</span> Environment env;
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> getDbName() {
+        <span class="keyword">if</span> (env.acceptsProfiles(INTEG)) {
+            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">cmm-integ</span><span class="delimiter">&quot;</span></span>;
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">cmm</span><span class="delimiter">&quot;</span></span>;
+        }
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> DB db() <span class="directive">throws</span> <span class="exception">UnknownHostException</span> {
+        <span class="keyword">return</span> <span class="keyword">new</span> MongoClient().getDB(getDbName());
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> GridFS gridFS() <span class="directive">throws</span> <span class="exception">UnknownHostException</span> {
+        <span class="keyword">return</span> <span class="keyword">new</span> GridFS(db());
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> Jongo jongo() <span class="directive">throws</span> <span class="exception">UnknownHostException</span> {
+        <span class="keyword">return</span> <span class="keyword">new</span> Jongo(db());
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> MongoCollection recipeCollection() <span class="directive">throws</span> <span class="exception">UnknownHostException</span> {
+        MongoCollection collection = jongo().getCollection(<span class="string"><span class="delimiter">&quot;</span><span class="content">recipes</span><span class="delimiter">&quot;</span></span>);
+
+        collection.ensureIndex(<span class="string"><span class="delimiter">&quot;</span><span class="content">{randomLocation: '2d'}</span><span class="delimiter">&quot;</span></span>);
+
+        <span class="keyword">return</span> collection;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Il est possible de faire la même configuration en xml mais c&#8217;est beaucoup moins souple.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Nous n&#8217;allons pas étudier cette configuration ici, c&#8217;est le sujet en <a href="../C-di/index.html">annexe C</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_les_controllers">4. Les Controllers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Les Controllers sont chargés depuis la configuration <code>spring-servlet.xml</code>.</p>
+</div>
+<div class="paragraph">
+<p>Un Controller est un composant Spring qui est chargé de traiter les requêtes HTTP.</p>
+</div>
+<div class="sect2">
+<h3 id="_helloworldcontroller">4.1. HelloWorldController</h3>
+<div class="paragraph">
+<p>Un Controller est une classe java annoté avec <code>@Controller</code></p>
+</div>
+<div class="listingblock">
+<div class="title">Exemple de Controller</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+   <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+   <span class="directive">public</span> <span class="type">void</span> hello(HttpServletResponse response) <span class="directive">throws</span> <span class="exception">IOException</span> { <i class="conum" data-value="2"></i><b>(2)</b>
+     response.getWriter().write(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello !</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="3"></i><b>(3)</b>
+   }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Cette méthode traite les requpetes vers /hello</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Le type de retour est <code>void</code>, il n&#8217;y a donc pas de forward vers une vue</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>On écrit directement dans la réponse</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Une méthode mappée est appelée <strong>handler</strong>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>La liste les <a href="http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-arguments">paramètres supportés</a> par les handlers est disponible dans le doc de Spring MVC</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_le_forward_vers_la_vue">4.2. Le forward vers la vue</h3>
+<div class="paragraph">
+<p>C&#8217;est le retour habituel pour un Controller : passer la main à la vue.</p>
+</div>
+<div class="paragraph">
+<p>Pour demander à spring de passer la main à une jsp, on peut retourner le nom du fichier.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+  <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="predefined-type">String</span> hello(<span class="predefined-type">String</span> name) {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">hello</span><span class="delimiter">&quot;</span></span>;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configuration dans <code>spring-servlet.xml</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Retourner une chaîne de caractères est interprété comme un forward vers une vue.</p>
+</div>
+<div class="paragraph">
+<p>La liste complète des <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc-ann-return-types">retours possibles</a> est est disponible dans le doc de Spring MVC</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_le_modèle_et_la_vue">4.3. Le modèle et la vue</h3>
+<div class="paragraph">
+<p>Le rôle du controller est de préparer le modèle de données.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+  <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="predefined-type">String</span> hello(Model model) {
+    model.addAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">world</span><span class="delimiter">&quot;</span></span>); <i class="conum" data-value="1"></i><b>(1)</b>
+
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">hello</span><span class="delimiter">&quot;</span></span>;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>On ajoute une donnée "name" au modèle</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>La vue peut ensuite utiliser ce modèle.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="html"><span class="error">&lt;</span>%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%<span class="error">&gt;</span>
+<span class="doctype">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</span>
+<span class="tag">&lt;html&gt;</span>
+ <span class="tag">&lt;head&gt;</span>...<span class="tag">&lt;/head&gt;</span>
+ <span class="tag">&lt;body&gt;</span>Hello ${name} !<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_annotations">5. Annotations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La annotations permettent de configurer les Controllers.</p>
+</div>
+<div class="paragraph">
+<p>Voici les annotations principales.</p>
+</div>
+<div class="sect2">
+<h3 id="_requestmapping">5.1. @RequestMapping</h3>
+<div class="paragraph">
+<p><code>@RequestMapping</code> permet de déclarer un handler.</p>
+</div>
+<div class="paragraph">
+<p>Il est possible d&#8217;annoter un Controller</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/admin</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+    <span class="comment">// handlers</span>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>@RequestMapping</code> se cumule à tous les handlers du Controller</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Ou bien juste une méthode</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+  <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="predefined-type">String</span> hello() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">hello</span><span class="delimiter">&quot;</span></span>;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il est possible de limiter la portée en paramétrant l&#8217;annotation</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+  <span class="annotation">@RequestMapping</span>(value = <span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>, method = RequestMethod.GET) <i class="conum" data-value="1"></i><b>(1)</b>
+  <span class="directive">public</span> <span class="predefined-type">String</span> hello() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">hello</span><span class="delimiter">&quot;</span></span>;
+  }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Uniquement les requtêtes de type GET</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Void la documentation de l&#8217;annotation <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestMapping.html">RequestMapping</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_pathvariable">5.2. @PathVariable</h3>
+<div class="paragraph">
+<p>Il est aussi possible de découper le chemin de la requête et de s&#8217;en servir comme paramètre.</p>
+</div>
+<div class="paragraph">
+<p>Par exemple pour une requête comme <code>http://localhost:8080/hello/Peter</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+  <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello/{name}</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="type">void</span> hello(HttpServletResponse response, <span class="annotation">@PathVariable</span> <span class="predefined-type">String</span> name) <span class="directive">throws</span> <span class="exception">IOException</span> {
+    response.getWriter().write(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello </span><span class="delimiter">&quot;</span></span> + name + <span class="string"><span class="delimiter">&quot;</span><span class="content"> !</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cela permet de construire des urls élégantes plutôt que de reposer sur des paramètres.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requestparam">5.3. @RequestParam</h3>
+<div class="paragraph">
+<p>Les paramètres de la requête peuvent être déclarés comme des paramètres de la méthode.</p>
+</div>
+<div class="paragraph">
+<p>Par exemple pour une requête comme <code>http://localhost:8080/hello?name=Steven</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+  <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>)
+  <span class="directive">public</span> <span class="type">void</span> hello(HttpServletResponse response, <span class="predefined-type">String</span> name) <span class="directive">throws</span> <span class="exception">IOException</span> {
+    response.getWriter().write(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello </span><span class="delimiter">&quot;</span></span> + name + <span class="string"><span class="delimiter">&quot;</span><span class="content"> !</span><span class="delimiter">&quot;</span></span>);
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Void la documentation de l&#8217;annotation <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/RequestParam.html">RequestParam</a></p>
+</div>
+<div class="paragraph">
+<p>Le framework est capable de convertir les paramètres vers le bon type de données</p>
+</div>
+<div class="paragraph">
+<p>Par exemple pour <code>http://localhost:8080/hello?value=10</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldController</span> {
+    <span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/hello</span><span class="delimiter">&quot;</span></span>)
+    <span class="directive">public</span> <span class="type">void</span> hello(HttpServletResponse response, <span class="predefined-type">Integer</span> value) <span class="directive">throws</span> <span class="exception">IOException</span> {
+        response.getWriter().write(<span class="string"><span class="delimiter">&quot;</span><span class="content">Hello </span><span class="delimiter">&quot;</span></span> + value + <span class="string"><span class="delimiter">&quot;</span><span class="content"> !</span><span class="delimiter">&quot;</span></span>);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+En cas d&#8217;erreur de conversion (/hello?value=xyz) une erreur 400 (Bad Request) est lancée.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requestbody_et_responsebody">5.4. @RequestBody et @ResponseBody</h3>
+<div class="paragraph">
+<p><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-requestbody"><code>@RequestBody</code></a> permet de convertir le body de la requête HTTP en paramètre du handler</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RequestMapping</span>(path = <span class="string"><span class="delimiter">&quot;</span><span class="content">/something</span><span class="delimiter">&quot;</span></span>, method = RequestMethod.PUT)
+<span class="directive">public</span> <span class="type">void</span> handle(<span class="annotation">@RequestBody</span> <span class="predefined-type">String</span> body) <span class="directive">throws</span> <span class="exception">IOException</span> {
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-responsebody"><code>@ResponseBody</code></a> permet de convertir le type de retour du handler en body de la réponse HTPP.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RequestMapping</span>(path = <span class="string"><span class="delimiter">&quot;</span><span class="content">/something</span><span class="delimiter">&quot;</span></span>)
+<span class="annotation">@ResponseBody</span>
+<span class="directive">public</span> <span class="predefined-type">String</span> helloWorld() {
+    <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello World</span><span class="delimiter">&quot;</span></span>;
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+En configurant spring, il devient facile de lire ou d&#8217;écrire du JSON ou du XML.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modelattribute">5.5. @ModelAttribute</h3>
+<div class="paragraph">
+<p>Il y a usages possible pour cette annotation.</p>
+</div>
+<div class="sect3">
+<h4 id="_sur_une_méthode">5.5.1. Sur une méthode</h4>
+<div class="paragraph">
+<p>Elle permet d&#8217;ajouter un élément dans le modèle pour toutes les méthodes du controller.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ModelAttribute</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">defaultAccount</span><span class="delimiter">&quot;</span></span>) <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="directive">public</span> Account defaultAccount() {
+    <span class="keyword">return</span> accountManager.findDefaultAccount();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>defaultAccount sera disponible dans le handler et la vue</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Voir <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods" class="bare">http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sur_un_argument_de_méthode">5.5.2. Sur un argument de méthode</h4>
+<div class="paragraph">
+<p>L&#8217;argument est récupéré du modèle. Si le modèle ne le connait pas, l&#8217;argument va être instancié et ajouté au modèle. Une fois dans le modèle, l&#8217;argument est rempli avec tous les paramètres de la requête qui correspondent à ses propriétés.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RequestMapping</span>(path = <span class="string"><span class="delimiter">&quot;</span><span class="content">/owners/{ownerId}/pets/{petId}/edit</span><span class="delimiter">&quot;</span></span>, method = RequestMethod.POST)
+<span class="directive">public</span> <span class="predefined-type">String</span> processSubmit(<span class="annotation">@ModelAttribute</span> Pet pet) {
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Voir <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args" class="bare">http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_les_formulaires">6. Les formulaires</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Spring mvc propose un gestion assez classique des formulaires.</p>
+</div>
+<div class="paragraph">
+<p>Nous allons prendre le formulaire suivant comme exemple.</p>
+</div>
+<form method="post" action="/editPerson"><span class="pln">nom </span><input type="text" name="name"><span class="pun">,</span><span class="pln"> age </span><input type="text" name="age"><span class="pln"> </span><input type="submit"></form>
+<div class="paragraph">
+<p>Le code jsp qui correspondant.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;form:form</span> <span class="attribute-name">commandName</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">method</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">post</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">action</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">/editPerson</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   nom <span class="tag">&lt;form:input</span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   ,age <span class="tag">&lt;form:input</span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">age</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   <span class="tag">&lt;form:submit&gt;</span>
+   <span class="tag">&lt;form:hidden</span> <span class="attribute-name">path</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<span class="tag">&lt;/form:form&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Pour ce formulaire, nous créons la classe suivante.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">PersonForm</span> {
+   <span class="directive">private</span> <span class="predefined-type">Long</span> id;
+
+   <span class="directive">private</span> <span class="predefined-type">String</span> name;
+
+   <span class="directive">private</span> <span class="predefined-type">Integer</span> age;
+
+   <span class="comment">// getters and setters</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Par convention, il est pratique d&#8217;utiliser le suffixe Form.</p>
+</div>
+<div class="paragraph">
+<p>Cependant, n&#8217;importe quelle classe avec les accesseurs disponibles pour les champs du formulaire ferait l&#8217;affaire.</p>
+</div>
+<div class="paragraph">
+<p>Il est même possible d&#8217;utiliser des objets du domaine métier qui serviront à la persistance.</p>
+</div>
+<div class="paragraph">
+<p>Le contrôleur supporte l&#8217;affichage et la modification de la donnée</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Controller</span>
+<span class="annotation">@RequestMapping</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">/editPerson</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">PersonController</span> {
+
+   <span class="annotation">@RequestMapping</span>(method = RequestMethod.GET)
+   <span class="directive">public</span> <span class="predefined-type">String</span> form(<span class="predefined-type">Long</span> id, Model model) {
+      <span class="comment">// aller cherche la personne en base</span>
+
+      <span class="comment">// forwarder vers la vue</span>
+   }
+
+   <span class="annotation">@RequestMapping</span>(method = RequestMethod.POST)
+   <span class="directive">public</span> <span class="predefined-type">String</span> submit(<span class="annotation">@ModelAttribute</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>) PersonForm person, BindingResult result) {
+        <span class="comment">// gérer les erreurs</span>
+
+        <span class="comment">// sauver et faire un redirect</span>
+   }
+}</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_binding_et_validation">6.1. Binding et validation</h3>
+<div class="paragraph">
+<p>Le framework spring aide à la gestion des formulaires sur 2 points essentiels</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Le binding : prendre les chaînes de caractères dans la requête et remplir l&#8217;objet</p>
+</li>
+<li>
+<p>La validation : noter toutes les erreurs de conversion lors du binding et être capable d&#8217;afficher des messages d&#8217;erreur</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>La JSR 303 (bean validation) simplifie la configuration de la validation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@NotEmpty</span>
+<span class="directive">private</span> <span class="predefined-type">String</span> name;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@RequestMapping</span>(method = RequestMethod.POST)
+<span class="directive">public</span> <span class="predefined-type">String</span> post(<span class="annotation">@ModelAttribute</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">person</span><span class="delimiter">&quot;</span></span>) <span class="annotation">@Valid</span> PersonForm form, BindingResult result) {
+    <span class="keyword">if</span> (result.hasError()) {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">form</span><span class="delimiter">&quot;</span></span>;
+    }
+
+    <span class="comment">// suite</span>
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_redirect_after_post">6.2. Redirect after POST</h3>
+<div class="paragraph">
+<p>Lors du POST du formulaire, des données sont envoyées au serveur.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;état de la base de données change.</p>
+</div>
+<div class="paragraph">
+<p>Faire un refresh sur un navigateur consiste a refaire la même requête.</p>
+</div>
+<div class="paragraph">
+<p>Dans notre cas, un refresh ferait une deuxième écriture en base.</p>
+</div>
+<div class="paragraph">
+<p>Il est donc impératif que le contrôleur fasse un redirect après une modification en base.</p>
+</div>
+<div class="paragraph">
+<p>Ce pattern est appelé redirect after POST</p>
+</div>
+<div class="paragraph">
+<p>Cela permet d&#8217;éviter l&#8217;insert de doublons en base et d&#8217;assurer le fonctionnement normal du bouton back du navigateur.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tests_avec_mockmvc">7. Tests avec MockMvc</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Afin de tester un Controller que celui ci soit en condition réelle, dans un conteneur Spring.</p>
+</div>
+<div class="paragraph">
+<p>Pour cela, Spring MVC propose un classe $MockMvc$ et un support pour les tests de Controller.</p>
+</div>
+<div class="listingblock">
+<div class="title">Exemple de test avec MockMvc</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.springframework.test.web.servlet.request.MockMvcRequestBuilders</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.springframework.test.web.servlet.result.MockMvcResultMatchers</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.springframework.test.web.servlet.setup.MockMvcBuilders</span>.*;
+
+<span class="comment">// ...</span>
+
+WebApplicationContext wac = ...; <i class="conum" data-value="1"></i><b>(1)</b>
+
+MockMvc mockMvc = webAppContextSetup(wac).build(); <i class="conum" data-value="2"></i><b>(2)</b>
+
+mockMvc.perform(get(<span class="string"><span class="delimiter">&quot;</span><span class="content">/form</span><span class="delimiter">&quot;</span></span>)) <i class="conum" data-value="3"></i><b>(3)</b>
+ .andExpect(status().isOk()) <i class="conum" data-value="4"></i><b>(4)</b>
+ .andExpect(content().mimeType(<span class="string"><span class="delimiter">&quot;</span><span class="content">text/html</span><span class="delimiter">&quot;</span></span>)) <i class="conum" data-value="4"></i><b>(4)</b>
+ .andExpect(forwardedUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/WEB-INF/layouts/main.jsp</span><span class="delimiter">&quot;</span></span>)); <i class="conum" data-value="4"></i><b>(4)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Obtention du WebApplicationContext</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Création du MockMvc</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Appel sur le Controller au travers de Spring MVC</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Vérifications</td>
+</tr>
+</table>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">import static</div>
+<div class="paragraph">
+<p>Afin de simplifier la notation dans ces tests, on utilise des imports statiques.</p>
+</div>
+<div class="paragraph">
+<p>Cela permet d&#8217;appeler toutes les méthodes statiques des classes importées comme cela comme si elles étaient locales.</p>
+</div>
+<div class="paragraph">
+<p>Ainsi on écrit <code>get("/form")</code> au lieu de <code>MockMvcRequestBuilders.get("/form")</code></p>
+</div>
+<div class="paragraph">
+<p>Dans ce genre de situation, cela permet de rendre le code plus succint et lisible.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

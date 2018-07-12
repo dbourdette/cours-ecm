@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Compte github</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_compte_github">1. Compte github</a></li>
+<li><a href="#_repository_test_project">2. Repository 'test-project'</a></li>
+<li><a href="#_commandes_en_local">3. Commandes en local</a>
+<ul class="sectlevel2">
+<li><a href="#_git_init">3.1. git init</a></li>
+<li><a href="#_gitignore">3.2. .gitignore</a></li>
+<li><a href="#_git_add">3.3. git add</a></li>
+<li><a href="#_git_remote_add">3.4. git remote add</a></li>
+<li><a href="#_git_push">3.5. git push</a></li>
+<li><a href="#_git_pull">3.6. git pull</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="banner.png" alt="banner" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>Un <strong>Versioning Control System</strong> (VCS) permet de stocker tous ses fichiers : code, configuration, scripts&#8230;&#8203;</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+C&#8217;est le coffre fort d&#8217;une équipe de développement.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Il doit être simple d&#8217;utilisation et permettre de naviguer dans l&#8217;historique.</p>
+</div>
+<div class="paragraph">
+<p>De tous les système récents, c&#8217;est <strong>git</strong> qui est le plus à la mode.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">DVCS</div>
+<div class="paragraph">
+<p>git est un <strong>Distributed VCS</strong> et suit donc une philosophie particulière.</p>
+</div>
+<div class="paragraph">
+<p>Il multiplie les capacités de travail au travers des branches locales ou distantes.</p>
+</div>
+<div class="paragraph">
+<p>Cela permet à beaucoup de personnes de travailler simultanément sur plusieurs sujets en parallèle.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;exemple classique est le <a href="https://github.com/torvalds/linux">noyau linux</a>.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Il est particulièrement adapté aux projets open source avec des bureaux dématérialisés et des collaborateurs multiples.</p>
+</div>
+<div class="paragraph">
+<p>En pratique, il est aussi assez simple à utiliser dans un cadre plus restreint au sein de l&#8217;entreprise.</p>
+</div>
+<div class="sect1">
+<h2 id="_compte_github">1. Compte github</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><img src="github.png" alt="40" width="40"></span> <a href="https://github.com/">Github</a> est un site web qui propose une interface web communautaire par dessus git. Github est gratuit pour les projets open source et simple à utiliser. Cela en fait un outil de référence pour les projets open source.</p>
+</div>
+<div class="paragraph">
+<p>C&#8217;est l&#8217;outils que nous allons utiliser pour notre projet.</p>
+</div>
+<div class="paragraph">
+<p>Créez un compte github et configurez une clée ssh en suivant le <a href="https://help.github.com/articles/generating-ssh-keys/">tutorial github</a></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Clé SSH</div>
+<div class="paragraph">
+<p>L&#8217;authentification par clé fonctionne grâce à 3 composants :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Une clé publique : elle sera exportée sur chaque hôte vers lequel on souhaite pouvoir se connecter.</p>
+</li>
+<li>
+<p>Une clé privée : elle permet de prouver son identité aux serveurs.</p>
+</li>
+<li>
+<p>Une passphrase : Permet de sécuriser la clé privée (notons la subtilité, passphrase et pas password&#8230;&#8203; donc « phrase de passe » et non pas « mot de passe »).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>source <a href="http://doc.fedora-fr.org/wiki/SSH_:_Authentification_par_clé" class="bare">http://doc.fedora-fr.org/wiki/SSH_:_Authentification_par_clé</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_repository_test_project">2. Repository 'test-project'</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Depuis le dashboard, créez un repository test-project.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="new-repository.png" alt="new repository">
+</div>
+</div>
+<div class="paragraph">
+<p>On doit donc obtenir un repository de la forme <code>git@github.com:{user}/test-project.git</code></p>
+</div>
+<div class="paragraph">
+<p>On peut choisir un autre nom pour le repository. Dans ce cas, il faut adapter pour toutes les manipulations à venir.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_commandes_en_local">3. Commandes en local</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_git_init">3.1. git init</h3>
+<div class="paragraph">
+<p>Nous créons le répertoire du projet en local</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>projects$ mkdir test-project
+projects$ cd test-project
+test-project$</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Afin de pouvoir pusher notre projet vers github, il faut d&#8217;abord initialiser notre répertoire projet.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git init
+Initialized empty Git repository in /path/to/projects/test-project/.git/</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gitignore">3.2. .gitignore</h3>
+<div class="paragraph">
+<p>Certains fichiers ne doivent pas être versionnés et envoyés vers le serveur git :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>les fichiers générés lors du build</p>
+</li>
+<li>
+<p>les fichiers de configuration de l&#8217;IDE</p>
+</li>
+<li>
+<p>&#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>On crée le fichier <strong>.gitignore</strong> à la racine du projet afin de les exclure.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code># gradle
+.gradle <i class="conum" data-value="1"></i><b>(1)</b>
+build <i class="conum" data-value="2"></i><b>(2)</b>
+
+# intellij <i class="conum" data-value="3"></i><b>(3)</b>
+.idea
+.iml</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>répertoire de travail associé à notre outil de build</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>résultat de la compilation et autres fichiers générés lors du build</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>définition du module sous intellij</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Il faudra ajouter d&#8217;éventuels autres patterns si le besoin se présentait.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_add">3.3. git add</h3>
+<div class="paragraph">
+<p>La commande <code>git status</code> doit donc afficher à peu près cela.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git status
+# On branch master <i class="conum" data-value="1"></i><b>(1)</b>
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add &lt;file&gt;..." to include in what will be committed) <i class="conum" data-value="2"></i><b>(2)</b>
+#
+#       .gitignore
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>nous sommes sur la branche locale 'master'</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>il y a souvent de l&#8217;aide au résultat des commandes git</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>On ajoute donc notre fichier et on fait notre premier commit.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git add .gitignore
+test-project$ git commit -m "initial commit" <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>L&#8217;option -m permet de définir le message du commit</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_remote_add">3.4. git remote add</h3>
+<div class="paragraph">
+<p>Il nous reste donc a relier notre master local au origin/master de github</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git remote add origin git@github.com:{user}/test-project.git</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_push">3.5. git push</h3>
+<div class="paragraph">
+<p>Afin d&#8217;envoyer les fichiers vers github, on utilise la commande <code>push</code></p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git push origin master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Les fichiers sont maintenant sur le repository github.</p>
+</div>
+<div class="paragraph">
+<p>Afin de simplifier les push et les pull, on peut ajouter un lien par défaut entre le master local et le master sur origin.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git config branch.master.merge refs/heads/master</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Maintenant <code>git push</code> et <code>git pull</code> feront automatiqment le lien avec origin. La commande de push devient donc simplement :</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ git push</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_git_pull">3.6. git pull</h3>
+<div class="paragraph">
+<p><code>git pull</code> est la commande opposé de <code>git push</code>. Elle permet de récupérer les modifications depuis le serveur distant vers son poste.</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Pour aller plus loin</div>
+<div class="paragraph">
+<p><span class="image right"><img src="pro-git.jpg" alt="pro git" width="100"></span></p>
+</div>
+<div class="paragraph">
+<p>Les systèmes de versioning viennent avec leur complexité mais sont <strong>OBLIGATOIRES</strong></p>
+</div>
+<div class="paragraph">
+<p>git offre beaucoup de richesse que l&#8217;on découvre au fil du temps.</p>
+</div>
+<div class="paragraph">
+<p>Le système décentralisé, nécessaire pour certaines types d&#8217;organisations, apporte une complexité initiale difficle à cerner.</p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.amazon.fr/Pro-Git-Scott-Chacon/dp/1484200772">Pro Git</a> permet de comprendre les mécaniques et la philosophie de git.</p>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

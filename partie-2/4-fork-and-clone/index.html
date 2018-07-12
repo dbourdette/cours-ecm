@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.7.1">
+<title>Récupération du projet</title>
+<link rel="stylesheet" href="./../../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+<div id="header">
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel0">
+<li><a href="#_récupération_du_projet">Récupération du projet</a>
+<ul class="sectlevel1">
+<li><a href="#_fork">1. Fork</a></li>
+<li><a href="#_clone">2. Clone</a></li>
+<li><a href="#_gradle_tomcatrun">3. gradle tomcatRun</a></li>
+<li><a href="#_structure_de_notre_projet">4. Structure de notre projet</a></li>
+<li><a href="#_import_sous_intellij">5. Import sous Intellij</a></li>
+<li><a href="#_bootstrap_de_la_base">6. Bootstrap de la base</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+<h1 id="_récupération_du_projet" class="sect0">Récupération du projet</h1>
+<div class="paragraph">
+<p>Le code source du projet est sous github <a href="https://github.com/dbourdette/cours-ecm" class="bare">https://github.com/dbourdette/cours-ecm</a></p>
+</div>
+<div class="sect1">
+<h2 id="_fork">1. Fork</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Il ne sera pas possible de travailler directement dans ce repository (vous n&#8217;avez pas les droits).</p>
+</div>
+<div class="paragraph">
+<p>Github permet de rappatrier simplement un repository vers son compte en faisant un <strong>fork</strong>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+le guide complet du fork de github : <a href="https://help.github.com/articles/fork-a-repo/" class="bare">https://help.github.com/articles/fork-a-repo/</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Simplement, depuis <a href="https://github.com/dbourdette/cours-ecm" class="bare">https://github.com/dbourdette/cours-ecm</a>, il suffit d&#8217;appuyer sur le bouton fork.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="fork_button.jpg" alt="Fork"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_clone">2. Clone</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Une fois que le fork est fait, il suffit de faire un clone afin de récupérer le projet en local.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>projects$ git clone https://github.com/{username}/cours-ecm.git <i class="conum" data-value="1"></i><b>(1)</b>
+projects$ cd cours-ecm
+cours-ecm$</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>On récupère le code de son fork</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Vous avez maintenant le code source en local.</p>
+</div>
+<div class="paragraph">
+<p>Le projet est divisé en 2 parties :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>docs : qui contient le source de la documentation</p>
+</li>
+<li>
+<p>project : qui contient le code source du site</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gradle_tomcatrun">3. gradle tomcatRun</h2>
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+il faut que la base mongodb soit lancée pour que l&#8217;application démarre avec succès
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A la racine on peut lancer le site :</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>cours-ecm$ gradle tomcatRun
+:project:compileJava UP-TO-DATE
+:project:processResources UP-TO-DATE
+:project:classes UP-TO-DATE
+:project:tomcatRun
+Started Tomcat Server
+The Server is running at http://localhost:8080
+&gt; Building 75% &gt; :project:tomcatRun</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>tomcatRun est une tâche qui a été ajoutée par le plugin <code>com.bmuschko.tomcat</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">fichier build.gradle</div>
+<div class="content">
+<pre class="CodeRay highlight"><code>plugins {
+    id "com.bmuschko.tomcat" version "2.1"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Cette tâche lance un serveur tomcat et y place notre application à la volée.</p>
+</div>
+<div class="paragraph">
+<p>Notre site est donc disponible sur <a href="http://localhost:8080/" class="bare">http://localhost:8080/</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_structure_de_notre_projet">4. Structure de notre projet</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Notre projet reprend la structure classique des applications web jee.</p>
+</div>
+<div class="paragraph">
+<p>On y retrouve, en plus, quelques fichiers relatifs aux frameworks utilisés.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>src
+├─ main
+|  ├─ java                          // nos classes java
+|  |  └─ fr
+|  |     └─ cmm                     // fr.cmm notre package de base
+|  |        ├─ controller           // nos controllers
+|  |        ├─ domain               // classes qui définissent notre domaine
+|  |        ├─ helper               // classes utilitaires
+|  |        ├─ service              // les services
+|  |        ├─ SpringConfig.java    // la configation de spring
+|  |        └─ SpringProfiles.java  // les profils d'éxécution
+|  └─ webapp                        // les fichiers qui vont à la racine de l'application web
+|     ├─ css                        // les feuilles de style
+|     ├─ js                         // notre javascript
+|     ├─ lib                        // les librairies front (importées via bower)
+|     └─ WEB-INF                    // fichiers de configuration protégés
+|        ├─ jsp                     // les templates jsp
+|        ├─ tags                    // les tag files (morceaux de template)
+|        ├─ spring-servlet.xml      // configuration web de spring
+|        └─ web.xml                 // configuration web d'une application jee
+└─ test
+   ├─ java
+   └─ resources
+.bowerrc                            // fichier de configuration de bower
+bower.json                          // fichier de configuration de bower
+build.gradle                        // fichier de configuration de gradle
+gradle.properties                   // propriétés du build gradle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Malgré la faible taille de notre projet, cela fait déjà beaucoup de fichiers.
+Chaque fichier ou dossier correspond à une facette de notre projet.</p>
+</div>
+<div class="paragraph">
+<p>A partir d&#8217;ici, il va falloir intervenir à différents endroits afin de corriger ou ajouter des fonctionnalités de notre application.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_import_sous_intellij">5. Import sous Intellij</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Dans intellij faire un File[New &gt; Project from Existing Sources&#8230;&#8203;] et choisir le build.gradle à la racine du projet (contenant docs et project).</p>
+</div>
+<div class="paragraph">
+<div class="title">Résultat de l&#8217;import</div>
+<p><span class="image"><img src="import.png" alt="Import sous Intellij"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bootstrap_de_la_base">6. Bootstrap de la base</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>La classe <code>FillDatabaseWithRandomTask</code> permet de remplir la base avec des données de test.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
+<span class="directive">public</span> <span class="type">void</span> fillDbWithRandomRecipes() <span class="directive">throws</span> <span class="exception">IOException</span> {
+    recipeCollection.remove();
+
+    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; <span class="integer">100</span>; i++) {
+        recipeCollection.insert(randomRecipe());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Afin de naviguer rapidement vers une classe, il est possible d&#8217;utiliser le raccourci <span class="keyseq"><kbd>⌘</kbd>+<kbd>n</kbd></span>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Exécutez ce test afin de remplir la base locale.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="exec.png" alt="Exécution du test"></span></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Il faut faire tourner le test en direct et non au travers de gradle (symbole gradle dans les 2 éléments du menu Run)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Il se peut que vous ayez l&#8217;erreur suivante.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="error.png" alt="Préférences"></span></p>
+</div>
+<div class="paragraph">
+<p>Il faut alors juste changer le niveau de language supporté dans les preférences <span class="image"><img src="prefs.png" alt="prefs"></span> du projet.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="prefs-2.png" alt="Préférences du language"></span></p>
+</div>
+<div class="paragraph">
+<p>On doit alors obtenir une base remplie et le log suivant.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="terminal">nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getDefaultTestExecutionListenerClassNames
+INFOS: Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
+nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper instantiateListeners
+INFOS: Could not instantiate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
+nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper instantiateListeners
+INFOS: Could not instantiate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
+nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getTestExecutionListeners
+INFOS: Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@340f438e, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@30c7da1e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5b464ce8]
+nov. 20, 2015 2:55:45 PM org.springframework.context.support.GenericApplicationContext prepareRefresh
+INFOS: Refreshing org.springframework.context.support.GenericApplicationContext@531be3c5: startup date [Fri Nov 20 14:55:45 CET 2015]; root of context hierarchy
+nov. 20, 2015 2:55:45 PM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor &lt;init&gt;
+INFOS: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+nov. 20, 2015 2:55:47 PM org.springframework.context.support.GenericApplicationContext doClose
+INFOS: Closing org.springframework.context.support.GenericApplicationContext@531be3c5: startup date [Fri Nov 20 14:55:45 CET 2015]; root of context hierarchy
+
+Process finished with exit code 0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On peut maintenant aller voir les recettes sur <a href="http://localhost:8080">le site</a>.</p>
+</div>
+<div class="paragraph">
+<p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
