@@ -1,21 +1,22 @@
-
 plugins {
-    id "org.asciidoctor.convert" version "1.5.2" // https://github.com/asciidoctor/asciidoctor-gradle-plugin && http://asciidoctor.org/
-    id "com.bluepapa32.watch" version "0.1.5"
-    id "com.github.jruby-gradle.base" version "0.3.0"
-    id "org.ajoberstar.github-pages" version "1.2.0"
+    id "org.asciidoctor.convert" version "1.5.8.1" // https://github.com/asciidoctor/asciidoctor-gradle-plugin && http://asciidoctor.org/
+    id "com.github.jruby-gradle.base" version "1.5.0"
+    id "org.ajoberstar.git-publish" version "1.0.1"
 }
 
 repositories {
     mavenCentral()
 }
 
+/**
+ * Run ./gradlew -t doc:asciidoctor for continuous build (watch and build)
+ **/
 asciidoctor {
-    dependsOn jrubyPrepareGems
+    dependsOn jrubyPrepare
 
     requires = ['asciidoctor-diagram']
 
-    gemPath = jrubyPrepareGems.outputDir
+    gemPath = jrubyPrepare.outputDir
 
     resources {
         from('src/docs/asciidoc') {
@@ -23,23 +24,21 @@ asciidoctor {
         }
     }
 
-    attributes 'source-highlighter' : 'coderay', 'linkcss': '', 'last-update-label': '', 'nofooter': ''
+    attributes 'source-highlighter': 'coderay', 'linkcss': '', 'last-update-label': '', 'nofooter': ''
 }
 
-watch {
-    asciidoc {
-        files fileTree(dir: 'src/docs/asciidoc', include: '**/*')
-        tasks 'asciidoctor'
+/**
+ * Run ./gradlew doc:gitPublishPush to publish to gh-pages
+ */
+gitPublish {
+    repoUri = 'git@github.com:dbourdette/cours-ecm-2018.git'
+    branch = 'gh-pages'
+
+    contents {
+        from(file('build/asciidoc/html5')) {
+            into '.'
+        }
     }
-}
-
-githubPages {
-  repoUri = 'git@github.com:dbourdette/cours-ecm.git'
-  pages {
-     from(file('build/asciidoc/html5')) {
-     	into '.'
-     }
-  }
 }
 
 dependencies {
