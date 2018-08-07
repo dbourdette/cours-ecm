@@ -7,30 +7,41 @@ Un *Versioning Control System* (VCS) permet de stocker tous ses fichiers : code,
 
 NOTE: C'est le coffre fort d'une équipe de développement.
 
-Il doit être simple d'utilisation et permettre de naviguer dans l'historique.
+Il permet d'accéder à tout l'historique du projet.
 
-De tous les système récents, c'est *git* qui est le plus à la mode.
+*git* semble avoir pris le pas sur tous les autres système.
 
 .DVCS
 ****
 git est un *Distributed VCS* et suit donc une philosophie particulière.
 
-Il multiplie les capacités de travail au travers des branches locales ou distantes.
+Il permet de travailler sur des *branches* locales ou distantes.
+Cela permet de *commiter* en local avant de *pousser* vers le serveur.
 
 Cela permet à beaucoup de personnes de travailler simultanément sur plusieurs sujets en parallèle.
 
 L'exemple classique est le https://github.com/torvalds/linux[noyau linux].
 ****
 
-Il est particulièrement adapté aux projets open source avec des bureaux dématérialisés et des collaborateurs multiples.
+Il permet de répondre a des organisations complexes avec des commiters tout autour du monde.
 
-En pratique, il est aussi assez simple à utiliser dans un cadre plus restreint au sein de l'entreprise.
+En pratique, il est aussi assez simple à utiliser ,dans un cadre plus restreint, au sein de l'entreprise.
 
 == Compte github
 
 image:github.png[40, 40] https://github.com/[Github] est un site web qui propose une interface web communautaire par dessus git. Github est gratuit pour les projets open source et simple à utiliser. Cela en fait un outil de référence pour les projets open source.
 
 C'est l'outils que nous allons utiliser pour notre projet.
+
+.Rachat par Microsoft
+****
+Github a été récemment acheté par Microsoft.
+
+Il est difficile de dire si les projets, notamment open source, vont fuir la plateforme.
+Github héberge par exemple des projets Google.
+
+Il existe au moins une alternative, moins riche : GitLab.
+****
 
 Créez un compte github et configurez une clée ssh en suivant le https://help.github.com/articles/generating-ssh-keys/[tutorial github]
 
@@ -68,7 +79,7 @@ projects$ cd test-project
 test-project$
 ----
 
-Afin de pouvoir pusher notre projet vers github, il faut d'abord initialiser notre répertoire projet.
+Afin de pouvoir commiter en local, il faut d'abord initialiser notre répertoire projet.
 
 [source.terminal]
 ----
@@ -78,7 +89,7 @@ Initialized empty Git repository in /path/to/projects/test-project/.git/
 
 === .gitignore
 
-Certains fichiers ne doivent pas être versionnés et envoyés vers le serveur git : 
+Certains fichiers ne doivent pas être versionnés et envoyés vers le serveur git :
 
 * les fichiers générés lors du build
 * les fichiers de configuration de l'IDE
@@ -120,7 +131,7 @@ test-project$ git status
 nothing added to commit but untracked files present (use "git add" to track)
 ----
 <1> nous sommes sur la branche locale 'master'
-<2> il y a souvent de l'aide au résultat des commandes git
+<2> il y a souvent de l'aide à la suite des commandes git
 
 On ajoute donc notre fichier et on fait notre premier commit.
 
@@ -133,7 +144,7 @@ test-project$ git commit -m "initial commit" <1>
 
 === git remote add
 
-Il nous reste donc a relier notre master local au origin/master de github
+Afin de pouvoir pousser vers le serveur distant, il nous reste donc a relier notre master local au origin/master de github
 
 [source.terminal]
 ----
@@ -177,9 +188,9 @@ Les systèmes de versioning viennent avec leur complexité mais sont *OBLIGATOIR
 
 git offre beaucoup de richesse que l'on découvre au fil du temps.
 
-Le système décentralisé, nécessaire pour certaines types d'organisations, apporte une complexité initiale difficle à cerner.
+Le système décentralisé, nécessaire pour certaines organisations, apporte une complexité initiale difficle à cerner.
 
-http://www.amazon.fr/Pro-Git-Scott-Chacon/dp/1484200772[Pro Git] permet de comprendre les mécaniques et la philosophie de git.
+http://www.amazon.fr/Pro-Git-Scott-Chacon/dp/1484200772[Pro Git] est un très bon livre qui couvre tous ces sujets.
 ****
 
 include::../../footer.adoc[]

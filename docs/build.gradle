@@ -9,7 +9,7 @@ repositories {
 }
 
 /**
- * Run ./gradlew -t doc:asciidoctor for continuous build (watch and build)
+ * Run ./gradlew docs:asciidoctor for continuous build (watch and build)
  **/
 asciidoctor {
     dependsOn jrubyPrepare
@@ -28,7 +28,7 @@ asciidoctor {
 }
 
 /**
- * Run ./gradlew doc:gitPublishPush to publish to gh-pages
+ * Run ./gradlew docs:gitPublishPush to publish to gh-pages
  */
 gitPublish {
     repoUri = 'git@github.com:dbourdette/cours-ecm-2018.git'

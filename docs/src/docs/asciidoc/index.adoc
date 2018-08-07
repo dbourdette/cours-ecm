@@ -2,11 +2,15 @@
 
 image::banner.jpg[alt='Applications web en java']
 
-Java est un language *fortement typé*.
+Il existe beaucoup de languages de programmation en général et beaucoup permettent de faire du web.
 
-Avec une certaine lourdeur syntaxique, il semble peu adapté au web.
+Si on considère, en plus, l'ensemble des frameworks disponibles, le choix ressemble plus à du hasard.
 
-*Son environnement d'exécution* et ses nombreux *frameworks* le rendent pourtant incontournable.
+Ici, nous allons faire :
+
+* du java (du *groovy* en fait)
+* avec le framework *spring boot*
+* sur une base *monggodb*
 
 == Partie 1 : la forge logicielle : pratiques et outils
 
@@ -17,6 +21,7 @@ Avant de rentrer de le projet, nous devons mettre en place quelques outils.
 . link:partie-1/3-intellij/index.html[Intellij]
 . link:partie-1/4-java/index.html[Java]
 . link:partie-1/5-tdd/index.html[TDD]
+. Groovy
 . link:partie-1/6-mongodb/index.html[Mongodb]
 
 == Partie 2 : Bienvenue chez S4U

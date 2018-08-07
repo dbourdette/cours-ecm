@@ -3,30 +3,42 @@ include::../../header.adoc[]
 
 image::banner.png[width=100%]
 
-Gradle est un outils de build écrit en groovy.
+Gradle est un outils qui permet d'écrire des scripts de build en groovy (et en kotlin).
 
-* il permet d'automatiser toutes les tâches répétitives
-* généralement, il aide à produire l'*artéfact* du projet comme par exemple une librairie, une application web, de la documentation...
+Il permet d'exécuter une succession de tâches : un build.
 
-En java, on produit souvent un *jar* (java archive) ou un *war* (web archive).
+La définition du build est contenu dans le fichier *build.gradle* à la racine du projet.
 
-Le fichier *build.gradle* contient la définition du build.
+Voici un exemple simple de build.gradle pour un projet java :
+
+.build.gradle
+----
+apply plugin: 'java'
+----
+
+En java, on produit souvent un *jar* (java archive) ou un *war* (web archive - ie, une application web).
+
+.Alternatives
+****
+Les principales alternatives à gradle dans le monde java sont
+
+* *ant* : le premier outils de build en java configuré en xml. Assez daté.
+* *maven* : aussi en xml. Lourd mais très structuré.
+****
 
 .Les dépendances
 --
-Pour construire le produit, on a besoin de librairies : les *dépendances* (.jar en java).
+Pour développer, on a rapidement besoin de librairies. Celles ci sont appelées *dépendances* (.jar en java).
 
 Gradle va les chercher dans des *repositories* distants afin de pouvoir compiler notre code.
 --
 
-.Alternatives
-****
-Les principales alternatives dans le monde java sont
-
-* *ant* : le premier outils de build en java configuré en xml.
-* *maven* : aussi configuré en xml, mais apporte énormément de conventions.
-* *sbt* : l'outils de build du monde scala.
-****
+.build.gradle
+----
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.12'
+}
+----
 
 == Installation
 
@@ -80,7 +92,7 @@ BUILD SUCCESSFUL
 
 Total time: 3.248 secs
 
-This build could be faster, please consider using the Gradle Daemon: <3> http://gradle.org/docs/2.4/userguide/gradle_daemon.html
+This build could be faster, please consider using the Gradle Daemon: http://gradle.org/docs/2.4/userguide/gradle_daemon.html <3> 
 ----
 <1> éxécution de la tâche *wrapper*
 <2> éxécution de la tâche *init*

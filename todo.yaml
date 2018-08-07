@@ -1,4 +1,31 @@
 
+replace bower with yarn :
+  - .yarnrc for download directory
+  - yarn add bootstrap
+  - yarn add revealjs
+
+partie 1 :
+  github :
+    - test link (notamment noyau linux)
+    - ajout links projets google
+    - schéma commit avec hash codes
+    - schéma push et pull
+
+  java :
+    - jdk8 up and running
+
+  groovy :
+    - add a groovy crash course after java
+
+  gradle :
+    - gradlew
+    - gradle tR
+    - gradle tomcatRun debug
+
 front crash course :
   - node
   - yarn
+
+
+disgression and more :
+  - Evolution vers front en js (Angular / React / VueJS) en services REST en back
