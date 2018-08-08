@@ -9,7 +9,7 @@ NOTE: C'est le coffre fort d'une équipe de développement.
 
 Il permet d'accéder à tout l'historique du projet.
 
-*git* semble avoir pris le pas sur tous les autres système.
+*git* semble avoir pris le pas sur tous les autres systèmes.
 
 .DVCS
 ****
@@ -23,9 +23,9 @@ Cela permet à beaucoup de personnes de travailler simultanément sur plusieurs 
 L'exemple classique est le https://github.com/torvalds/linux[noyau linux].
 ****
 
-Il permet de répondre a des organisations complexes avec des commiters tout autour du monde.
+Il permet de répondre à des organisations complexes avec des développeurs tout autour du monde.
 
-En pratique, il est aussi assez simple à utiliser ,dans un cadre plus restreint, au sein de l'entreprise.
+En pratique, il est aussi parfaitement utile au sein de l'entreprise, pour une petite équipe.
 
 == Compte github
 
@@ -40,10 +40,12 @@ Github a été récemment acheté par Microsoft.
 Il est difficile de dire si les projets, notamment open source, vont fuir la plateforme.
 Github héberge par exemple des projets Google.
 
-Il existe au moins une alternative, moins riche : GitLab.
+Il existe au moins une alternative, moins riche : https://about.gitlab.com/[GitLab].
 ****
 
-Créez un compte github et configurez une clée ssh en suivant le https://help.github.com/articles/generating-ssh-keys/[tutorial github]
+⇰ Créez un compte github et configurez une clée ssh en suivant le https://help.github.com/articles/generating-ssh-keys/[tutorial github]
+
+Pour les malheureux possesseurs de Windows, il est possible d'installer git (dont git bash) https://gitforwindows.org/
 
 .Clé SSH
 ****
@@ -58,7 +60,7 @@ source http://doc.fedora-fr.org/wiki/SSH_:_Authentification_par_clé
 
 == Repository 'test-project'
 
-Depuis le dashboard, créez un repository test-project.
+⇰ Depuis le dashboard, créez un repository *test-project*.
 
 image::new-repository.png[]
 
@@ -70,7 +72,7 @@ On peut choisir un autre nom pour le repository. Dans ce cas, il faut adapter po
 
 === git init
 
-Nous créons le répertoire du projet en local
+⇰ Nous créons le répertoire du projet en local
 
 [source.terminal]
 ----
@@ -79,7 +81,7 @@ projects$ cd test-project
 test-project$
 ----
 
-Afin de pouvoir commiter en local, il faut d'abord initialiser notre répertoire projet.
+⇰ Afin de pouvoir commiter en local, il faut d'abord initialiser notre répertoire projet.
 
 [source.terminal]
 ----
@@ -89,7 +91,7 @@ Initialized empty Git repository in /path/to/projects/test-project/.git/
 
 === .gitignore
 
-Certains fichiers ne doivent pas être versionnés et envoyés vers le serveur git :
+⇰ Certains fichiers ne doivent pas être versionnés et envoyés vers le serveur git :
 
 * les fichiers générés lors du build
 * les fichiers de configuration de l'IDE
@@ -133,7 +135,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 <1> nous sommes sur la branche locale 'master'
 <2> il y a souvent de l'aide à la suite des commandes git
 
-On ajoute donc notre fichier et on fait notre premier commit.
+⇰ On ajoute donc notre fichier et on fait notre premier commit.
 
 [source.terminal]
 ----
@@ -144,7 +146,7 @@ test-project$ git commit -m "initial commit" <1>
 
 === git remote add
 
-Afin de pouvoir pousser vers le serveur distant, il nous reste donc a relier notre master local au origin/master de github
+⇰ Afin de pouvoir pousser vers le serveur distant, il nous reste donc à relier notre master local au origin/master de github
 
 [source.terminal]
 ----
@@ -153,7 +155,7 @@ test-project$ git remote add origin git@github.com:{user}/test-project.git
 
 === git push
 
-Afin d'envoyer les fichiers vers github, on utilise la commande `push`
+⇰ Afin d'envoyer les fichiers vers github, on utilise la commande `push`
 
 [source.terminal]
 ----
@@ -162,7 +164,7 @@ test-project$ git push origin master
 
 Les fichiers sont maintenant sur le repository github.
 
-Afin de simplifier les push et les pull, on peut ajouter un lien par défaut entre le master local et le master sur origin.
+⇰ Afin de simplifier les push et les pull, on peut ajouter un lien par défaut entre le master local et le master sur origin.
 
 [source.terminal]
 ----

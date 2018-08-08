@@ -2,19 +2,21 @@
 
 image::banner.jpg[alt='Applications web en java']
 
-Il existe beaucoup de languages de programmation en général et beaucoup permettent de faire du web.
+Il existe beaucoup de languages de programmation pour faire du web.
 
-Si on considère, en plus, l'ensemble des frameworks disponibles, le choix ressemble plus à du hasard.
+Si on considère l'ensemble des options possibles, le choix tient beaucoup au hasard.
 
-Ici, nous allons faire :
+Alors, pourquoi pas faire :
 
-* du java (du *groovy* en fait)
-* avec le framework *spring boot*
-* sur une base *monggodb*
+* du java (du *groovy* en fait),
+* avec le framework *spring boot*,
+* sur une base *mongodb*
+
+Le but va être de faire des modifications sur un projet fictif.
 
 == Partie 1 : la forge logicielle : pratiques et outils
 
-Avant de rentrer de le projet, nous devons mettre en place quelques outils.
+Avant de rentrer dans ce projet, nous allons aiguiser quelques outils.
 
 . link:partie-1/1-github/index.html[Github]
 . link:partie-1/2-gradle/index.html[Gradle]
