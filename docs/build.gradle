@@ -1,5 +1,5 @@
 plugins {
-    id "org.asciidoctor.convert" version "1.5.8.1" // https://github.com/asciidoctor/asciidoctor-gradle-plugin && http://asciidoctor.org/
+    id "org.asciidoctor.convert" version "1.5.8" // https://github.com/asciidoctor/asciidoctor-gradle-plugin && http://asciidoctor.org/
     id "com.github.jruby-gradle.base" version "1.5.0"
     id "org.ajoberstar.git-publish" version "1.0.1"
 }

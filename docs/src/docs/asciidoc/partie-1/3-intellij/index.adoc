@@ -103,7 +103,7 @@ A chaque mise à jour du build.gradle (ajout d'une dépendance par exemple), Int
 --
 image::gradle-auto-import.png[width=300px,role=left,link='gradle-auto-import.png']
 
-Soit on active la mise à jour automatique (j'ai déjà eu quelques soucis avec cette option).
+Soit on active la mise à jour automatique 'use auto-import' (j'ai déjà eu quelques soucis avec cette option).
 --
 
 [.float-group]
@@ -129,8 +129,7 @@ test-project $ tree
 ├── gradle.properties
 ├── gradlew
 ├── gradlew.bat
-├── settings.gradle
-└── test-project.iml
+└── settings.gradle
 ----
 
 include::../../footer.adoc[]

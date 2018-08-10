@@ -56,7 +56,7 @@ Au lancement de l'application, toutes les classes présentes dans le classpath s
 
 Les types primitifs sont byte, short, int, long, float, double, boolean et char.
 
-Tous les autres types sont des objets héritant de la classe Object.
+Tous les autres types sont des objets qui héritent de la classe Object.
 
 == Types objets
 
@@ -82,7 +82,7 @@ public interface Runnable {
 }
 ----
 
-Une interface ne peut définir que des méthodes publiques et des constantes. Une classe peut alors 'implémenter' une interface. 
+Une interface peut définir que des signatures de méthodes publiques, des implémentations par défaut et des constantes. Une classe peut alors 'implémenter' une interface.
 
 [source,java]
 ----
