@@ -9,7 +9,8 @@ repositories {
 }
 
 /**
- * Run ./gradlew docs:asciidoctor for continuous build (watch and build)
+ * Run ./gradlew docs:asciidoctor.
+ * Run with -t for continuous build (watch and build) => but ruby plugin crashed this way :/
  **/
 asciidoctor {
     dependsOn jrubyPrepare

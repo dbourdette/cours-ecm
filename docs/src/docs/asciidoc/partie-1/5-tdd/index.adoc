@@ -3,7 +3,7 @@ include::../../header.adoc[]
 
 image::banner.png[width=100%]
 
-Le développement par les tests est une technique de développement Agile
+Le développement par les tests est une technique fondamentale de l'agilité
 
 == Le cycle de développement
 
@@ -11,50 +11,17 @@ Le développement par les tests est une technique de développement Agile
 
 Voici la boucle immuable du TDD
 
-[ditaa, 'TDD cycle', align="center"]
-----
-+--------------+
-|cE54          |
-|              |
-|              |<----------+
-|  add a test  |           |
-|              |           |
-|              |           |
-|              |           |
-+------+-------+           |
-       |                   |
-       |                   |
-       v                   |
-+--------------+           |
-|c9FA          |           |
-|              |           |
-|              |           |  loop
-| make it pass |           |
-|              |           |
-|              |           |
-|              |           |
-+------+-------+           |
-       |                   |
-       |                   |
-       v                   |
-+--------------+           |
-|c9BF          |           |
-|              |           |
-|              |           |
-|   refactor   +-----------+
-|              |
-|              |
-|              |
-+--------------+
-----
+.Cycle TDD
+image::tdd_flow.png[align=center]
 
 === Avantages
 
 C'est une pratique, au départ, contre intuitive. Elle a de multiple avantages :
 
-* On se place en tant qu'utilisateur de ce que l'on construit
-* Le code est testé et on réduit le risque de régression
-* On aboutit à un design plus ouvert / plus flexible
+* On construit le design au fur et à mesure des tests
+* Les APIs résultantes plus claires et plus explicites
+* Le code est évidemment testé et on réduit le risque de régression
+* En cas de bug, il est plus facile de reproduire et corriger
 
 == jUnit
 
@@ -106,7 +73,7 @@ Nous allons coder un peu afin de voir ce que les tests peuvent apporter au déve
 
 === Répertoires de source
 
-Dans notre 'test-project' nous ajoutons les répertoires suivants :
+⇰ Dans notre 'test-project' nous ajoutons les répertoires suivants :
 
 [source.terminal]
 ----
@@ -118,7 +85,7 @@ test-project$ mkdir -p src/main/java src/test/java
 
 === package fr.ecm.test
 
-Puis on ajoute le package `fr.ecm.tp` dans `src/main/java`
+⇰ Puis on ajoute le package `fr.ecm.tp` dans `src/main/java`
 
 image:add-package.png[]
 
@@ -140,11 +107,11 @@ public class Calculator {
 }
 ----
 
-Pour le moment, on est a peu près sûr que cette classe ne fait ce qu'elle devrait.
+Pour le moment, cette classe ne fait pas grand chose.
 
 === CalculatorTest.java
 
-En faisant un kbd:[alt,return] sur le nom de la classe on peut facilement ajouter un test
+⇰ En faisant un kbd:[alt,return] sur le nom de la classe on peut facilement ajouter un test
 
 image:create-test.png[]
 
@@ -158,7 +125,7 @@ NOTE: il est possible de créer cette classe de test sans le raccourçi intellij
 
 === Premier test
 
-Nous rajoutons notre premier test
+⇰ Nous rajoutons notre premier test
 
 [source,java]
 .CalculatorTest.java
@@ -180,7 +147,7 @@ public class CalculatorTest {
 ----
 <1> On teste la méthode `add(int, int)`
 
-On lance le test en faisant un click droit sur la classe
+⇰ On lance le test en faisant un kbd:[alt,return] (ou un click droit sur la classe)
 
 image:launch-test.png[]
 
@@ -190,15 +157,15 @@ image:test-result.png[]
 
 === Faire passer le test
 
-Faites ce qu'il faut pour que le test passe.
+⇰ Faites ce qu'il faut pour que le test passe.
 
-Après cela, pour le moment, il n'y a pas grand chose à améliorer (to refactor).
+Après cela, pour le moment, il n'y a pas grand chose à améliorer (no refactoring).
 
 === Test suivant
 
 La soustraction n'est pas très intéressante (ce n'est qu'une addition déguisée).
 
-Faire le test et puis le code pour la multiplication `calculator.multiply(6, 4)`
+⇰ Faire le test et puis le code pour la multiplication `calculator.multiply(6, 4)`
 
 === Division
 
@@ -225,7 +192,7 @@ public void divideByZero() {
 }
 ----
 
-Ecrire les tests `divide` et `divideByZero` et le code associé.
+⇰ Ecrire les tests `divide` et `divideByZero` et le code associé.
 
 .Pour aller plus loin
 ****
@@ -233,7 +200,7 @@ image:tdd.jpg[TDD,100,role=right]
 
 Le Test Driven Development (TDD) est une pratique simple et extraordinairement enrichissante.
 
-Elle simplifie l'activité de coding et aide à produire du code plus ouvert.
+Elle simplifie l'activité de coding et aide à produire du code plus simple.
 
 Le TDD n'est pas une spécificité java, cela s'applique à tous les languages.
 
