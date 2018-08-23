@@ -44,7 +44,7 @@ image::gradle.png[width="100",role="left"]
 
 https://gradle.org/[Gradle] est un outils de build pour beaucoup de languages (java, groovy, scala, c...)
 
-Il est écrit en groovy et se configure à l'aide d'un language spécifique (DSL)
+Il se configure à l'aide d'un language spécifique (DSL) en groovy
 
 Il est plus récent et plus souple que son concurent principal : maven
 --
@@ -55,7 +55,7 @@ Il est plus récent et plus souple que son concurent principal : maven
 --
 image::Tomcat.png[width="100",role="left"]
 
-http://tomcat.apache.org/[Tomcat] est un serveur web pouvant lancer des applications java.
+http://tomcat.apache.org/[Tomcat] est un serveur web pouvant lancer des applications web java.
 
 Il est open source et offre de très bonnes performances.
 
@@ -81,7 +81,9 @@ image::mongo.jpg[width="100",role="left"]
 
 https://www.mongodb.org/[MongoDB] est une base données NOSQL orientée document.
 
-Un document est un arbre json qui est stocké en Binary JSON (BSON). Ce sont des structures souples, sans schéma.
+Un document est un arbre json qui est stocké en Binary JSON (BSON).
+
+Ce sont des structures souples, sans schéma.
 --
 ****
 
@@ -112,9 +114,9 @@ Il est utilisé par certaines fonctionnalités de boostrap.
 ****
 [.float-group]
 --
-image::bower.png[width="100",role="left"]
+image::yarn.png[width="100",role="left"]
 
-http://bower.io/[Bower] est un outils de gestion de dépendances pour librairies front (css et js).
+https://yarnpkg.com/[Yarn] est un gestionnaire de dépendances pour librairies front.
 
 Dans notre projet, on s'en sert pour récupérer jquery et bootstrap.
 --
@@ -168,7 +170,9 @@ Cette distribution est pratique pour le développement.
 
 [NOTE]
 ====
-Au build, gradle va compiler les classes java et produire le war. La structure à l'intérieur du war est différente de celle des sources.
+Au build, gradle va compiler les classes java et produire le war.
+
+La structure à l'intérieur du war suit un standard qui est compris par les conteneurs de servlets tels que tomcat.
 
 image::gradle-build.jpg[]
 ====
@@ -179,26 +183,26 @@ L'application a une structure traditionnelle MVC pour le web.
 
 [ditaa, 'mvc-simple', align="center"]
 ....
-                                                                                         +----------+
-                                 +-------------------+         +------------------+      |{s}       |
-                                 |                   |         |                  |      |          |
-                          +----->+    Controllers    +-------->+     Services     +----->+          |
-                          |      |                   |         |                  |      |   Base   |
-+------------------+      |      +-------------------+         +------------------+      |          |
-|                  |      |                                                              |          |
-|     request      +------+                                                              +----------+
-|    dispatcher    |      |
-|                  |      |      +-------------------+
-+------------------+      |      |                   |
-                          +----->+     JSP views     |
-                                 |                   |
-                                 +-------------------+
+                                                                                 +----------+
+                              +-------------------+     +------------------+     |{s}       |
+                              |                   |     |                  |     |          |
+                        +---->+    Controllers    +---->+     Services     +---->+          |
+                        |     |                   |     |                  |     |   Base   |
++------------------+    |     +-------------------+     +------------------+     |          |
+|                  |    |                                                        |          |
+|     request      +----+                                                        +----------+
+|    dispatcher    |    |
+|                  |    |     +-------------------+
++------------------+    |     |                   |
+                        +---->+     JSP views     |
+                              |                   |
+                              +-------------------+
 ....
 
 Le rôle des composants :
 
 * *request dispatcher* : il est fournit par le framework. Il 'dispatch' les requêtes entrantes vers les bons controllers / vues.
-* *controllers* : ils recoivent la requête, utilisent les services et pilotent le rendu.
+* *controllers* : ils recoivent la requête, utilisent les services et préparent les données.
 * *services* : on y range la logique métier.
 * *JSP views* : ce sont les templates qui produisent le html.
 
@@ -216,12 +220,12 @@ include::../../partie-3/B-mvc/mvc.adoc[]
 
 L'application peut disposer de plusieurs types de tests
 
-* tests unitaires avec junit4
-* tests d'intégration avec junit4 et spring mocks
-* tests d'interface avec junit4 et selenium (+ fluentlenium)
+* tests unitaires : test d'un composant isolé
+* tests d'intégration : test mettant en jeu plusieurs composant et potentiellement la base de données
+* tests d'interface : simulation au travers d'un navigateur
 
 Ces tests couvrent les points importants de l'application et nous assurent un meilleur niveau de qualité.
 
-Malheureusement, la couverture de test actuelle est très insuffisante.
+Malheureusement, dans le projet actuel, la couverture de test est très insuffisante.
 
 include::../../footer.adoc[]

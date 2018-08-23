@@ -210,7 +210,7 @@ La base est prête à recevoir des connexions.
 
 == Robomongo
 
-On pourrait utiliser le shell mais une interface graphique est plus simple pour viasualiser les résultats des requêtes.
+On pourrait utiliser le shell mais une interface graphique est plus simple pour visualiser les résultats des requêtes.
 
 Il existe beaucoup de clients graphiques.
 

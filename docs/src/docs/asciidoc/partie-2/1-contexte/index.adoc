@@ -9,7 +9,9 @@ image::banner.jpg[width="100%"]
 
 Vous venez de signer votre premier contrat chez S4U, la SSII experte.
 
-Vous avez été accueilli par Jack Power, le CEO emblématique.
+Vous avez été accueilli par Max Power, le CEO emblématique.
+
+image::max-power.jpg[align=center]
 
 Vous avez le droit à cette magnifique link:welcome.html[Présentation]
 
@@ -22,9 +24,13 @@ Vous êtes un peu sceptique, mais bon, vous voulez vous aussi devenir expert.
 ****
 La pensée Agile peut être résumée par le http://agilemanifesto.org/[Manifeste Agile]
 
-Ce sont 4 principes fondamentaux qui ont des répercussions fortes dans le monde du développement.
+Ce sont 4 principes fondamentaux qui ont des répercussions fortes dans le monde du développement :
 
-On peut aussi résumer cela par : ce sont des humains qui réalisent les projets et ils doivent réfléchir.
+* Les individus et leurs interactions *plus que* les processus et les outils
+* Des logiciels opérationnels *plus qu*’une documentation exhaustive
+* La collaboration avec les clients *plus que* la négociation contractuelle
+* L’adaptation au changement *plus que* le suivi d’un plan
+
 ****
 
 include::../../footer.adoc[]
