@@ -1,5 +1,5 @@
 plugins {
-    id "com.bmuschko.tomcat" version "2.1"
+    id "com.bmuschko.tomcat" version "2.5"
 }
 
 apply plugin: 'java'

@@ -498,7 +498,7 @@ Dans `header.tag` faites apparaitre un lien 'déconnexion' si l'utilisateur est 
 </sec:authorize>
 ----
 
-La doc de boostrap sur la navbar : http://getbootstrap.com/components/#navbar
+La doc de bootstrap sur la navbar : http://getbootstrap.com/components/#navbar
 
 image::navbar-logout.png[]
 

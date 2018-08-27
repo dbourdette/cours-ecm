@@ -107,18 +107,7 @@ http://jquery.com/[jquery] est un framework javascript très populaire.
 
 Il est simple mais néanmoins très puissant.
 
-Il est utilisé par certaines fonctionnalités de boostrap.
---
-****
-
-****
-[.float-group]
---
-image::yarn.png[width="100",role="left"]
-
-https://yarnpkg.com/[Yarn] est un gestionnaire de dépendances pour librairies front.
-
-Dans notre projet, on s'en sert pour récupérer jquery et bootstrap.
+Il est utilisé par certaines fonctionnalités de bootstrap.
 --
 ****
 

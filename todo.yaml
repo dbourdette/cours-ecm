@@ -1,11 +1,8 @@
 
-ongoing :
-  - i'm on : Récupération du projet
+actions : ⇰
 
-replace bower with yarn :
-  - .yarnrc for download directory
-  - yarn add bootstrap
-  - yarn add revealjs
+ongoing :
+  - i'm on : Récupération du projet == Bootstrap de la base
 
 partie 1 :
   github :
@@ -13,12 +10,6 @@ partie 1 :
     - ajout links projets google
     - schéma commit avec hash codes
     - schéma push et pull
-
-  java :
-    - jdk8 up and running
-
-  groovy :
-    - add a groovy crash course after java
 
   gradle :
     - gradlew
