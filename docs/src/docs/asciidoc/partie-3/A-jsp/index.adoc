@@ -5,9 +5,9 @@ include::../../header.adoc[]
 
 .Les JSP en 3 phrases
 ****
-C'est la technologie de création de rendu en JEE.
+C'est le language de templating standard de création de html dans les applications web java.
 
-C'est du HTML avec un peu d'inserts qui pilotent la génération.
+C'est du HTML avec un peu de tags en plus qui pilotent la génération.
 
 La synthaxe permet une factorisation simple et une bonne maintenabilité.
 ****
@@ -33,22 +33,20 @@ Voici un exemple de jsp
 <1> Expression language (EL) afin d'écrire des valeurs dans la page
 <2> Custom tag afin de controller le flot dans la page
 
-Les mécaniques de génération sont riches afin de créer le rendu html.
+Les mécaniques de génération sont suffisamment riches afin de créer la page html.
 
-On peut aussi faire du XML ou du JSON mais ce n'est pas le plus adapté.
+On pourrait aussi faire du XML ou du JSON mais ce n'est pas une bonne idée.
 
-Les jsp sont compilées en code java au moment de leur interprétation, avant d'être exécutées.
+Les jsp sont compilées (interprétées une fois) vers du code java par le serveur puis exécutées.
 
 == Les directives jsp
 
-Les directives sont des méta données.
-
-Le format d'une directive est le suivant.
+Les directives sont des méta données avec le format :
 
 [source,html]
 <%@ directive { attribut="valeur" } %>
 
-Par exemple afin de contrôler le type mime et l'encoding de la page.
+Par exemple afin de contrôler le type MIME et l'encoding de la page.
 
 [source,html]
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -74,7 +72,7 @@ Par exemple, un include s'écrit comme suit.
    <jsp:param name="monParam" value="valeur" />
 </jsp:include>
 
-NOTE: En pratique, les actions sont peu utilisées car il existe des mécanismes plus puissants.
+NOTE: En pratique, les actions sont peu utilisées car il existe des mécanismes plus élégants.
 
 == Variables implicites
 
@@ -112,7 +110,7 @@ Les variables implicites sont des variables qui sont présentes dans toutes les 
 |tous paramètres
 |===
 
-NOTE: Il est rare d'avoir besoin de ces variables implicites dans les jsp.
+NOTE: Il est rare d'avoir besoin de ces variables dans les jsp car tout cela est plus facile à manipuler dans les Controllers.
 
 [source,html]
 .exemple: afficher tous les cookies
@@ -152,14 +150,18 @@ Correspond en java à
 
 [source,java]
 ----
-Cart cart = (Cart) request.getSession().getAttribute("cart");
+Cart cart = (Cart) request.getSession().getAttribute("cart"); <1>
 
-String name = cart.getItems().get(2).getName();
+String name = cart.getItems().get(2).getName(); <2>
 
-response.getWriter().write(name);
+response.getWriter().write(name); <3>
 ----
+<1> on va chercher le cart en session
+<2> on navigue dans le cart pour aller chercher le nom du deuxieme objet
+<3> on écrit dans le flot de sortie
 
-IMPORTANT: La notation ${...} n'escape pas les caratères &, < et > qui posent problème en HTML
+IMPORTANT: La notation ${...} n'est pas suffisante pour traiter correctement les caractères &, < et > qui posent problème en HTML.
+Il faut en général ajouter un traitement ${f:escapeXml(...)} afin d'obtenir des \&amp;, \&gt; et \&lt; et avoir des pages bien formées.
 
 === Opérateurs
 
@@ -224,10 +226,13 @@ L'expession language propose des opérateurs bien pratiques.
 
 == Custom tags et fonctions
 
-Les taglib (librairies de tags) sont chargées comme suit
+Les taglibs (librairies de tags) sont chargées comme suit
 
 [source,html]
-<%@ taglib prefix="mataglib" uri="/WEB-INF/tld/util.tld" %>
+----
+<%@ taglib prefix="mataglib" uri="/WEB-INF/tld/util.tld" %> <1>
+----
+<1> le fichier tld (tag lib definition) contient la définition de la lib de tag
 
 Une taglib peut contenir des tags et des fonctions.
 
@@ -277,10 +282,10 @@ NOTE: Il est possible de packager ces éléments dans une librairie .jar afin de
 
 === Functions
 
-Une fonction permet d'appeler du code java plus adapté à un traitement complexe.
+Une fonction permet d'appeler du code java depuis la jsp.
 
 [source,java]
-${mataglib:faitca("valeur1")}
+${mataglib:methode("valeur1")}
 
 === Custom tag
 
@@ -310,8 +315,8 @@ Un tag file (.tag) est une manière simplifiée de définir un custom tag : la t
 <h2><font color="black">hello ${name}!</font></h2> <3>
 ----
 <1> paramétrage de la taglib
-<2> définition du paramètre name obligatoire
-<3> synthaxe jsp classique
+<2> ce tag prend un paramètre name obligatoire
+<3> de la synthaxe jsp classique
 
 NOTE: Par convention, les fichiers tag sont placé dans /WEB-INF/tags/.
 
@@ -357,11 +362,11 @@ Elle contient 5 taglibs.
 |http://java.sun.com/jsp/jstl/sql
 |===
 
-NOTE: Il est peu conseillé d'utilisé les librairies XML et SQL
+NOTE: En pratique on utilise surtout c et fn, et un peu fmt. Les 2 autres sont à laisser de coté.
 
-=== Core
+=== Librairie Core
 
-Ce sont les actions de base.
+C'est le controle de flot et les actions de base.
 
 [source,html]
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
@@ -390,7 +395,7 @@ Ce sont les actions de base.
 .exemple
 <c:if test="${empty name}">Nom inconnu</c:if>
 
-=== Format
+=== Librairie Format
 
 La librairie pour le formattage.
 
@@ -421,9 +426,9 @@ La librairie pour le formattage.
 .exemple
 <fmt:formatDate value="${date}" pattern="dd/MM/yyyy" />
 
-=== Fonctions
+=== Librairie Fonctions
 
-Des fonctions à utiliser avec l'EL
+Quelques fonctions pratiques depuis les jsp.
 
 [source,html]
 <%@ taglib uri="http://java.sun.com/jstl/functions" prefix="fn" %>
@@ -452,4 +457,4 @@ Les fonctions sont :
 ----
 ${fn:escapeXml("les <balises> xml & html")} <1>
 ----
-<1> produit `"les \&lt;balises\&gt; xml \&amp; html"` qui respecte le HTML
+<1> produit `"les \&lt;balises\&gt; xml \&amp; html"` qui donne un HTML valide

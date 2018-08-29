@@ -7,11 +7,15 @@ Voici la liste des bugs répertoriés en relation avec les JSP
 
 Les templates JSP sont les fichiers responsables de la mise en page HTML.
 
-NOTE: Il n'est pas nécessaire de redémarrer le serveur tomcat avec `gradle tomcatRun` pour que les modifications soient prise en compte dans les jsp.
+NOTE: Il n'est pas nécessaire de redémarrer le serveur tomcat avec `gradle tomcatRun` à chaque modification de jsp.
 
 NOTE: link:../A-jsp/index.html[L'annexe A] couvre ce qu'il est possible de faire dans les jsp.
 
-NOTE: Afin d'éditer les recettes, il faut utiliser l'interface d'admin sur /admin
+NOTE: Afin d'éditer les recettes, il faut utiliser l'interface d'admin sur http://localhost:8080/admin[/admin, window = _blank]
+
+NOTE: Vous pouvez vous amuser à faire un commit après chaque correction afin d'avoir un https://git-scm.com/docs/git-log[git log, window="_blank"] le plus propre possible
+
+NOTE: j'arrête les points d'info
 
 == JSP-1 : il manque un 's' dans l'entrée "Toutes les recette" du menu
 
@@ -19,9 +23,9 @@ Il manque un 's' à "Toutes les recette" dans le menu de toutes les pages.
 
 image::jsp-1.png[]
 
-Les templates jsp sont dans src/main/webapp/WEB-INF/jsp
+Les templates jsp sont dans `src/main/webapp/WEB-INF/jsp`
 
-Il faut donc trouver tous les templates concernés et corriger.
+⇰ Trouvez tous les templates concernés et corrigez les.
 
 == JSP-2 : le lien vers les mentions légales est incorrect
 
