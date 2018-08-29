@@ -20,7 +20,7 @@ Cela permet de *commiter* en local avant de *pousser* vers le serveur.
 
 Cela permet à beaucoup de personnes de travailler simultanément sur plusieurs sujets en parallèle.
 
-L'exemple classique est le https://github.com/torvalds/linux[noyau linux].
+L'exemple classique est le https://github.com/torvalds/linux[noyau linux, window="_blank"].
 ****
 
 Il permet de répondre à des organisations complexes avec des développeurs tout autour du monde.
@@ -40,10 +40,10 @@ Github a été récemment acheté par Microsoft.
 Il est difficile de dire si les projets, notamment open source, vont fuir la plateforme.
 Github héberge par exemple des projets Google.
 
-Il existe au moins une alternative, moins riche : https://about.gitlab.com/[GitLab].
+Il existe au moins une alternative, moins riche : https://about.gitlab.com/[GitLab, window="_blank"].
 ****
 
-⇰ Créez un compte github et configurez une clée ssh en suivant le https://help.github.com/articles/generating-ssh-keys/[tutorial github]
+⇰ Créez un compte github et configurez une clée ssh en suivant le https://help.github.com/articles/generating-ssh-keys/[tutorial github, window="_blank"]
 
 Pour les malheureux possesseurs de Windows, il est possible d'installer git (dont git bash) https://gitforwindows.org/
 
@@ -192,7 +192,7 @@ git offre beaucoup de richesse que l'on découvre au fil du temps.
 
 Le système décentralisé, nécessaire pour certaines organisations, apporte une complexité initiale difficle à cerner.
 
-http://www.amazon.fr/Pro-Git-Scott-Chacon/dp/1484200772[Pro Git] est un très bon livre qui couvre tous ces sujets.
+http://www.amazon.fr/Pro-Git-Scott-Chacon/dp/1484200772[Pro Git, window="_blank"] est un très bon livre qui couvre tous ces sujets.
 ****
 
 include::../../footer.adoc[]

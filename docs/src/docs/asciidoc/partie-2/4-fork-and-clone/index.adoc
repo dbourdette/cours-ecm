@@ -69,7 +69,7 @@ Cette tâche lance un serveur tomcat et y place notre application à la volée.
 
 == Structure de notre projet
 
-Notre projet reprend la structure classique des applications web jee.
+Notre projet reprend la structure classique des applications web java.
 
 On y retrouve, en plus, quelques fichiers relatifs aux frameworks utilisés.
 
@@ -104,24 +104,23 @@ build.gradle                        // fichier de configuration de gradle
 gradle.properties                   // propriétés du build gradle
 ----
 
-Malgré la faible taille de notre projet, cela fait déjà beaucoup de fichiers.
-Chaque fichier ou dossier correspond à une facette de notre projet.
+Malgré la faible taille de notre projet, cela fait déjà pas mal de fichiers.
 
-NOTE: Le développeur de cette application a utilisé https://bower.io/[bower] afin de récupérer les librairies front (bootstrap et jquery)
-https://yarnpkg.com/fr/[yarn] serait une alternative plus récente et plus riche.
+NOTE: Le développeur de cette application a utilisé https://bower.io/[bower, window="_blank"] afin de récupérer les librairies front (bootstrap et jquery)
+https://yarnpkg.com/fr/[yarn, window="_blank"] serait une alternative plus récente et plus riche.
 
-A partir d'ici, il va falloir intervenir à différents endroits afin de corriger ou ajouter des fonctionnalités de notre application.
+A partir d'ici, il va falloir intervenir à différents endroits afin de corriger ou ajouter des fonctionnalités à notre application.
 
 == Import sous Intellij
 
-Dans intellij faire un File[New > Project from Existing Sources...] et choisir le build.gradle à la racine du projet (contenant docs et project).
+⇰ Dans intellij faire un File[New > Project from Existing Sources...] et choisir le build.gradle à la racine du projet (contenant les répertoires docs et project).
 
-.Résultat de l'import
+.Résultat (probable) de l'import
 image:import.png[Import sous Intellij]
 
 == Bootstrap de la base
 
-La classe `FillDatabaseWithRandomTask` permet de remplir la base avec des données de test. 
+La classe `FillDatabaseWithRandomTask`, dans le package `fr.cmm.boot` des tests, permet de remplir la base avec des données de test.
 
 [source,java]
 ----
@@ -137,7 +136,7 @@ public void fillDbWithRandomRecipes() throws IOException {
 
 NOTE: Afin de naviguer rapidement vers une classe, il est possible d'utiliser le raccourci kbd:[⌘+n]
 
-Exécutez ce test afin de remplir la base locale.
+⇰ Exécutez ce test afin de remplir la base locale.
 
 image:exec.png[Exécution du test]
 
@@ -151,28 +150,33 @@ Il faut alors juste changer le niveau de language supporté dans les preférence
 
 image:prefs-2.png[Préférences du language]
 
-On doit alors obtenir une base remplie et le log suivant.
+On doit alors obtenir une base remplie et à peu près le log suivant.
 
 [source,terminal]
 ----
-nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getDefaultTestExecutionListenerClassNames
+objc[30871]: Class JavaLaunchHelper is implemented in both /Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/bin/java (0x1024a84c0) and /Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home/jre/lib/libinstrument.dylib (0x10252c4e0). One of the two will be used. Which one is undefined.
+août 29, 2018 3:39:03 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getDefaultTestExecutionListenerClassNames
 INFOS: Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]
-nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper instantiateListeners
-INFOS: Could not instantiate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
-nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper instantiateListeners
+août 29, 2018 3:39:03 PM org.springframework.test.context.support.DefaultTestContextBootstrapper instantiateListeners
 INFOS: Could not instantiate TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttributeSource]
-nov. 20, 2015 2:55:45 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getTestExecutionListeners
-INFOS: Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@340f438e, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@30c7da1e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@5b464ce8]
-nov. 20, 2015 2:55:45 PM org.springframework.context.support.GenericApplicationContext prepareRefresh
-INFOS: Refreshing org.springframework.context.support.GenericApplicationContext@531be3c5: startup date [Fri Nov 20 14:55:45 CET 2015]; root of context hierarchy
-nov. 20, 2015 2:55:45 PM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
+août 29, 2018 3:39:03 PM org.springframework.test.context.support.DefaultTestContextBootstrapper instantiateListeners
+INFOS: Could not instantiate TestExecutionListener [org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener]. Specify custom listener classes or make the default listener classes (and their required dependencies) available. Offending class: [org/springframework/transaction/interceptor/TransactionAttribute]
+août 29, 2018 3:39:03 PM org.springframework.test.context.support.DefaultTestContextBootstrapper getTestExecutionListeners
+INFOS: Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@2133c8f8, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@43a25848, org.springframework.test.context.support.DirtiesContextTestExecutionListener@3ac3fd8b]
+août 29, 2018 3:39:03 PM org.springframework.context.support.GenericApplicationContext prepareRefresh
+INFOS: Refreshing org.springframework.context.support.GenericApplicationContext@6615435c: startup date [Wed Aug 29 15:39:03 CEST 2018]; root of context hierarchy
+août 29, 2018 3:39:04 PM org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor <init>
 INFOS: JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
-nov. 20, 2015 2:55:47 PM org.springframework.context.support.GenericApplicationContext doClose
-INFOS: Closing org.springframework.context.support.GenericApplicationContext@531be3c5: startup date [Fri Nov 20 14:55:45 CET 2015]; root of context hierarchy
+août 29, 2018 3:39:05 PM org.springframework.context.support.GenericApplicationContext doClose
+INFOS: Closing org.springframework.context.support.GenericApplicationContext@6615435c: startup date [Wed Aug 29 15:39:03 CEST 2018]; root of context hierarchy
 
 Process finished with exit code 0
 ----
 
-On peut maintenant aller voir les recettes sur http://localhost:8080[le site].
+NOTE: Si le site est arrêté, il faut le relancer via `gradle tomcatRun`
+
+On peut maintenant aller voir les recettes sur http://localhost:8080[le site, window="_blank"].
+
+⇰ Il est possible de jouer avec la méthode `randomRecipe()` afin d'obtenir d'autres recettes
 
 include::../../footer.adoc[]

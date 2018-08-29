@@ -15,14 +15,14 @@ image::max-power.jpg[align=center]
 
 Vous avez le droit à cette magnifique link:welcome.html[Présentation]
 
-NOTE: S4U est une société de service à taille humaine.
+NOTE: S4U est une grande société de service à taille humaine.
 
 Vous êtes un peu sceptique, mais bon, vous voulez vous aussi devenir expert.
 
 [NOTE]
 .Agilité
 ****
-La pensée Agile peut être résumée par le http://agilemanifesto.org/[Manifeste Agile]
+La pensée Agile peut être résumée par le http://agilemanifesto.org/[Manifeste Agile, window="_blank"]
 
 Ce sont 4 principes fondamentaux qui ont des répercussions fortes dans le monde du développement :
 

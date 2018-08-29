@@ -53,7 +53,7 @@ The mongo shell is an interactive *JavaScript* interface to MongoDB and is a com
 You can use the mongo shell to query and update data as well as perform administrative operations.
 ****
 
-L'https://docs.mongodb.org/manual/reference/method/[api mongo] est riche et bien documentée.
+L'https://docs.mongodb.org/manual/reference/method/[api mongo, window="_blank"] est riche et bien documentée.
 
 .Exemple de requête
 ----

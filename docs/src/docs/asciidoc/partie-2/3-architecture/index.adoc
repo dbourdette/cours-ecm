@@ -42,7 +42,7 @@ Java Enterprise Edition (JEE) est un ensemble de librairies supplémentaires et 
 --
 image::gradle.png[width="100",role="left"]
 
-https://gradle.org/[Gradle] est un outils de build pour beaucoup de languages (java, groovy, scala, c...)
+https://gradle.org/[Gradle, window="_blank"] est un outils de build pour beaucoup de languages (java, groovy, scala, c...)
 
 Il se configure à l'aide d'un language spécifique (DSL) en groovy
 
@@ -55,7 +55,7 @@ Il est plus récent et plus souple que son concurent principal : maven
 --
 image::Tomcat.png[width="100",role="left"]
 
-http://tomcat.apache.org/[Tomcat] est un serveur web pouvant lancer des applications web java.
+http://tomcat.apache.org/[Tomcat, window="_blank"] est un serveur web pouvant lancer des applications web java.
 
 Il est open source et offre de très bonnes performances.
 
@@ -68,7 +68,7 @@ C'est celui que l'on va utiliser pour le développement.
 --
 image::spring.png[width="100",role="left"]
 
-http://projects.spring.io/spring-framework/[Spring] est un framework par injection de dépendances (DI).
+http://projects.spring.io/spring-framework/[Spring, window="_blank"] est un framework par injection de dépendances (DI).
 
 Spring a aussi un module MVC pour le web, que nous utilisons.
 --
@@ -79,7 +79,7 @@ Spring a aussi un module MVC pour le web, que nous utilisons.
 --
 image::mongo.jpg[width="100",role="left"]
 
-https://www.mongodb.org/[MongoDB] est une base données NOSQL orientée document.
+https://www.mongodb.org/[MongoDB, window="_blank"] est une base données NOSQL orientée document.
 
 Un document est un arbre json qui est stocké en Binary JSON (BSON).
 
@@ -92,7 +92,7 @@ Ce sont des structures souples, sans schéma.
 --
 image::bootstrap.png[width="100",role="left"]
 
-http://getbootstrap.com/[Bootstrap] est un framework html, css et javascript pour développer des pages responsives.
+http://getbootstrap.com/[Bootstrap, window="_blank"] est un framework html, css et javascript pour développer des pages responsives.
 
 Développé initialement en interne chez twitter, il est aujourd'hui très largement utilisé.
 --
@@ -103,7 +103,7 @@ Développé initialement en interne chez twitter, il est aujourd'hui très large
 --
 image::jquery.png[width="100",role="left"]
 
-http://jquery.com/[jquery] est un framework javascript très populaire.
+http://jquery.com/[jquery, window="_blank"] est un framework javascript très populaire.
 
 Il est simple mais néanmoins très puissant.
 
@@ -113,7 +113,7 @@ Il est utilisé par certaines fonctionnalités de bootstrap.
 
 == Structure de projet standard
 
-Maven a introduit le https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html[Standard Directory Layout] : c'est une façon standard d'organiser ses sources.
+Maven a introduit le https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html[Standard Directory Layout, window="_blank"] : c'est une façon standard d'organiser ses sources.
 
 Gradle suit ce standard :
 

@@ -7,13 +7,13 @@ Un IDE est un environnement complet qui permet de travailler plus vite en regrou
 
 .JetBrains
 ****
-Intellij est développé par https://www.jetbrains.com/[JetBrains] qui maitient tout une suite de logiciels pour divers languages : languages front, php, python, ruby...
+Intellij est développé par https://www.jetbrains.com/[JetBrains, window="_blank"] qui maitient tout une suite de logiciels pour divers languages : languages front, php, python, ruby...
 ****
 
 Intellij existe en 2 versions : *communautaire* et *ultimate*.
 
 * La version *communautaire* est suffisante pour faire du java, du groovy ou du scala.
-* La version *ultimate* rajoute le web, jee et d'avantages de languages et plateformes (https://www.jetbrains.com/idea/features/[toutes les features]).
+* La version *ultimate* rajoute le web, jee et d'avantages de languages et plateformes (https://www.jetbrains.com/idea/features/[toutes les features, window="_blank"]).
 
 Intellij ultimate n'est pas gratuit mais ses qualités justifient amplement un tarif qui n'est pas très élevé.
 

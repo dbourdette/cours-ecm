@@ -43,7 +43,7 @@ dependencies {
 
 == Installation
 
-Sous mac, le plus simple est de passer par http://brew.sh/[homebrew].
+Sous mac, le plus simple est de passer par http://brew.sh/[homebrew, window="_blank"].
 
 .package manager
 ****
@@ -57,7 +57,7 @@ Il permet de gérer les logiciels installés sur sa machine.
 test-project$ brew install gradle
 ----
 
-Sans homebrew, voici la https://docs.gradle.org/current/userguide/installation.html[documentation]
+Sans homebrew, voici la https://docs.gradle.org/current/userguide/installation.html[documentation, window="_blank"]
 
 ⇰ On peut vérifier que l'installation a réussie
 
@@ -141,11 +141,11 @@ The Gradle Wrapper (henceforth referred to as the “wrapper”) is the preferre
 source https://docs.gradle.org/current/userguide/gradle_wrapper.html
 ****
 
-Le fichier *https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html[settings.gradle]* est utile dans le cas d'un projet qui a des sous modules.
+Le fichier *https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html[settings.gradle, window="_blank"]* est utile dans le cas d'un projet qui a des sous modules.
 
-On peut ajouter un *gradle.properties* qui permet de https://docs.gradle.org/current/userguide/build_environment.html[configurer l'environnement de build]
+On peut ajouter un *gradle.properties* qui permet de https://docs.gradle.org/current/userguide/build_environment.html[configurer l'environnement de build, window="_blank"]
 
-Le fichier *https://docs.gradle.org/current/userguide/tutorial_using_tasks.html[build.gradle]* est celui qui contient la logique du build.
+Le fichier *https://docs.gradle.org/current/userguide/tutorial_using_tasks.html[build.gradle, window="_blank"]* est celui qui contient la logique du build.
 
 En l'état, il est preque vide :
 
@@ -175,7 +175,7 @@ dependencies { <3>
 }
 ----
 <1> on ajoute le plugin java
-<2> on utilise le repositroy https://bintray.com/bintray/jcenter[jcenter]
+<2> on utilise le repositroy https://bintray.com/bintray/jcenter[jcenter, window="_blank"]
 <3> nos dépendances iront ici
 
 .DSL
@@ -258,7 +258,7 @@ Le produit est très souvent labelisé afin d'identifier une version.
 
 Par exemple : mon-projet-*1.1.3*.zip.
 
-La forme de numérotation la plus répandue est http://semver.org/[semver]) pour Semantic Versioning.
+La forme de numérotation la plus répandue est http://semver.org/[semver, window="_blank"]) pour Semantic Versioning.
 ****
 
 === Version de java
@@ -323,7 +323,7 @@ BUILD SUCCESSFUL in 0s
 1 actionable task: 1 executed
 ----
 
-Chaque plugin, comme le https://docs.gradle.org/current/userguide/java_plugin.html[plugin java] apporte son lot de tâches et de conventions.
+Chaque plugin, comme le https://docs.gradle.org/current/userguide/java_plugin.html[plugin java, window="_blank"] apporte son lot de tâches et de conventions.
 
 ⇰ La liste des tâches est disponible via `gradle tasks`
 
@@ -352,7 +352,7 @@ dependencies {
 
 junit sera donc disponible pour les tests (configuration **testImplementation** des dépendances).
 
-La liste des configurations pour le plugin java est disponible sur la https://docs.gradle.org/current/userguide/java_plugin.html#tab:configurations[page du plugin]
+La liste des configurations pour le plugin java est disponible sur la https://docs.gradle.org/current/userguide/java_plugin.html#tab:configurations[page du plugin, window="_blank"]
 
 Une configuration peut être vue simplement comme un groupe de dépendances avec un nom.
 
@@ -369,7 +369,7 @@ source https://docs.gradle.org/current/userguide/managing_dependency_configurati
 
 Gradle va chercher les dépendances dans des https://docs.gradle.org/current/userguide/dependency_management_for_java_projects.html#sec:repositories_java_tutorial[repositories] (des bibliothèques contenant des libs java).
 
-Ici, nous avons utilisé https://bintray.com/bintray/jcenter[jcenter]. Il existe aussi un autre repository public majeur : http://search.maven.org/[mavenCentral]
+Ici, nous avons utilisé https://bintray.com/bintray/jcenter[jcenter, window="_blank"]. Il existe aussi un autre repository public majeur : http://search.maven.org/[mavenCentral]
 
 Il est possible de configurer un repository au sein d'une entreprise et de pointer dessus :
 
@@ -389,7 +389,7 @@ Il est alors possible d'utiliser celles ci dans d'autres projets.
 
 == Plugins
 
-Voici quelques https://docs.gradle.org/current/userguide/standard_plugins.html[plugins standards] :
+Voici quelques https://docs.gradle.org/current/userguide/standard_plugins.html[plugins standards, window="_blank"] :
 
 * les languages : java, groovy, scala, c et cpp
 * applications : application, ear, war et maven

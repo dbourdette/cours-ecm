@@ -225,11 +225,11 @@ La richesse de la plateforme est essentiellement due aux librairies issues de la
 
 Voici quelques exemples :
 
-* http://hibernate.org/[hibernate]
-* https://spring.io/[spring]
-* https://github.com/google/guice[guice]
-* https://lucene.apache.org/core/[lucene]
-* http://www.joda.org/joda-time/[joda time] qui a inspiré la java date and time API de java 8
+* http://hibernate.org/[hibernate, window="_blank"]
+* https://spring.io/[spring, window="_blank"]
+* https://github.com/google/guice[guice, window="_blank"]
+* https://lucene.apache.org/core/[lucene, window="_blank"]
+* http://www.joda.org/joda-time/[joda time, window="_blank"] qui a inspiré la java date and time API de java 8
 * ...
 
 La liste est extrêmement longue, entre innnovation et reprise de ce qui se fait dans les autres languages.

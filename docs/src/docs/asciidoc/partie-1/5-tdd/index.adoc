@@ -25,7 +25,7 @@ C'est une pratique, au départ, contre intuitive. Elle a de multiple avantages :
 
 == jUnit
 
-https://en.wikipedia.org/wiki/Kent_Beck[Kent Beck] est à l'origine du TDD et des frameworks xUnit.
+https://en.wikipedia.org/wiki/Kent_Beck[Kent Beck, window="_blank"] est à l'origine du TDD et des frameworks xUnit.
 
 En java, jUnit est un framework permettant d'écrire des tests unitaires.
 
@@ -204,7 +204,7 @@ Elle simplifie l'activité de coding et aide à produire du code plus simple.
 
 Le TDD n'est pas une spécificité java, cela s'applique à tous les languages.
 
-http://www.amazon.fr/Test-Driven-Development-Kent-Beck/dp/0321146530[Test Driven Development: By Example] explique les mécaniques du développement par les tests.
+http://www.amazon.fr/Test-Driven-Development-Kent-Beck/dp/0321146530[Test Driven Development: By Example, window="_blank"] explique les mécaniques du développement par les tests.
 ****
 
 include::../../footer.adoc[]
