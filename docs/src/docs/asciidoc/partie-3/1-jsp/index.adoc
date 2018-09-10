@@ -33,7 +33,7 @@ Dans le footer, le lien vers les mentions légales n'est pas bon.
 
 image::footer.png[]
 
-Il devrait pointer sur /mentions-legales
+⇰ Il devrait pointer sur /mentions-legales
 
 Le footer a été partagé entre les templates au travers d'un tag file.
 
@@ -43,13 +43,13 @@ Dans le tag file qui affiche une recette, on trouve `<p>${receipe.date}</p>`
 
 La propriété date d'une recette est de la classe `java.util.Date`.
 
-Comme il faut obtenir une chaîne de caractère, la jsp utilise la méthode toString() qui donne par exemple.
+Comme il faut obtenir une chaîne de caractère, la jsp utilise la méthode `Date.toString()` qui donne par exemple.
 
 image::jsp-3.png[]
 
 Ce n'est pas très lisible.
 
-Il faut formatter avec le pattern suivant `dd MMM yyyy` (voir les http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html[patterns pour les dates])
+⇰ Il faut formatter avec le pattern suivant `dd MMM yyyy` (voir les http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html[patterns pour les dates])
 
 Regardez dans link:../A-jsp/index.html[l'annexe A] le custom tag formatDate de la JSTL. Vous pouvez aussi chercher sur le web.
 
@@ -71,13 +71,13 @@ On voudrait plutôt faire une boucle sur les tags afin d'obtenir le code suivant
 <span class="label label-primary">alsace</span
 ----
 
-Pour cela, utilisez le custom tag forEach de la librairie c (voir link:../A-jsp/index.html[l'annexe A] et le web)
+⇰ Pour cela, utilisez le custom tag forEach de la librairie c (voir link:../A-jsp/index.html[l'annexe A] et le web)
 
 == JSP-5 : factorisation du header
 
 Le footer est produit par le tag file footer.tag.
 
-On peut voir que ce n'est pas le cas pour le header qui est répété plusieurs fois.
+On peut voir que ce n'est pas le cas pour le header qui est répété dans plusieurs fichiers.
 
 [source,html]
 ----
@@ -103,7 +103,7 @@ On peut voir que ce n'est pas le cas pour le header qui est répété plusieurs 
 </nav>
 ----
 
-Ce n'est pas bien car si on le change, il faut le faire dans tous les fichiers.
+Ce n'est pas bien car si on doit le changer, il faut le faire dans tous les fichiers.
 
 .DRY
 ****
@@ -114,7 +114,7 @@ Le principe *DRY* (Don't Repeat Yourself) énonce que "Every piece of knowledge 
 Sans cela, la maintenance d'un logiciel est un enfer.
 ****
 
-La meilleure façon de factoriser est via un *fichier tag* comme pour le header.
+⇰ La meilleure façon de factoriser est via un *fichier tag* comme pour le header.
 
 Au passage, il est même possible de passer un paramètre depuis chaque page afin de rendre actif un élément de la navigation.
 
@@ -159,13 +159,13 @@ Il vaut mieux de créer notre propre fonction qui fait les 2 opérations pour un
 
 Pour faire cela :
 
-* il faut ajouter un package fr.cmm.tags dans src/main/java
-* il faut ajouter une classe Functions.java dans le package
-* il faut ajouter une méthode *statique* publique dans la classe java qui prend un String en paramètre et renvoie un String
-* il faut bien sûr ajouter des tests unitaires dans une classe fr.cmm.tags.FunctionsTest dans src/test/java.
-* il faut ajouter une tld avec la fonction dans WEB-INF/tld
-* il faut déclarer la tld dans la jsp
-* il faut changer l'appel de excapeXml par notre méthode
+* ⇰ il faut ajouter un package fr.cmm.tags dans src/main/java
+* ⇰ il faut ajouter une classe Functions.java dans le package
+* ⇰ il faut ajouter une méthode *statique* publique dans la classe java qui prend un String en paramètre et renvoie un String
+* ⇰ il faut bien sûr ajouter des tests unitaires dans une classe fr.cmm.tags.FunctionsTest dans src/test/java.
+* ⇰ il faut ajouter une tld avec la fonction dans WEB-INF/tld
+* ⇰ il faut déclarer la tld dans la jsp
+* ⇰ il faut changer l'appel de excapeXml par notre méthode
 
 Voici quelques exemples de tests 
 
@@ -189,7 +189,9 @@ Cette fonctionnalité est mise en place au chargement de la page dans le code ja
 
 La liste complète des tags est un service offert par l'``IndexController`` via le mapping '/tags.json'.
 
-En étudiant le html et le javascript, ajoutez ce qu'il faut dans le html afin de faire fonctionner l'autocomplétion sur les tags.
+En l'état, cela ne fonctionne pas.
+
+⇰ En étudiant le html et le javascript, ajoutez ce qu'il faut dans le html afin de faire fonctionner l'autocomplétion sur les tags.
 
 .tokenfield
 ****
