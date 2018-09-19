@@ -9,7 +9,7 @@ MVC découpe une application en 3 aspects : Model, Vue et Controller.
 
 C'est un pattern présent dans de nombreux languages et environnements.
 
-C'est une division du code en sous technologies adaptées à chaque aspect.
+C'est une division qui permet une meilleure organisation du code.
 ****
 
 == Synthèse
@@ -31,13 +31,11 @@ include::mvc.adoc[]
 
 == Configuration
 
-Spring MVC ne brille pas pour sa *convention over configuration* (en partie à cause de JEE et en partie à cause de Spring).
-
 La configuration se divise en 3 parties.
 
 === web.xml
 
-C'est le fichier de configuration standard JEE pour les applications web.
+C'est le fichier de configuration standard pour les applications web.
 
 Le *descripteur de déploiement* (web.xml) comporte ce qu'il faut afin de charger le contexte spring
 
@@ -96,7 +94,7 @@ C'est un contexte spring dédié à la configuration du mvc
 
 NOTE: un component-scan permet de charger tous les composants Spring contenu dans un package java.
 
-NOTE: Il est possible de faire la même configuration en java.
+NOTE: Il est possible de faire toute cette configuration en java au lieu du xml.
 
 === SpringConfig
 
@@ -177,7 +175,7 @@ Un Controller est un composant Spring qui est chargé de traiter les requêtes H
 
 === HelloWorldController
 
-Un Controller est une classe java annoté avec `@Controller`
+Un Controller est une classe java annotée avec `@Controller`
 
 [source,java]
 .Exemple de Controller
@@ -196,7 +194,7 @@ public class HelloWorldController {
 
 NOTE: Une méthode mappée est appelée *handler*
 
-La liste les http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-arguments[paramètres supportés] par les handlers est disponible dans le doc de Spring MVC
+La liste les https://docs.spring.io/spring-framework/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-arguments[paramètres supportés,window="_blank"] par les handlers est disponible dans le doc de Spring MVC
 
 === Le forward vers la vue
 
@@ -215,11 +213,11 @@ public class HelloWorldController {
 }
 ----
 
-NOTE: Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configuration dans `spring-servlet.xml`
+NOTE: Spring convertit "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configuration dans `spring-servlet.xml`
 
 Retourner une chaîne de caractères est interprété comme un forward vers une vue.
 
-La liste complète des http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc-ann-return-types[retours possibles] est est disponible dans le doc de Spring MVC
+La liste complète des http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/htmlsingle/#mvc-ann-return-types[retours possibles,window="_blank"] est est disponible dans le doc de Spring MVC
 
 === Le modèle et la vue
 
@@ -253,7 +251,7 @@ La vue peut ensuite utiliser ce modèle.
 
 La annotations permettent de configurer les Controllers.
 
-Voici les annotations principales.
+Voici les principales annotations.
 
 === @RequestMapping
 
@@ -269,7 +267,7 @@ public class HelloWorldController {
     // handlers
 }
 ----
-<1> `@RequestMapping` se cumule à tous les handlers du Controller
+<1> Le chemin dans le `@RequestMapping` arrive en préfix de tous les handlers du Controller
 
 Ou bien juste une méthode
 
@@ -351,7 +349,7 @@ IMPORTANT: En cas d'erreur de conversion (/hello?value=xyz) une erreur 400 (Bad 
 
 === @RequestBody et @ResponseBody
 
-http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-requestbody[`@RequestBody`] permet de convertir le body de la requête HTTP en paramètre du handler
+http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-requestbody[`@RequestBody`] permet de convertir le body de la requête HTTP en paramètre du handler
 
 [source,java]
 ----
@@ -361,7 +359,7 @@ public void handle(@RequestBody String body) throws IOException {
 }
 ----
 
-http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-responsebody[`@ResponseBody`] permet de convertir le type de retour du handler en body de la réponse HTPP.
+http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-responsebody[`@ResponseBody`] permet de convertir le type de retour du handler en body de la réponse HTPP.
 
 [source,java]
 ----
@@ -376,7 +374,7 @@ NOTE: En configurant spring, il devient facile de lire ou d'écrire du JSON ou d
 
 === @ModelAttribute
 
-Il y a usages possible pour cette annotation.
+Il y a plusieurs usages possible pour cette annotation.
 
 ==== Sur une méthode
 
@@ -391,7 +389,7 @@ public Account defaultAccount() {
 ----
 <1> defaultAccount sera disponible dans le handler et la vue
 
-Voir http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods
+Voir http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods
 
 ==== Sur un argument de méthode
 
@@ -405,7 +403,7 @@ public String processSubmit(@ModelAttribute Pet pet) {
 }
 ----
 
-Voir http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args
+Voir http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args
 
 == Les formulaires
 
@@ -515,7 +513,7 @@ Cela permet d'éviter l'insert de doublons en base et d'assurer le fonctionnemen
 
 == Tests avec MockMvc
 
-Afin de tester un Controller que celui ci soit en condition réelle, dans un conteneur Spring.
+Spring permet de tester les Controllers avec de fausses requêtes http.
 
 Pour cela, Spring MVC propose un classe $MockMvc$ et un support pour les tests de Controller.
 

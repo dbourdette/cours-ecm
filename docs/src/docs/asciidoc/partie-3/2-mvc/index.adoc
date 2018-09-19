@@ -5,7 +5,7 @@ include::../../header.adoc[]
 
 Voici la liste des bugs répertoriés en relation avec le MVC
 
-NOTE: Les modifications dans les controllers nécessitent de redémarrer le serveur `gradle tomcatRun`.
+NOTE: Les modifications dans les controllers nécessitent de redémarrer le serveur avec `gradle tomcatRun`.
 
 NOTE: link:../B-mvc/index.html[l'annexe B] résume les concepts liés au MVC pour le web
 
@@ -15,9 +15,9 @@ Le lien "Nous contacter" dans le footer fait une 404
 
 image::404.png[align=center]
 
-Corrigez la classe `IndexController` afin que ce lien fonctionne.
+⇰ Corrigez la classe `IndexController` afin que ce lien fonctionne.
 
-Il y a des tests en place pour `IndexController` dans la classe `IndexControllerTest`, profitez en pour rajouter un test pour cette méthode `contact()`.
+⇰ Il y a des tests en place pour `IndexController` dans la classe `IndexControllerTest`, profitez en pour rajouter un test pour cette méthode `contact()`.
 
 NOTE: link:../B-mvc/index.html[L'annexe B] couvre les tests des Controllers avec MockMvc.
 Pour `IndexControllerTest` on a aussi utilisé une librairie de mock : http://mockito.org/[Mockito].
@@ -33,13 +33,13 @@ Par exemple sur /recettes?tag=alsace la boite de recherche est :
 
 image::search-form.png[align=center]
 
-Que faut il faire dans `IndexController` et dans `recettes.jsp` afin que le contenu de l'input soit correct ?
+⇰ Que faut il faire dans `IndexController` et dans `recettes.jsp` afin que le contenu de l'input soit conservé ?
 
 == MVC-3 : pageIndex invalide
 
 Lors de la recherche sur /recettes, le `SearchForm` possède un paramètre `pageIndex`.
 
-Ainsi, on peut faire aller sur la page 2 via la requête /recettes?pageIndex=2
+Ainsi, on peut aller sur la page 2 via la requête /recettes?pageIndex=2
 
 .1 based ou 0 based
 ****
@@ -57,11 +57,11 @@ image::500-bad-index.png[align=center]
 
 Notre code n'est pas du tout protégé...
 
-Que peut on faire ?
+⇰ Que peut on faire ?
 
 == MVC-4 : Problème de pagination
 
-La pagination semble avoir un problème, elle ne semble pas indiquer toujours le bon nombre de pages.
+La `Pagination` semble avoir un problème, elle ne semble pas indiquer toujours le bon nombre de pages.
 
 Le code pour compter le nombre de pages est le suivant :
 
@@ -74,7 +74,7 @@ public int getPageCount() {
 
 Par exemple, si il y a 20 éléments en base et que pageSize vaut 50, `getPageCount()` va donner 0.
 
-Ajoutez et faites passer des tests unitaires afin de couvrir les cas suivants :
+⇰ Ajoutez et faites passer des tests unitaires afin de couvrir les cas suivants :
 
 * count est un multiple de pageSize
 * count n'est pas un multiple de pageSize
@@ -102,15 +102,15 @@ public List getPages() {
 }
 ----
 
-En passant par des tests unitaires, faire une impémentation correcte de cette méthode.
+⇰ En passant par des tests unitaires, faire une impémentation correcte de cette méthode.
 
-Le fonctionnement souhaitée pour la navigation est de se contruire autour de l'index courant en essayant de mettre jusqu'a 10 éléments.
+Le fonctionnement souhaitée pour la navigation est de se construire autour de l'index courant en essayant de mettre jusqu'a 10 éléments.
 
 .Test driven
 ****
 Il n'est pas facile de deviner quel sera le bon algorithme.
 
-En commençant par les cas simples, par les tests, on construit la solution par petits bouts.
+En commençant par des cas simples, grâce aux tests, on construit la solution par petits bouts.
 
 Un fois en place, les tests nous permettront de retoucher (refactoring) le code en s'assurant qu'on ne casse rien.
 ****
@@ -121,7 +121,7 @@ La pagination fait au plus 10 éléments. Ce chiffre risque d'apparaitre plusieu
 
 Cela ne va pas sembler évident à quelqu'un venant relire le code.
 
-Afin d'éviter ce sentiment de chiffre venu de nul part, il est bon d'en faire une constante dans la classe `Pagination`
+Afin d'éviter ce sentiment d'un chiffre venu de nul part, il est bon d'en faire une constante dans la classe `Pagination`
 [source,java]
 ----
 public static final int PAGINATION_SIZE = 10;
@@ -132,13 +132,15 @@ public static final int PAGINATION_SIZE = 10;
 
 Pour le moment, on a très peu de gestion d'erreur.
 
-Si on va sur http://localhost:8080/recette/56375619d4c603aa4eb412dd on obtient une page très vide et cassée.
+Si on va sur http://localhost:8080/recette/56375619d4c603aa4eb412dd on obtient une page très vide et qui semble cassée.
+
+image::empty.png[]
 
 Dans ce cas, on voudrait obtenir une 404 (page not found).
 
 image::404-no-title.png[]
 
-En passant par les tests, s'assurer que l'obtient bien une 404 depuis `IndexController` lorsque la recette n'existe pas.
+⇰ En passant par les tests, s'assurer que l'obtient bien une 404 depuis `IndexController` lorsque la recette n'existe pas.
 
 .Mockito
 ****
@@ -155,9 +157,9 @@ Comment retourner une 404 depuis un Controller ? On pourra http://lmgtfy.com/?q=
 
 Actuellement, nos pages 404 (ex: /plop) et 500 (ex: /recette/plop) sont affreuses : ce sont les pages par défaut de tomcat.
 
-Elles affichent les stacktraces, ce qui est bien pratique, mais pour le visiteur du site, c'est affreux.
+Elles affichent les stacktraces, ce qui est bien pratique, mais pour le visiteur du site, c'est moche.
 
-Nous allons donc ajouter des pages d'erreur plus jolies.
+⇰ Nous allons donc ajouter des pages d'erreur plus jolies.
 
 [source,xml]
 .Gestion d'erreur dans le web.xml
@@ -177,7 +179,7 @@ Nous allons donc ajouter des pages d'erreur plus jolies.
 
 Cette gestion d'erreur se fait au niveau conteneur de Servlet (tomcat).
 
-Or notre servlet Spring est mappée sur `/` (normalament, ça veut dire 'tout'). Le conteneur manque un peu d'intelligence, il faut rajouter les mappings suivant :
+⇰ Or notre servlet Spring est mappée sur `/` (normalement, ça veut dire 'tout'), mais tomcat manque un peu d'intelligence, il faut rajouter les mappings suivant :
 
 [source,xml]
 .Mapping supplémentaire pour la Servlet Spring
@@ -192,9 +194,9 @@ Or notre servlet Spring est mappée sur `/` (normalament, ça veut dire 'tout').
 </servlet-mapping>
 ----
 
-Ajoutez ces entrées ainsi que les `@RequestMapping` correspondant dans `IndexController`
+⇰ Ajoutez ces entrées ainsi que les `@RequestMapping` correspondant dans `IndexController`
 
-Enfin, ajoutez le fichier jsp qui affiche un message d'excuse. Un seul fichier jsp peut servir pour les 2 cas.
+⇰ Enfin, ajoutez le fichier jsp qui affiche un message d'excuse. Un seul fichier jsp peut servir pour les 2 cas.
 
 Maintenant, http://localhost:8080/recette/56375619d4c603aa4eb412dd doit retourner une page d'erreur présentable.
 
@@ -224,7 +226,7 @@ public String post(@ModelAttribute("command") @Valid Recipe recipe, BindingResul
   return "redirect:/admin/recettes/edit?id=" + recipe.getId(); <3>
 }
 ----
-<1> En cas d'erreur, on redirige vers la vue
+<1> En cas d'erreur, on affiche la vue de nouveau
 <2> En cas de succès, on ajoute un message flash
 <3> Redirect after POST
 
@@ -265,7 +267,7 @@ if (title == null || "".equals(title)) {
 }
 ----
 
-Cependant nous avons choisi d'utiliser `@Valid` dans notre Controller. Cela permet d'utiliser les annotionas de http://beanvalidation.org/[Bean Validation].
+Cependant nous avons choisi d'utiliser `@Valid` dans notre Controller. Cela permet d'utiliser les annotations de http://beanvalidation.org/[Bean Validation].
 
 Dans notre `Recipe` nous avons donc :
 
@@ -283,15 +285,15 @@ private Date date = new Date();
 
 Les 2 approches (manuelle et Bean Validation) peuvent être combinées en fonction des besoins. Toutes les erreurs finissent dans BindingResult.
 
-Trouvez comment avoir les messages d'erreur suivant : "Titre est obligatoire" et "Date est obligatoire".
+⇰ Trouvez comment avoir les messages d'erreur suivant : "Titre est obligatoire" et "Date est obligatoire".
 
-Comment pourrait on faire si on souhaite ne pas pouvoir anti dater une recette uniquement à la création de celle ci ? (c'est une question assez rhétorique, il y a peu de chance que cela soit intéressant dans notre cas).
+Comment pourrait on faire si on souhaite ne pas pouvoir anti dater une recette, uniquement à la création de celle ci ? (c'est une question assez rhétorique, il y a peu de chance que cela soit intéressant dans notre cas).
 
 == MVC-9 : Logs
 
 Actuellement, nous n'avons rien fait afin de configurer les logs.
 
-Lorsqu'on lance un test unitaire qui charge un contexte spring, on peut voir les lignes suivantes :
+Lorsqu'on lance un test unitaire qui charge un contexte spring (ex: `RecipeServiceTest`), on peut voir les lignes suivantes :
 
 image::logs.png[align=center]
 
@@ -305,11 +307,11 @@ Pour faire encore plus simple, il existe aussi des wrappeurs comme http://www.sl
 
 .Librairies et wrappers
 ****
-Il n'y avait pas de librairie de gestion de log aux débuts de java. Beaucoup de librairies existent aujourd'hui sans vraiment de vainceur.
+Il n'y avait pas de librairie de gestion de log aux débuts de java. Trop de librairies existent aujourd'hui.
 
-En théorie, il faudrait une configuration pour chaque librairie de log utilisée par notre code mais aussi les librairies.
+En théorie, il faudrait configurer chaque librairie de log utilisée par notre code et nos dépendances.
 
-Pour ne pas avoir à subir cela, on peut utiliser un wrapper qui va s'adapter à la situation.
+En pratique, certaines librairies chapotent tout cela, comme slf4j ou logback.
 ****
 
 Pour résumer, c'est joyeusement compliqué juste pour gérer les logs.
@@ -348,9 +350,9 @@ log4j.appender.console.layout=org.apache.log4j.PatternLayout <3>
 log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <4>
 
 ----
-<1> Définition du root logger en niveau ERROR avec 'console' comme appender (sortie)
+<1> Définition du root logger en niveau ERROR avec l'identifiant 'console' comme appender (sortie)
 <2> L'appender 'console' va écrire via le ConsoleAppender (System.out et System.err)
-<3> la sortie de 'console' est formattée
+<3> la sortie de 'console' est formattée avec un pattern
 <4> Format de la sortie
 
 .Configuration
@@ -498,7 +500,7 @@ Dans `header.tag` faites apparaitre un lien 'déconnexion' si l'utilisateur est 
 </sec:authorize>
 ----
 
-La doc de bootstrap sur la navbar : http://getbootstrap.com/components/#navbar
+La doc de bootstrap sur la navbar : https://getbootstrap.com/components/#navbar
 
 image::navbar-logout.png[]
 

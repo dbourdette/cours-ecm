@@ -2,7 +2,7 @@ include::../../header.adoc[]
 
 = Annexe C : L'injection de dépendances
 
-Une application est un réseau riche de composants qui dépendent les uns des autres.
+Une application est un graphe de composants qui dépendent les uns des autres.
 
 [align=center]
 image::class-diagram.png[]
@@ -29,7 +29,9 @@ Mais Spring ne s'arrête pas à l'injection de dépendances.
 [align=center]
 image::spring-overview.png[]
 
-Spring MVC est donc un des composants des outils de la famille Spring.
+Spring MVC est un des composants de la famille Spring.
+
+NOTE: http://spring.io/projects/spring-boot[Spring BOOT, window="_blank"] permet de démarrer rapidement avec spring MVC et les autres composants de spring.
 
 == Exemple
 
@@ -54,9 +56,9 @@ public class OtherService {
 }
 ----
 
-NOTE: @Inject est le standard jee, spring supporte aussi sa propre annotation @Autowired et une autre annotation standard @Resource.
+NOTE: @Inject est le standard java, spring supporte aussi sa propre annotation @Autowired et une autre annotation standard @Resource.
 
-NOTE: Spring peut être configuré en xml ou via du code java.
+NOTE: Spring peut être configuré en xml ou via du code java. La version java est clairement encouragée.
 
 == @Component
 

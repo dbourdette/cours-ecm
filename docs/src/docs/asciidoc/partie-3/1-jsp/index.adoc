@@ -120,7 +120,7 @@ Au passage, il est même possible de passer un paramètre depuis chaque page afi
 
 link:../A-jsp/index.html[L'annexe A] décrit le fonctionnement des tag files.
 
-Voir également la doc http://getbootstrap.com/components/#navbar[Bootstrap] afin de rendre un élément actif.
+Voir également la doc https://getbootstrap.com/components/#navbar[Bootstrap] afin de rendre un élément actif.
 
 == JSP-6 : format du texte dans recette.tag
 
@@ -211,7 +211,9 @@ Ils sont pratiques afin de ranger des données qui ne correspondent à aucun att
 
 Pour gagner du temps, dans l'interface d'édition, le client aurait voulu un bouton 'ajouter du sel' et 'ajouter du poivre'.
 
-En étudiant le javascript du site et le fichier ingredient-form-row.jsp, ajoutez les boutons 'sel' et 'poivre' nécessaires.
+image::sel-poivre.png[]
+
+⇰ En étudiant le javascript du site et le fichier ingredient-form-row.jsp, ajoutez les boutons 'sel' et 'poivre' nécessaires.
 
 NOTE: La page /admin/recettes/ingredientFormRow accèpte un ingredientIndex en paramètre. En regardant le code de la jsp `ingredient-form-row.jsp`, on peut voir que l'on peut aussi utiliser le paramètre ingredientName qui peut nous servir ici.
 
@@ -292,22 +294,24 @@ Vaudrait il mieux le faire coté client ou serveur ?
 ****
 Ce petit exemple de formulaire avec une liste dynamique démontre que les frameworks classiques comme Spring MVC sont mal à l'aise avec ce genre de problème.
 
-Envoyer les données en JSON via une mécanique AJAX réglerait le problème.
+Envoyer les données en JSON via une mécanique AJAX réglerait plus facilement ce problème.
 
-Les frameworks pour les Rich Internet Applications (RIA) comme AngularJS traiteraient de ce problème beaucoup plus aisément.
+Les frameworks pour les Rich Internet Applications (RIA) comme Angular traiteraient de ce problème beaucoup plus aisément.
 ****
 
 IMPORTANT: Le but ici est d'imaginer une solution, pas de la coder.
 
 == JSP-10 : pagination
 
-Dans `recettes.jsp` il y a une pagination qui n'est pas fonctionnelle pour le moment.
+Dans `recettes.jsp` (visible depuis /recettes) il y a une pagination qui n'est pas fonctionnelle pour le moment.
+
+image::bad-pagination.png[align=center]
 
 Le code est `${pagination.pages}`.
 
 La classe `Pagination` est dans le package `fr.cmm.helper` (getPages() est codé en dur, mais ce n'est pas le sujet pour le moment).
 
-En se servant de tout ce qui a été vu précédemment, formattez cette pagination en utilisant le http://getbootstrap.com/components/#pagination[composant pagination de bootstrap]
+En se servant de tout ce qui a été vu précédemment, formattez cette pagination en utilisant le https://getbootstrap.com/components/#pagination[composant pagination de bootstrap]
 
 image::pagination.png[align=center]
 

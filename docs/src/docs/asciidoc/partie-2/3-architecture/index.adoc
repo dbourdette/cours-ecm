@@ -92,7 +92,7 @@ Ce sont des structures souples, sans schéma.
 --
 image::bootstrap.png[width="100",role="left"]
 
-http://getbootstrap.com/[Bootstrap, window="_blank"] est un framework html, css et javascript pour développer des pages responsives.
+https://getbootstrap.com/[Bootstrap, window="_blank"] est un framework html, css et javascript pour développer des pages responsives.
 
 Développé initialement en interne chez twitter, il est aujourd'hui très largement utilisé.
 --

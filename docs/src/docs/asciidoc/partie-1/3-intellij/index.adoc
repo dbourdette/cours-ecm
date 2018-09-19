@@ -47,7 +47,7 @@ Chaque module est indépendant et possède ses fichiers et ses librairies.
 
 [.float-group]
 --
-image:prefs.png[preferences,width=300px,role=left,title='Préférences',link='prefs.png',target="_blank"]
+image:prefs.png[preferences,width=300px,role=left,title='Préférences',link='prefs.png',window="_blank"]
 
 Les préférences sont accessibles via le menu menu:File[Other settings > Default Settings...]
 
