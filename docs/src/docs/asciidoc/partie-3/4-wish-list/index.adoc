@@ -5,11 +5,11 @@ include::../../header.adoc[]
 
 Mis à part tous les bugs qui restent encore, l'applicaton fonctionne un peu mieux. 
 
-Voici quelques piste de ce que l'on pourrait rajouter ou transformer.
+Voici quelques pistes que l'on pourrait encore suivre.
 
 == Web service
 
-Les web services sont très à la mode, surtout en json. 
+Les web services et le json sont très à la mode.
 
 Nous aimerions disposer de la liste des recettes via un service REST
 
@@ -19,19 +19,19 @@ REST est un pattern de construction de service web basé sur un travail universi
 
 Il repose intensivement sur le protocol HTTP et notamment sur ses méthodes GET, POST, PUT et DELETE.
 
-La construction des mappings d'url est aussi contrainte afin de facilité la compréhension du modèle de données.
+On navigue ainsi dans les services un peu comme on naviguerait dans les pages web.
 
 Plus de détails dans http://www.amazon.fr/RESTful-Web-Services-Leonard-Richardson/dp/0596529260[RESTful Web Services].
 ****
 
-On souhaite donc avoir les 2 mappings suivant :
+On souhaite avoir les 2 mappings suivant :
 
-* /api/recipes : la liste paginé (paramètre page=xxx) des recettes, ordonancées par date (les plus récentes en premier)
-* /api/recipes/{id} : un recette
+* /api/recipes : la liste paginée (paramètre page=xxx) des recettes, ordonancées par date descendante (les plus récentes en premier)
+* /api/recipes/{id} : une recette
 
-Ces pages n'affiche pas du html mais du json (on pourrait faire du xml mais c'est moins à la mode).
+Ces pages n'affichent pas du html mais servent du json.
 
-Voici la liste des choses à faire :
+⇰ Voici la liste des choses à faire :
 
 * Ajoutez un `ApiController` avec ces 2 mappings
 * Trouvez comment renvoyer du json depuis le Controller
@@ -40,9 +40,10 @@ Voici la liste des choses à faire :
 
 == Groovy
 
-http://www.groovy-lang.org/Groovy] est un language alternatif pour la jvm.
+http://groovy-lang.org/index.html[Groovy] est un language alternatif pour la jvm.
 
-Il existe pas mal de http://www.groovy-lang.org/differences.html[différences] entre java et groovy. Groovy essaye d'être le plus proche possible de java tout en enlevant ses lourdeurs. 
+Il existe pas mal de http://www.groovy-lang.org/differences.html[différences] entre java et groovy.
+Groovy essaye d'être le plus naturel possible pour des développeurs java.
 
 Voici les différences clées :
 
@@ -57,18 +58,19 @@ Voici les différences clées :
 ****
 Apart from the https://en.wikipedia.org/wiki/Java_(programming_language)[Java language] itself, the most common or well-known JVM languages are:
 
-*   https://en.wikipedia.org/wiki/Clojure[Clojure], a functional https://en.wikipedia.org/wiki/Lisp_(programming_language)[Lisp] dialect
-*   https://en.wikipedia.org/wiki/Groovy_(programming_language)[Groovy], a programming and scripting language
-*   https://en.wikipedia.org/wiki/Scala_(programming_language)[Scala], an object-oriented functional programming
-*   https://en.wikipedia.org/wiki/JRuby[JRuby], an implementation of https://en.wikipedia.org/wiki/Ruby_(programming_language)[Ruby]
-*   https://en.wikipedia.org/wiki/Jython[Jython], an implementation of https://en.wikipedia.org/wiki/Python_(programming_language)[Python]
+* https://en.wikipedia.org/wiki/Clojure[Clojure], a functional Lisp dialect with focus on simplicity and concurrency
+* https://en.wikipedia.org/wiki/Groovy_(programming_language)[Groovy], a programming and scripting language
+* https://en.wikipedia.org/wiki/Scala_(programming_language)[Scala], an object-oriented functional programming
+* https://en.wikipedia.org/wiki/JRuby[JRuby], an implementation of https://en.wikipedia.org/wiki/Ruby_(programming_language)[Ruby]
+* https://en.wikipedia.org/wiki/Kotlin_(programming_language)[Kotlin], a statically-typed language from JetBrains, the developers of IntelliJ IDEA
+* https://en.wikipedia.org/wiki/Jython[Jython], an implementation of https://en.wikipedia.org/wiki/Python_(programming_language)[Python]
 
 source https://en.wikipedia.org/wiki/List_of_JVM_languages
 ****
 
 Nous allons reprendre quelques parties du code afin de voir ce que pourrait apporter Groovy.
 
-Afin de pouvoir faire du groovy avec gradle, on ajoute le https://docs.gradle.org/current/userguide/groovy_plugin.html[plugin groovy] en plus de java.
+⇰ Afin de pouvoir faire du groovy avec gradle, on ajoute le https://docs.gradle.org/current/userguide/groovy_plugin.html[plugin groovy] en plus de java.
 
 [source,java]
 ----
@@ -76,14 +78,14 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 ----
 
-Il faut aussi rajouter la lib groovy dans les dépendances et faire un refresh du projet gradle dans Intellij.
+⇰ Il faut aussi rajouter la lib groovy dans les dépendances et faire un refresh du projet gradle dans Intellij.
 
 [source,java]
 ----
 compile 'org.codehaus.groovy:groovy-all:2.4.3:indy'
 ----
 
-Le plugin groovy va chercher ses sources dans src/main/groovy et les tests dans src/test/groovy. Pour ne pas avoir à tout changer et faire tout compiler par groovy, on ajoute la configuration suivante.
+⇰ Par défaut, le plugin groovy va chercher ses sources dans src/main/groovy et les tests dans src/test/groovy. Pour ne pas avoir à tout changer et faire tout compiler par groovy, on ajoute la configuration suivante.
 
 [source,java]
 ----
@@ -113,9 +115,9 @@ sourceSets {
 
 On va regarder ce que cela peut donner dans un test en premier.
 
-Renommez `RecipeServiceTest.java` en `RecipeServiceTest.groovy` (Refactor > Rename File).
+⇰ Renommez `RecipeServiceTest.java` en `RecipeServiceTest.groovy` (Refactor > Rename File).
 
-Dans `RecipeServiceTest` la méthode save peut devenir
+⇰ Dans `RecipeServiceTest` la méthode save peut devenir
 
 [source,java]
 ----
@@ -132,7 +134,7 @@ void save() { <1>
 
 C'est beaucoup plus compacte et surtout beaucoup plus lisible. Faites la même chose avec toutes les méthodes de cette classe.
 
-Voici quelques idées.
+Voici quelques autres idées.
 
 .method name
 
@@ -143,7 +145,7 @@ En groovy, le nom de la méthode peut être une chaîne de caractères.
 public void findByIdWithInvalidId()
 ----
 
-Peut devenir
+⇰ Peut devenir
 
 [source,java]
 ----
@@ -163,7 +165,8 @@ recipeService.save(new Recipe())
 recipeService.save(new Recipe())
 ----
 
-Peut devenir
+⇰ Peut devenir
+
 [source,java]
 ----
 5.times { recipeService.save(new Recipe()) }
@@ -176,7 +179,7 @@ Peut devenir
 Assert.assertEquals(5, stream(recipeService.findByQuery(new PageQuery()).spliterator(), false).count())
 ----
 
-Devient
+⇰ Devient
 
 [source,java]
 ----
@@ -190,7 +193,7 @@ assert recipeService.findByQuery(new PageQuery()).size() == 5
 new Recipe().withTags("tag1", "tag2")
 ----
 
-Peut s'écrire plus simplement
+⇰ Peut s'écrire plus simplement
 
 [source,java]
 ----
@@ -209,21 +212,23 @@ Les languages dynamiques sont plus souples et plus puissants.
 
 Par contre, la flexibilité a un coût : moins d'erreurs peuvent être relevées au moment de la compilation.
 
-En Groovy, savoir si une méthode existe sur un object si fait au runtime. Impossible de savoir à la compilation si un appel est possible ou non.
+En Groovy, savoir si une méthode existe sur un object se fait au runtime.
+
+Il existe une annotation http://docs.groovy-lang.org/latest/html/gapi/groovy/transform/CompileStatic.html[@CompileStatic] qui permet de rétablir les checks au moment de la compilation.
 ****
 
-Passez `IndexController` en groovy et appliquer les règles suivantes (et précédantes) afin de simplifier le code.
+Passez `IndexController` en groovy et appliquer les règles précédantes et suivantes, afin de simplifier le code.
 
 IMPORTANT: Une liste en Groovy s'écrit `["/index", "/"]` et non `{"/index", "/"}`
 
-.Map
+.ModelMap
 
 [source,java]
 ----
 model.put("columns", randomColumns());
 ----
 
-model étant une Map, on peut écrire
+⇰ model étant une Map, on peut écrire
 
 [source,java]
 ----
@@ -232,21 +237,21 @@ model.columns = randomColumns()
 
 .Implicit return
 
-Le return est implicit en Groovy
+Le return est implicite en Groovy
 
 [source,java]
 ----
 return "index";
 ----
 
-peut s'écrire
+⇰ peut s'écrire
 
 [source,java]
 ----
 'index'
 ----
 
-En fait une méthode retourne par défaut la dernière valeur évaluée.
+En Groovy, une méthode retourne par défaut la dernière valeur évaluée.
 
 .Groovy truth
 
@@ -257,7 +262,8 @@ if (recipe == null) {
 }
 ----
 
-Le test de non nullité peut être simplifié en
+⇰ Le test de non nullité peut être simplifié en
+
 [source,java]
 ----
 if (!recipe) {
@@ -265,15 +271,19 @@ if (!recipe) {
 }
 ----
 
+.Are you elvish ?
+
+Nous n'avons pas d'opérateur ternaire dans notre code, mais groovy permet d'utiliser le très sympathique http://docs.groovy-lang.org/docs/groovy-2.5.2/html/documentation/#_elvis_operator[opérateur elvis].
+
 === Groovy or not Groovy ?
 
-Groovy a ses avantages et incovénients comme tous les languages.
+Groovy a ses forces et faiblesses comme tous les languages.
 
-Sans couvertures de test, c'est assez dangereux de faire du Groovy.
+Sans couverture de test, c'est assez dangereux de faire du Groovy.
 
 Dans le web, c'est un language et un écosystème très plaisant.
 
-Il existe même un framework qui permet de faire des applications web très rapidement : https://grails.org/[Grails]
+Il existe aussi un framework web basé sur Spring Boot : https://grails.org/[Grails]
 
 == Tests Selenium
 
@@ -340,7 +350,7 @@ Avec un peu d'idées, le développement d'une application web ne finit jamais.
 
 On pourrait rajouter des commentaires, un système de note ou de like, proposer du sharing social...
 
-Chaque fonctionnalités peut paraitre simple au départ et devnir un enfer dans les détails.
+Chaque fonctionnalité peut paraitre simple au départ et devenir complexe quand on rentre dans les détails.
 
-Avoir une bonne base de code maintenable est essentiel afin d'être capable d'intervenir quelle que soit la demande ou la dernière lubie de la personne en charge du moment.
+Maintenir un code base propre est important afin d'être capable de faire évoluer son projet continuellement.
 

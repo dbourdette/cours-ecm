@@ -2,34 +2,41 @@ include::../../header.adoc[]
 
 = Annexe C : L'injection de dépendances
 
-Une application est un graphe de composants qui dépendent les uns des autres.
+Une application est un graphe de composants qui se référencent les uns les autres.
 
 [align=center]
 image::class-diagram.png[]
 
-L'injection de dépendances (DI) permet de mettre ces composants en relation.
+La construction de ce graphe n'est pas une tâche complexe mais rébarbative.
 
-Chaque composant devient plus autonome et il est plus simple de le tester.
+L'injection de dépendances (DI) permet d'automatiser celle ci.
+
+Chaque composant devient plus autonome et plus simple à tester.
 
 NOTE: Une composant Spring est aussi appelé Bean
 
 == Spring framework
 
-http://projects.spring.io/spring-framework/[Spring] est un conteneur léger par injection de dépendances.
+http://spring.io/projects/spring-framework/[Spring] est un framework d'injection de dépendances (et bien plus).
 
 [NOTE]
 ====
-Il existe d'autres framework d'injection de dépendances comme par exemple celui de google https://github.com/google/guice[Guice].
+Il existe d'autres frameworks d'injection de dépendances comme par exemple celui de google https://github.com/google/guice[Guice].
 
 Le guide de Guice explique clairement la motivation derrière l'injection de dépendance : https://github.com/google/guice/wiki/Motivation
 ====
 
-Mais Spring ne s'arrête pas à l'injection de dépendances.
+Mais Spring framework ne s'arrête pas à l'injection de dépendances.
 
 [align=center]
 image::spring-overview.png[]
 
-Spring MVC est un des composants de la famille Spring.
+Un framework qui fait partie d'un écosystème plus important.
+
+[align=center]
+image::spring-ecosystem.jpg[]
+
+Spring MVC n'est qu'un des composants de la famille Spring.
 
 NOTE: http://spring.io/projects/spring-boot[Spring BOOT, window="_blank"] permet de démarrer rapidement avec spring MVC et les autres composants de spring.
 

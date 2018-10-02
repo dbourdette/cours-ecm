@@ -21,7 +21,7 @@ ObjectId is a 12-byte BSON type, constructed using:
 * a 3-byte counter, starting with a random value.
 ****
 
-La page http://localhost:8080/recette/123pasvalide456 fait une 500
+La page http://localhost:8080/recette/123pasvalide456 fait une 500 alors qu'on souhaiterait avoir une 404 (not found)
 
 image::500.png[]
 
@@ -48,15 +48,15 @@ return recipeCollection.findOne(new ObjectId(id)).as(Recipe.class); <1>
 ----
 <1> `new ObjectId(id)` échoue si `id` n'a pas le bon format
 
-Rajoutez un test `findByIdWithInvalidId()` dans `RecipeServiceTest` qui s'assure que le service renvoie `null` dans ce cas.
+⇰ Rajoutez un test `findByIdWithInvalidId()` dans `RecipeServiceTest` qui s'assure que le service renvoie `null` dans ce cas.
 
 == SER-2 : countByQuery et pagination
 
-Le service `RecipeService` semble bien fontionner pour la recherche.
+Le service `RecipeService` semble bien fonctionner pour la recherche.
 
 Par contre `RecipeService.countByQuery(query)` ne prend pas en compte la query afin de déterminer le nombre de résultats disponibles.
 
-Ajoutez des tests sur cette méthode afin de s'assurer de son fonctionnement.
+⇰ Ajoutez des tests sur cette méthode afin de s'assurer de son bon fonctionnement.
 
 Grâce aux tests, nous pouvons nous permettre de factoriser le code entre `countByQuery` et `findByQuery`.
 
@@ -113,9 +113,9 @@ The $near operator can specify either a GeoJSON point or legacy coordinate point
 $near requires a geospatial index.
 ****
 
-Comment faire pour éviter d'avoir plusieurs fois la même recette sur la home ?
+⇰ Comment faire pour éviter d'avoir plusieurs fois la même recette sur la home ?
 
-Comment mettre en place des tests pour couvrir ce point ?
+⇰ Comment mettre en place des tests pour couvrir ce point ?
 
 .Limitations
 ****
@@ -130,9 +130,9 @@ Pouvez vous imaginer une meilleure façon d'obtenir une liste aléatoire de rece
 
 Chaque `Recipe` à une date associée.
 
-Comment pourrait on utiliser celle ci afin que la page 'recette du moment' remonte de préférence une recette avec date proche de la date courante ?
+Comment pourrait on utiliser celle ci afin que la page 'recette du moment' remonte la recette la plus récente mais passée ?
 
-le but est de remplacer
+Le but est de remplacer
 
 [source,java]
 ----
@@ -146,10 +146,11 @@ Par quelque chose de la sorte
 model.put("recipe", recipeService.findCurrent());
 ----
 
-C'est assez délicat de tester cela humainement en regardant les pages du site.
+Cependant, le service va devoir gérer la date courante.
+Il serait pratique de pouvoir voyager dans le temps afin de pouvoir tester le résultat à différents moments tout en gardant le même jeu de test de recettes.
 
-Les tests devraient nous permettre de garantir ce bon fonctionnement.
+Les tests doivent nous permettre d'être sûr que dans 5 jours, c'est bien un autre recette qui va prendre le relais.
 
-Cependant, le service va devoir gérer utiliser la date courante. Il serait pratique de pouvoir voyager dans le temps afin de pouvoir tester le résultat à différents moments en gardant le même jeu de test de recettes.
+Comment pourrait on faire cela ?
 
-Comment pourrait faire cela ? Comment fournir la date et l'heure au service afin que cela soit simple pour les tests et reste valide lorsque l'application tourne normalement ?
+Comment le service peut il avoir la date que l'on souhaite pour les tests mais toujours la date courant quand l'application tourne ?
