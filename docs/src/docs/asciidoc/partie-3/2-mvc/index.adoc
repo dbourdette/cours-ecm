@@ -301,7 +301,7 @@ C'est très verbeux car on a toutes les traces à partir du niveau INFO.
 
 C'est en rouge parce que le code utilise la sortie error (stderr via `System.err`) par défaut.
 
-Le problème en java est qu'il existe plusieurs librairies de log (java.util.logging, log4j...).
+Le problème en java est qu'il existe plusieurs (trop de) librairies de log (java.util.logging, log4j...).
 
 Pour faire encore plus simple, il existe aussi des wrappeurs comme http://www.slf4j.org/[SLF4J] (Simple Logging Facade for Java) ou https://commons.apache.org/proper/commons-logging/[commons-logging]
 
@@ -320,13 +320,13 @@ java.util.logging étant plus pauvre que log4j, la plupart des librairies utilis
 
 === Ajout de log4j
 
-On commence par ajouter log4j à nos librairies
+⇰ On commence par ajouter log4j à nos librairies
 
 image::add-log4j.png[]
 
 Il faut bien s'assurer que la librairie est bien présente ensuite dans la liste des dépendances du projet.
 
-Si on relance notre test, on devrait voir :
+⇰ Si on relance notre test, on devrait voir :
 
 image::logs-log4j.png[align=center]
 
@@ -338,7 +338,7 @@ Il existe plusieurs façon de configurer log4j.
 
 On va passer par un fichier `log4j.properties` à la racine du classpath.
 
-Il suffit donc de rajouter ce fichier dans `src/test/resources` :
+⇰ Il suffit donc de rajouter ce fichier dans `src/test/resources` :
 
 .log4j.properties
 ----
@@ -360,14 +360,14 @@ log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <4>
 
 Il existe de très nombreuses options de Configurartion.
 
-Par exemple, pour les Appenders, on trouve un FileAppender, un RollingFileAppender et même des Appenders capables d'écrire en base ou vers un service réseau.
+On peut écrire dans un fichier, des fichiers roulants, un service réseau, en base...
 
 ****
 
 Les logs en rouge doivent avoir disparu.
 
 Il est possible (et recommandé) de faire de même pour l'application en production.
-Par exemple, on pourrait mettre un fichier de configuration log4j dans `src/main/resources`.
+Par exemple, on pourrait mettre un fichier de configuration log4j dans `src/main/resources` qui partirait dans le war.
 
 == MVC-10 : Sécurisation
 
@@ -377,7 +377,7 @@ La librairie la plus complète pour ce genre de besoin est http://projects.sprin
 
 === Ajout de spring-security
 
-Comme pour log4j, on rajoute la librairie
+⇰ Comme pour log4j, on rajoute la librairie
 
 [source]
 .build.gradle
@@ -393,7 +393,7 @@ Il faut penser à recharger le projet dans l'onglet gradle.
 
 === Ajout de l'intercepteur
 
-Spring security doit intercepter toutes les requêtes.
+⇰ Il faut demander à Spring security d'intercepter toutes les requêtes en ajoutant dans le web.xml :
 
 [source,xml]
 .web.xml
@@ -410,13 +410,13 @@ Spring security doit intercepter toutes les requêtes.
 <1> Le filtre spring security
 <2> Intercepte toutes les requêtes
 
-Le mieux est de place ce filtre avant l'encoding-filter, afin qu'il soit traversé en premier. L'ordre dans le web.xml est important.
+Le mieux est de placer ce filtre avant l'encoding-filter, afin qu'il soit traversé en premier. L'ordre dans le web.xml est important.
 
 Ainsi, avant d'arriver sur la `DispatcherServlet`, les requêtes passeront au travers du `DelegatingFilterProxy`.
 
 === Ajout de la configuration
 
-Il reste a configurer spring security.
+⇰ Il reste a configurer spring security en modifiant d'abord le web.xml (ajout de `fr.cmm.SpringSecurity`).
 
 [source,xml]
 .Modification du ContextLoaderListener dans le web.xml
@@ -434,7 +434,7 @@ Il reste a configurer spring security.
 </context-param>
 ----
 
-Et la classe java correspondante
+⇰ Et bien sûr la classe java correspondante
 
 [source,java]
 .fr.cmm.SpringSecurity
@@ -454,9 +454,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/admin/**").authenticated() <5>
-            .and()
-                .formLogin(); <6>
-            .and()
+                .and()
+                .formLogin() <6>
+                .and()
                 .logout() <7>
                 .logoutSuccessUrl("/")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
@@ -470,7 +470,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 <6> Le login est disponible via un formulaire
 <7> Gestion du logout.
 
-Lorsque l'on cherche a accéder à une page admin, on a le formulaire suivant.
+Après reboot, lorsque l'on cherche a accéder à une page admin, on a le formulaire suivant.
 
 image::auth-form.png[]
 
@@ -480,14 +480,14 @@ C'est bien, c'est pas très joli, mais on ne peut plus se déconnecter : )
 
 Il est nécessaire de pouvoir se déconnecter. Nous allons ajouter un lien dans la navbar sur toutes les pages.
 
-Afin de rajouter le lien de façon condionelle, nous utilisons la lib de https://docs.spring.io/spring-security/site/docs/current/reference/html/taglibs.html[customs tags pour spring security]
+⇰ Afin de rajouter le lien de façon condionelle, nous utilisons la lib de https://docs.spring.io/spring-security/site/docs/current/reference/html/servlet-webclient.html#taglibs[customs tags pour spring security]
 
 [source]
 ----
 compile 'org.springframework.security:spring-security-taglibs:4.0.3.RELEASE'
 ----
 
-Dans `header.tag` faites apparaitre un lien 'déconnexion' si l'utilisateur est `isAuthenticated()` à l'aide de la lib
+⇰ Dans `header.tag` faites apparaitre un lien 'déconnexion' si l'utilisateur est `isAuthenticated()` à l'aide de la lib
 
 [source,xml]
 ----
@@ -500,13 +500,13 @@ Dans `header.tag` faites apparaitre un lien 'déconnexion' si l'utilisateur est 
 </sec:authorize>
 ----
 
-La doc de bootstrap sur la navbar : https://getbootstrap.com/components/#navbar
+La doc de bootstrap sur la navbar : https://getbootstrap.com/docs/3.3/components/#navbar
 
 image::navbar-logout.png[]
 
 .CSRF
 ****
-Afin de pouvoir utiliser un lien simple pour la déconnexion nous avons utiliser la config 
+Afin de pouvoir utiliser un lien simple pour la déconnexion nous avons utilisé la config
 
 [source]
 ----
@@ -522,7 +522,7 @@ Voir la doc sur le http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE
 
 == MVC-12 Bouton 'éditer'
 
-Si l'utilisateur est connecté et possède le role 'ADMIN', pourquoi ne pas lui ajouter un bouton éditer disponible depuis une recette ?
+⇰ Si l'utilisateur est connecté et possède le role 'ADMIN', pourquoi ne pas lui ajouter un bouton éditer disponible depuis une recette ?
 
 Cette fois, le contrôle de l'accès se fait avec `hasRole('ADMIN')`
 
@@ -537,5 +537,5 @@ Dans les jsp comme dans les contrôleurs, spring security permet de régler fine
 
 == MVC-13 Formulaire de login
 
-Actuellement, le formulaire de login est moche. En s'aidant de la doc http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#jc-form[spring security] et http://getbootstrap.com/css/#forms[bootstrap] mettez en ligne un formulaire de login dans l'esprit du site.
+⇰ Actuellement, le formulaire de login est moche. En s'aidant de la doc http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#jc-form[spring security] et https://getbootstrap.com/docs/3.3/css/#forms[bootstrap] mettez en ligne un formulaire de login dans l'esprit du site.
 

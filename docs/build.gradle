@@ -9,7 +9,7 @@ repositories {
 }
 
 /**
- * Run ./gradlew docs:asciidoctor.
+ * Run ./gradlew docs:asciidoctor
  * Run with -t for continuous build (watch and build) => but ruby plugin crashed this way :/
  **/
 asciidoctor {
