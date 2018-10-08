@@ -258,7 +258,7 @@ j&#8217;arrête les points d&#8217;info
 <p><a href="../A-jsp/index.html">L&#8217;annexe A</a> décrit le fonctionnement des tag files.</p>
 </div>
 <div class="paragraph">
-<p>Voir également la doc <a href="http://getbootstrap.com/components/#navbar">Bootstrap</a> afin de rendre un élément actif.</p>
+<p>Voir également la doc <a href="https://getbootstrap.com/components/#navbar">Bootstrap</a> afin de rendre un élément actif.</p>
 </div>
 </div>
 </div>
@@ -372,7 +372,10 @@ Pour les retours chariots, il faut faire un replace des <code>"\n"</code> par de
 <p>La liste complète des tags est un service offert par l'<code>IndexController</code> via le mapping '/tags.json'.</p>
 </div>
 <div class="paragraph">
-<p>En étudiant le html et le javascript, ajoutez ce qu&#8217;il faut dans le html afin de faire fonctionner l&#8217;autocomplétion sur les tags.</p>
+<p>En l&#8217;état, cela ne fonctionne pas.</p>
+</div>
+<div class="paragraph">
+<p>⇰ En étudiant le html et le javascript, ajoutez ce qu&#8217;il faut dans le html afin de faire fonctionner l&#8217;autocomplétion sur les tags.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -404,8 +407,13 @@ Pour les retours chariots, il faut faire un replace des <code>"\n"</code> par de
 <div class="paragraph">
 <p>Pour gagner du temps, dans l&#8217;interface d&#8217;édition, le client aurait voulu un bouton 'ajouter du sel' et 'ajouter du poivre'.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="sel-poivre.png" alt="sel poivre">
+</div>
+</div>
 <div class="paragraph">
-<p>En étudiant le javascript du site et le fichier ingredient-form-row.jsp, ajoutez les boutons 'sel' et 'poivre' nécessaires.</p>
+<p>⇰ En étudiant le javascript du site et le fichier ingredient-form-row.jsp, ajoutez les boutons 'sel' et 'poivre' nécessaires.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -510,10 +518,10 @@ Vaudrait il mieux le faire coté client ou serveur ?</p>
 <p>Ce petit exemple de formulaire avec une liste dynamique démontre que les frameworks classiques comme Spring MVC sont mal à l&#8217;aise avec ce genre de problème.</p>
 </div>
 <div class="paragraph">
-<p>Envoyer les données en JSON via une mécanique AJAX réglerait le problème.</p>
+<p>Envoyer les données en JSON via une mécanique AJAX réglerait plus facilement ce problème.</p>
 </div>
 <div class="paragraph">
-<p>Les frameworks pour les Rich Internet Applications (RIA) comme AngularJS traiteraient de ce problème beaucoup plus aisément.</p>
+<p>Les frameworks pour les Rich Internet Applications (RIA) comme Angular traiteraient de ce problème beaucoup plus aisément.</p>
 </div>
 </div>
 </div>
@@ -535,7 +543,12 @@ Le but ici est d&#8217;imaginer une solution, pas de la coder.
 <h2 id="_jsp_10_pagination">10. JSP-10 : pagination</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Dans <code>recettes.jsp</code> il y a une pagination qui n&#8217;est pas fonctionnelle pour le moment.</p>
+<p>Dans <code>recettes.jsp</code> (visible depuis /recettes) il y a une pagination qui n&#8217;est pas fonctionnelle pour le moment.</p>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="bad-pagination.png" alt="bad pagination">
+</div>
 </div>
 <div class="paragraph">
 <p>Le code est <code>${pagination.pages}</code>.</p>
@@ -544,7 +557,7 @@ Le but ici est d&#8217;imaginer une solution, pas de la coder.
 <p>La classe <code>Pagination</code> est dans le package <code>fr.cmm.helper</code> (getPages() est codé en dur, mais ce n&#8217;est pas le sujet pour le moment).</p>
 </div>
 <div class="paragraph">
-<p>En se servant de tout ce qui a été vu précédemment, formattez cette pagination en utilisant le <a href="http://getbootstrap.com/components/#pagination">composant pagination de bootstrap</a></p>
+<p>En se servant de tout ce qui a été vu précédemment, formattez cette pagination en utilisant le <a href="https://getbootstrap.com/components/#pagination">composant pagination de bootstrap</a></p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">

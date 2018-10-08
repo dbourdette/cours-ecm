@@ -61,7 +61,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Les modifications dans les controllers nécessitent de redémarrer le serveur <code>gradle tomcatRun</code>.
+Les modifications dans les controllers nécessitent de redémarrer le serveur avec <code>gradle tomcatRun</code>.
 </td>
 </tr>
 </table>
@@ -90,10 +90,10 @@ Les modifications dans les controllers nécessitent de redémarrer le serveur <c
 </div>
 </div>
 <div class="paragraph">
-<p>Corrigez la classe <code>IndexController</code> afin que ce lien fonctionne.</p>
+<p>⇰ Corrigez la classe <code>IndexController</code> afin que ce lien fonctionne.</p>
 </div>
 <div class="paragraph">
-<p>Il y a des tests en place pour <code>IndexController</code> dans la classe <code>IndexControllerTest</code>, profitez en pour rajouter un test pour cette méthode <code>contact()</code>.</p>
+<p>⇰ Il y a des tests en place pour <code>IndexController</code> dans la classe <code>IndexControllerTest</code>, profitez en pour rajouter un test pour cette méthode <code>contact()</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -129,7 +129,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 </div>
 </div>
 <div class="paragraph">
-<p>Que faut il faire dans <code>IndexController</code> et dans <code>recettes.jsp</code> afin que le contenu de l&#8217;input soit correct ?</p>
+<p>⇰ Que faut il faire dans <code>IndexController</code> et dans <code>recettes.jsp</code> afin que le contenu de l&#8217;input soit conservé ?</p>
 </div>
 </div>
 </div>
@@ -140,7 +140,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Lors de la recherche sur /recettes, le <code>SearchForm</code> possède un paramètre <code>pageIndex</code>.</p>
 </div>
 <div class="paragraph">
-<p>Ainsi, on peut faire aller sur la page 2 via la requête /recettes?pageIndex=2</p>
+<p>Ainsi, on peut aller sur la page 2 via la requête /recettes?pageIndex=2</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -169,7 +169,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Notre code n&#8217;est pas du tout protégé&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
-<p>Que peut on faire ?</p>
+<p>⇰ Que peut on faire ?</p>
 </div>
 </div>
 </div>
@@ -177,7 +177,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <h2 id="_mvc_4_problème_de_pagination">4. MVC-4 : Problème de pagination</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>La pagination semble avoir un problème, elle ne semble pas indiquer toujours le bon nombre de pages.</p>
+<p>La <code>Pagination</code> semble avoir un problème, elle ne semble pas indiquer toujours le bon nombre de pages.</p>
 </div>
 <div class="paragraph">
 <p>Le code pour compter le nombre de pages est le suivant :</p>
@@ -193,7 +193,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Par exemple, si il y a 20 éléments en base et que pageSize vaut 50, <code>getPageCount()</code> va donner 0.</p>
 </div>
 <div class="paragraph">
-<p>Ajoutez et faites passer des tests unitaires afin de couvrir les cas suivants :</p>
+<p>⇰ Ajoutez et faites passer des tests unitaires afin de couvrir les cas suivants :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -241,10 +241,10 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 </div>
 </div>
 <div class="paragraph">
-<p>En passant par des tests unitaires, faire une impémentation correcte de cette méthode.</p>
+<p>⇰ En passant par des tests unitaires, faire une impémentation correcte de cette méthode.</p>
 </div>
 <div class="paragraph">
-<p>Le fonctionnement souhaitée pour la navigation est de se contruire autour de l&#8217;index courant en essayant de mettre jusqu&#8217;a 10 éléments.</p>
+<p>Le fonctionnement souhaitée pour la navigation est de se construire autour de l&#8217;index courant en essayant de mettre jusqu&#8217;a 10 éléments.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -253,7 +253,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Il n&#8217;est pas facile de deviner quel sera le bon algorithme.</p>
 </div>
 <div class="paragraph">
-<p>En commençant par les cas simples, par les tests, on construit la solution par petits bouts.</p>
+<p>En commençant par des cas simples, grâce aux tests, on construit la solution par petits bouts.</p>
 </div>
 <div class="paragraph">
 <p>Un fois en place, les tests nous permettront de retoucher (refactoring) le code en s&#8217;assurant qu&#8217;on ne casse rien.</p>
@@ -270,7 +270,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Cela ne va pas sembler évident à quelqu&#8217;un venant relire le code.</p>
 </div>
 <div class="paragraph">
-<p>Afin d&#8217;éviter ce sentiment de chiffre venu de nul part, il est bon d&#8217;en faire une constante dans la classe <code>Pagination</code></p>
+<p>Afin d&#8217;éviter ce sentiment d&#8217;un chiffre venu de nul part, il est bon d&#8217;en faire une constante dans la classe <code>Pagination</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -288,7 +288,12 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Pour le moment, on a très peu de gestion d&#8217;erreur.</p>
 </div>
 <div class="paragraph">
-<p>Si on va sur <a href="http://localhost:8080/recette/56375619d4c603aa4eb412dd" class="bare">http://localhost:8080/recette/56375619d4c603aa4eb412dd</a> on obtient une page très vide et cassée.</p>
+<p>Si on va sur <a href="http://localhost:8080/recette/56375619d4c603aa4eb412dd" class="bare">http://localhost:8080/recette/56375619d4c603aa4eb412dd</a> on obtient une page très vide et qui semble cassée.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="empty.png" alt="empty">
+</div>
 </div>
 <div class="paragraph">
 <p>Dans ce cas, on voudrait obtenir une 404 (page not found).</p>
@@ -299,7 +304,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 </div>
 </div>
 <div class="paragraph">
-<p>En passant par les tests, s&#8217;assurer que l&#8217;obtient bien une 404 depuis <code>IndexController</code> lorsque la recette n&#8217;existe pas.</p>
+<p>⇰ En passant par les tests, s&#8217;assurer que l&#8217;obtient bien une 404 depuis <code>IndexController</code> lorsque la recette n&#8217;existe pas.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -327,10 +332,10 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Actuellement, nos pages 404 (ex: /plop) et 500 (ex: /recette/plop) sont affreuses : ce sont les pages par défaut de tomcat.</p>
 </div>
 <div class="paragraph">
-<p>Elles affichent les stacktraces, ce qui est bien pratique, mais pour le visiteur du site, c&#8217;est affreux.</p>
+<p>Elles affichent les stacktraces, ce qui est bien pratique, mais pour le visiteur du site, c&#8217;est moche.</p>
 </div>
 <div class="paragraph">
-<p>Nous allons donc ajouter des pages d&#8217;erreur plus jolies.</p>
+<p>⇰ Nous allons donc ajouter des pages d&#8217;erreur plus jolies.</p>
 </div>
 <div class="listingblock">
 <div class="title">Gestion d&#8217;erreur dans le web.xml</div>
@@ -362,7 +367,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Cette gestion d&#8217;erreur se fait au niveau conteneur de Servlet (tomcat).</p>
 </div>
 <div class="paragraph">
-<p>Or notre servlet Spring est mappée sur <code>/</code> (normalament, ça veut dire 'tout'). Le conteneur manque un peu d&#8217;intelligence, il faut rajouter les mappings suivant :</p>
+<p>⇰ Or notre servlet Spring est mappée sur <code>/</code> (normalement, ça veut dire 'tout'), mais tomcat manque un peu d&#8217;intelligence, il faut rajouter les mappings suivant :</p>
 </div>
 <div class="listingblock">
 <div class="title">Mapping supplémentaire pour la Servlet Spring</div>
@@ -378,10 +383,10 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 </div>
 </div>
 <div class="paragraph">
-<p>Ajoutez ces entrées ainsi que les <code>@RequestMapping</code> correspondant dans <code>IndexController</code></p>
+<p>⇰ Ajoutez ces entrées ainsi que les <code>@RequestMapping</code> correspondant dans <code>IndexController</code></p>
 </div>
 <div class="paragraph">
-<p>Enfin, ajoutez le fichier jsp qui affiche un message d&#8217;excuse. Un seul fichier jsp peut servir pour les 2 cas.</p>
+<p>⇰ Enfin, ajoutez le fichier jsp qui affiche un message d&#8217;excuse. Un seul fichier jsp peut servir pour les 2 cas.</p>
 </div>
 <div class="paragraph">
 <p>Maintenant, <a href="http://localhost:8080/recette/56375619d4c603aa4eb412dd" class="bare">http://localhost:8080/recette/56375619d4c603aa4eb412dd</a> doit retourner une page d&#8217;erreur présentable.</p>
@@ -428,7 +433,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>En cas d&#8217;erreur, on redirige vers la vue</td>
+<td>En cas d&#8217;erreur, on affiche la vue de nouveau</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -499,7 +504,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 </div>
 </div>
 <div class="paragraph">
-<p>Cependant nous avons choisi d&#8217;utiliser <code>@Valid</code> dans notre Controller. Cela permet d&#8217;utiliser les annotionas de <a href="http://beanvalidation.org/">Bean Validation</a>.</p>
+<p>Cependant nous avons choisi d&#8217;utiliser <code>@Valid</code> dans notre Controller. Cela permet d&#8217;utiliser les annotations de <a href="http://beanvalidation.org/">Bean Validation</a>.</p>
 </div>
 <div class="paragraph">
 <p>Dans notre <code>Recipe</code> nous avons donc :</p>
@@ -530,10 +535,10 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Les 2 approches (manuelle et Bean Validation) peuvent être combinées en fonction des besoins. Toutes les erreurs finissent dans BindingResult.</p>
 </div>
 <div class="paragraph">
-<p>Trouvez comment avoir les messages d&#8217;erreur suivant : "Titre est obligatoire" et "Date est obligatoire".</p>
+<p>⇰ Trouvez comment avoir les messages d&#8217;erreur suivant : "Titre est obligatoire" et "Date est obligatoire".</p>
 </div>
 <div class="paragraph">
-<p>Comment pourrait on faire si on souhaite ne pas pouvoir anti dater une recette uniquement à la création de celle ci ? (c&#8217;est une question assez rhétorique, il y a peu de chance que cela soit intéressant dans notre cas).</p>
+<p>Comment pourrait on faire si on souhaite ne pas pouvoir anti dater une recette, uniquement à la création de celle ci ? (c&#8217;est une question assez rhétorique, il y a peu de chance que cela soit intéressant dans notre cas).</p>
 </div>
 </div>
 </div>
@@ -544,7 +549,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Actuellement, nous n&#8217;avons rien fait afin de configurer les logs.</p>
 </div>
 <div class="paragraph">
-<p>Lorsqu&#8217;on lance un test unitaire qui charge un contexte spring, on peut voir les lignes suivantes :</p>
+<p>Lorsqu&#8217;on lance un test unitaire qui charge un contexte spring (ex: <code>RecipeServiceTest</code>), on peut voir les lignes suivantes :</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -558,7 +563,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>C&#8217;est en rouge parce que le code utilise la sortie error (stderr via <code>System.err</code>) par défaut.</p>
 </div>
 <div class="paragraph">
-<p>Le problème en java est qu&#8217;il existe plusieurs librairies de log (java.util.logging, log4j&#8230;&#8203;).</p>
+<p>Le problème en java est qu&#8217;il existe plusieurs (trop de) librairies de log (java.util.logging, log4j&#8230;&#8203;).</p>
 </div>
 <div class="paragraph">
 <p>Pour faire encore plus simple, il existe aussi des wrappeurs comme <a href="http://www.slf4j.org/">SLF4J</a> (Simple Logging Facade for Java) ou <a href="https://commons.apache.org/proper/commons-logging/">commons-logging</a></p>
@@ -567,13 +572,13 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <div class="content">
 <div class="title">Librairies et wrappers</div>
 <div class="paragraph">
-<p>Il n&#8217;y avait pas de librairie de gestion de log aux débuts de java. Beaucoup de librairies existent aujourd&#8217;hui sans vraiment de vainceur.</p>
+<p>Il n&#8217;y avait pas de librairie de gestion de log aux débuts de java. Trop de librairies existent aujourd&#8217;hui.</p>
 </div>
 <div class="paragraph">
-<p>En théorie, il faudrait une configuration pour chaque librairie de log utilisée par notre code mais aussi les librairies.</p>
+<p>En théorie, il faudrait configurer chaque librairie de log utilisée par notre code et nos dépendances.</p>
 </div>
 <div class="paragraph">
-<p>Pour ne pas avoir à subir cela, on peut utiliser un wrapper qui va s&#8217;adapter à la situation.</p>
+<p>En pratique, certaines librairies chapotent tout cela, comme slf4j ou logback.</p>
 </div>
 </div>
 </div>
@@ -586,7 +591,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <div class="sect2">
 <h3 id="_ajout_de_log4j">9.1. Ajout de log4j</h3>
 <div class="paragraph">
-<p>On commence par ajouter log4j à nos librairies</p>
+<p>⇰ On commence par ajouter log4j à nos librairies</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -597,7 +602,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>Il faut bien s&#8217;assurer que la librairie est bien présente ensuite dans la liste des dépendances du projet.</p>
 </div>
 <div class="paragraph">
-<p>Si on relance notre test, on devrait voir :</p>
+<p>⇰ Si on relance notre test, on devrait voir :</p>
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
@@ -617,7 +622,7 @@ Elle permet de simuler RecipeService et donc, de ne pas avoir besoin d&#8217;une
 <p>On va passer par un fichier <code>log4j.properties</code> à la racine du classpath.</p>
 </div>
 <div class="paragraph">
-<p>Il suffit donc de rajouter ce fichier dans <code>src/test/resources</code> :</p>
+<p>⇰ Il suffit donc de rajouter ce fichier dans <code>src/test/resources</code> :</p>
 </div>
 <div class="listingblock">
 <div class="title">log4j.properties</div>
@@ -634,7 +639,7 @@ log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <i class
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Définition du root logger en niveau ERROR avec 'console' comme appender (sortie)</td>
+<td>Définition du root logger en niveau ERROR avec l&#8217;identifiant 'console' comme appender (sortie)</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -642,7 +647,7 @@ log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <i class
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>la sortie de 'console' est formattée</td>
+<td>la sortie de 'console' est formattée avec un pattern</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -657,7 +662,7 @@ log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <i class
 <p>Il existe de très nombreuses options de Configurartion.</p>
 </div>
 <div class="paragraph">
-<p>Par exemple, pour les Appenders, on trouve un FileAppender, un RollingFileAppender et même des Appenders capables d&#8217;écrire en base ou vers un service réseau.</p>
+<p>On peut écrire dans un fichier, des fichiers roulants, un service réseau, en base&#8230;&#8203;</p>
 </div>
 </div>
 </div>
@@ -666,7 +671,7 @@ log4j.appender.console.layout.ConversionPattern=%5p [%t] (%F:%L) - %m%n <i class
 </div>
 <div class="paragraph">
 <p>Il est possible (et recommandé) de faire de même pour l&#8217;application en production.
-Par exemple, on pourrait mettre un fichier de configuration log4j dans <code>src/main/resources</code>.</p>
+Par exemple, on pourrait mettre un fichier de configuration log4j dans <code>src/main/resources</code> qui partirait dans le war.</p>
 </div>
 </div>
 </div>
@@ -683,7 +688,7 @@ Par exemple, on pourrait mettre un fichier de configuration log4j dans <code>src
 <div class="sect2">
 <h3 id="_ajout_de_spring_security">10.1. Ajout de spring-security</h3>
 <div class="paragraph">
-<p>Comme pour log4j, on rajoute la librairie</p>
+<p>⇰ Comme pour log4j, on rajoute la librairie</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
@@ -700,7 +705,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 <div class="sect2">
 <h3 id="_ajout_de_lintercepteur">10.2. Ajout de l&#8217;intercepteur</h3>
 <div class="paragraph">
-<p>Spring security doit intercepter toutes les requêtes.</p>
+<p>⇰ Il faut demander à Spring security d&#8217;intercepter toutes les requêtes en ajoutant dans le web.xml :</p>
 </div>
 <div class="listingblock">
 <div class="title">web.xml</div>
@@ -728,7 +733,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 </table>
 </div>
 <div class="paragraph">
-<p>Le mieux est de place ce filtre avant l&#8217;encoding-filter, afin qu&#8217;il soit traversé en premier. L&#8217;ordre dans le web.xml est important.</p>
+<p>Le mieux est de placer ce filtre avant l&#8217;encoding-filter, afin qu&#8217;il soit traversé en premier. L&#8217;ordre dans le web.xml est important.</p>
 </div>
 <div class="paragraph">
 <p>Ainsi, avant d&#8217;arriver sur la <code>DispatcherServlet</code>, les requêtes passeront au travers du <code>DelegatingFilterProxy</code>.</p>
@@ -737,7 +742,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 <div class="sect2">
 <h3 id="_ajout_de_la_configuration">10.3. Ajout de la configuration</h3>
 <div class="paragraph">
-<p>Il reste a configurer spring security.</p>
+<p>⇰ Il reste a configurer spring security en modifiant d&#8217;abord le web.xml (ajout de <code>fr.cmm.SpringSecurity</code>).</p>
 </div>
 <div class="listingblock">
 <div class="title">Modification du ContextLoaderListener dans le web.xml</div>
@@ -756,7 +761,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 </div>
 </div>
 <div class="paragraph">
-<p>Et la classe java correspondante</p>
+<p>⇰ Et bien sûr la classe java correspondante</p>
 </div>
 <div class="listingblock">
 <div class="title">fr.cmm.SpringSecurity</div>
@@ -776,9 +781,9 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
         http
             .authorizeRequests()
                 .antMatchers(<span class="string"><span class="delimiter">&quot;</span><span class="content">/admin/**</span><span class="delimiter">&quot;</span></span>).authenticated() <i class="conum" data-value="5"></i><b>(5)</b>
-            .and()
-                .formLogin(); <i class="conum" data-value="6"></i><b>(6)</b>
-            .and()
+                .and()
+                .formLogin() <i class="conum" data-value="6"></i><b>(6)</b>
+                .and()
                 .logout() <i class="conum" data-value="7"></i><b>(7)</b>
                 .logoutSuccessUrl(<span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span>)
                 .logoutRequestMatcher(<span class="keyword">new</span> AntPathRequestMatcher(<span class="string"><span class="delimiter">&quot;</span><span class="content">/logout</span><span class="delimiter">&quot;</span></span>));
@@ -818,7 +823,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 </table>
 </div>
 <div class="paragraph">
-<p>Lorsque l&#8217;on cherche a accéder à une page admin, on a le formulaire suivant.</p>
+<p>Après reboot, lorsque l&#8217;on cherche a accéder à une page admin, on a le formulaire suivant.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -838,7 +843,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 <p>Il est nécessaire de pouvoir se déconnecter. Nous allons ajouter un lien dans la navbar sur toutes les pages.</p>
 </div>
 <div class="paragraph">
-<p>Afin de rajouter le lien de façon condionelle, nous utilisons la lib de <a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/taglibs.html">customs tags pour spring security</a></p>
+<p>⇰ Afin de rajouter le lien de façon condionelle, nous utilisons la lib de <a href="https://docs.spring.io/spring-security/site/docs/current/reference/html/servlet-webclient.html#taglibs">customs tags pour spring security</a></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -846,7 +851,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 </div>
 </div>
 <div class="paragraph">
-<p>Dans <code>header.tag</code> faites apparaitre un lien 'déconnexion' si l&#8217;utilisateur est <code>isAuthenticated()</code> à l&#8217;aide de la lib</p>
+<p>⇰ Dans <code>header.tag</code> faites apparaitre un lien 'déconnexion' si l&#8217;utilisateur est <code>isAuthenticated()</code> à l&#8217;aide de la lib</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -860,7 +865,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 </div>
 </div>
 <div class="paragraph">
-<p>La doc de bootstrap sur la navbar : <a href="http://getbootstrap.com/components/#navbar" class="bare">http://getbootstrap.com/components/#navbar</a></p>
+<p>La doc de bootstrap sur la navbar : <a href="https://getbootstrap.com/docs/3.3/components/#navbar" class="bare">https://getbootstrap.com/docs/3.3/components/#navbar</a></p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -871,7 +876,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 <div class="content">
 <div class="title">CSRF</div>
 <div class="paragraph">
-<p>Afin de pouvoir utiliser un lien simple pour la déconnexion nous avons utiliser la config</p>
+<p>Afin de pouvoir utiliser un lien simple pour la déconnexion nous avons utilisé la config</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -895,7 +900,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 <h2 id="_mvc_12_bouton_éditer">12. MVC-12 Bouton 'éditer'</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Si l&#8217;utilisateur est connecté et possède le role 'ADMIN', pourquoi ne pas lui ajouter un bouton éditer disponible depuis une recette ?</p>
+<p>⇰ Si l&#8217;utilisateur est connecté et possède le role 'ADMIN', pourquoi ne pas lui ajouter un bouton éditer disponible depuis une recette ?</p>
 </div>
 <div class="paragraph">
 <p>Cette fois, le contrôle de l&#8217;accès se fait avec <code>hasRole('ADMIN')</code></p>
@@ -920,7 +925,7 @@ compile 'org.springframework.security:spring-security-web:4.0.3.RELEASE'</code><
 <h2 id="_mvc_13_formulaire_de_login">13. MVC-13 Formulaire de login</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Actuellement, le formulaire de login est moche. En s&#8217;aidant de la doc <a href="http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#jc-form">spring security</a> et <a href="http://getbootstrap.com/css/#forms">bootstrap</a> mettez en ligne un formulaire de login dans l&#8217;esprit du site.</p>
+<p>⇰ Actuellement, le formulaire de login est moche. En s&#8217;aidant de la doc <a href="http://docs.spring.io/spring-security/site/docs/4.0.1.RELEASE/reference/htmlsingle/#jc-form">spring security</a> et <a href="https://getbootstrap.com/docs/3.3/css/#forms">bootstrap</a> mettez en ligne un formulaire de login dans l&#8217;esprit du site.</p>
 </div>
 </div>
 </div>

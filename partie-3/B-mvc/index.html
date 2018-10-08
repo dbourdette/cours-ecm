@@ -69,7 +69,7 @@
 <p>C&#8217;est un pattern présent dans de nombreux languages et environnements.</p>
 </div>
 <div class="paragraph">
-<p>C&#8217;est une division du code en sous technologies adaptées à chaque aspect.</p>
+<p>C&#8217;est une division qui permet une meilleure organisation du code.</p>
 </div>
 </div>
 </div>
@@ -168,15 +168,12 @@ Certaines étapes de ce cheminement sont optionnelles.
 <h2 id="_configuration">3. Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Spring MVC ne brille pas pour sa <strong>convention over configuration</strong> (en partie à cause de JEE et en partie à cause de Spring).</p>
-</div>
-<div class="paragraph">
 <p>La configuration se divise en 3 parties.</p>
 </div>
 <div class="sect2">
 <h3 id="_web_xml">3.1. web.xml</h3>
 <div class="paragraph">
-<p>C&#8217;est le fichier de configuration standard JEE pour les applications web.</p>
+<p>C&#8217;est le fichier de configuration standard pour les applications web.</p>
 </div>
 <div class="paragraph">
 <p>Le <strong>descripteur de déploiement</strong> (web.xml) comporte ce qu&#8217;il faut afin de charger le contexte spring</p>
@@ -274,7 +271,7 @@ un component-scan permet de charger tous les composants Spring contenu dans un p
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Il est possible de faire la même configuration en java.
+Il est possible de faire toute cette configuration en java au lieu du xml.
 </td>
 </tr>
 </table>
@@ -386,7 +383,7 @@ Il est possible de faire la même configuration en xml mais c&#8217;est beaucoup
 <div class="sect2">
 <h3 id="_helloworldcontroller">4.1. HelloWorldController</h3>
 <div class="paragraph">
-<p>Un Controller est une classe java annoté avec <code>@Controller</code></p>
+<p>Un Controller est une classe java annotée avec <code>@Controller</code></p>
 </div>
 <div class="listingblock">
 <div class="title">Exemple de Controller</div>
@@ -429,7 +426,7 @@ Une méthode mappée est appelée <strong>handler</strong>
 </table>
 </div>
 <div class="paragraph">
-<p>La liste les <a href="http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-arguments">paramètres supportés</a> par les handlers est disponible dans le doc de Spring MVC</p>
+<p>La liste les <a href="https://docs.spring.io/spring-framework/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-arguments" target="_blank" rel="noopener">paramètres supportés</a> par les handlers est disponible dans le doc de Spring MVC</p>
 </div>
 </div>
 <div class="sect2">
@@ -458,7 +455,7 @@ Une méthode mappée est appelée <strong>handler</strong>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configuration dans <code>spring-servlet.xml</code>
+Spring convertit "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configuration dans <code>spring-servlet.xml</code>
 </td>
 </tr>
 </table>
@@ -467,7 +464,7 @@ Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configurat
 <p>Retourner une chaîne de caractères est interprété comme un forward vers une vue.</p>
 </div>
 <div class="paragraph">
-<p>La liste complète des <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#mvc-ann-return-types">retours possibles</a> est est disponible dans le doc de Spring MVC</p>
+<p>La liste complète des <a href="http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/htmlsingle/#mvc-ann-return-types" target="_blank" rel="noopener">retours possibles</a> est est disponible dans le doc de Spring MVC</p>
 </div>
 </div>
 <div class="sect2">
@@ -519,7 +516,7 @@ Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configurat
 <p>La annotations permettent de configurer les Controllers.</p>
 </div>
 <div class="paragraph">
-<p>Voici les annotations principales.</p>
+<p>Voici les principales annotations.</p>
 </div>
 <div class="sect2">
 <h3 id="_requestmapping">5.1. @RequestMapping</h3>
@@ -542,7 +539,7 @@ Spring converti "hello" en /WEB-INF/jsp/hello.jsp en se basant sur la configurat
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><code>@RequestMapping</code> se cumule à tous les handlers du Controller</td>
+<td>Le chemin dans le <code>@RequestMapping</code> arrive en préfix de tous les handlers du Controller</td>
 </tr>
 </table>
 </div>
@@ -664,7 +661,7 @@ En cas d&#8217;erreur de conversion (/hello?value=xyz) une erreur 400 (Bad Reque
 <div class="sect2">
 <h3 id="_requestbody_et_responsebody">5.4. @RequestBody et @ResponseBody</h3>
 <div class="paragraph">
-<p><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-requestbody"><code>@RequestBody</code></a> permet de convertir le body de la requête HTTP en paramètre du handler</p>
+<p><a href="http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-requestbody"><code>@RequestBody</code></a> permet de convertir le body de la requête HTTP en paramètre du handler</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -675,7 +672,7 @@ En cas d&#8217;erreur de conversion (/hello?value=xyz) une erreur 400 (Bad Reque
 </div>
 </div>
 <div class="paragraph">
-<p><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-responsebody"><code>@ResponseBody</code></a> permet de convertir le type de retour du handler en body de la réponse HTPP.</p>
+<p><a href="http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-responsebody"><code>@ResponseBody</code></a> permet de convertir le type de retour du handler en body de la réponse HTPP.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -702,7 +699,7 @@ En configurant spring, il devient facile de lire ou d&#8217;écrire du JSON ou d
 <div class="sect2">
 <h3 id="_modelattribute">5.5. @ModelAttribute</h3>
 <div class="paragraph">
-<p>Il y a usages possible pour cette annotation.</p>
+<p>Il y a plusieurs usages possible pour cette annotation.</p>
 </div>
 <div class="sect3">
 <h4 id="_sur_une_méthode">5.5.1. Sur une méthode</h4>
@@ -726,7 +723,7 @@ En configurant spring, il devient facile de lire ou d&#8217;écrire du JSON ou d
 </table>
 </div>
 <div class="paragraph">
-<p>Voir <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods" class="bare">http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods</a></p>
+<p>Voir <a href="http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods" class="bare">http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-methods</a></p>
 </div>
 </div>
 <div class="sect3">
@@ -743,7 +740,7 @@ En configurant spring, il devient facile de lire ou d&#8217;écrire du JSON ou d
 </div>
 </div>
 <div class="paragraph">
-<p>Voir <a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args" class="bare">http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args</a></p>
+<p>Voir <a href="http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args" class="bare">http://docs.spring.io/spring/docs/4.1.6.RELEASE/spring-framework-reference/html/mvc.html#mvc-ann-modelattrib-method-args</a></p>
 </div>
 </div>
 </div>
@@ -889,7 +886,7 @@ En configurant spring, il devient facile de lire ou d&#8217;écrire du JSON ou d
 <h2 id="_tests_avec_mockmvc">7. Tests avec MockMvc</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Afin de tester un Controller que celui ci soit en condition réelle, dans un conteneur Spring.</p>
+<p>Spring permet de tester les Controllers avec de fausses requêtes http.</p>
 </div>
 <div class="paragraph">
 <p>Pour cela, Spring MVC propose un classe $MockMvc$ et un support pour les tests de Controller.</p>

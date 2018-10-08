@@ -41,13 +41,13 @@
 <p>Mis à part tous les bugs qui restent encore, l&#8217;applicaton fonctionne un peu mieux.</p>
 </div>
 <div class="paragraph">
-<p>Voici quelques piste de ce que l&#8217;on pourrait rajouter ou transformer.</p>
+<p>Voici quelques pistes que l&#8217;on pourrait encore suivre.</p>
 </div>
 <div class="sect1">
 <h2 id="_web_service">1. Web service</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Les web services sont très à la mode, surtout en json.</p>
+<p>Les web services et le json sont très à la mode.</p>
 </div>
 <div class="paragraph">
 <p>Nous aimerions disposer de la liste des recettes via un service REST</p>
@@ -62,7 +62,7 @@
 <p>Il repose intensivement sur le protocol HTTP et notamment sur ses méthodes GET, POST, PUT et DELETE.</p>
 </div>
 <div class="paragraph">
-<p>La construction des mappings d&#8217;url est aussi contrainte afin de facilité la compréhension du modèle de données.</p>
+<p>On navigue ainsi dans les services un peu comme on naviguerait dans les pages web.</p>
 </div>
 <div class="paragraph">
 <p>Plus de détails dans <a href="http://www.amazon.fr/RESTful-Web-Services-Leonard-Richardson/dp/0596529260">RESTful Web Services</a>.</p>
@@ -70,23 +70,23 @@
 </div>
 </div>
 <div class="paragraph">
-<p>On souhaite donc avoir les 2 mappings suivant :</p>
+<p>On souhaite avoir les 2 mappings suivant :</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>/api/recipes : la liste paginé (paramètre page=xxx) des recettes, ordonancées par date (les plus récentes en premier)</p>
+<p>/api/recipes : la liste paginée (paramètre page=xxx) des recettes, ordonancées par date descendante (les plus récentes en premier)</p>
 </li>
 <li>
-<p>/api/recipes/{id} : un recette</p>
+<p>/api/recipes/{id} : une recette</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Ces pages n&#8217;affiche pas du html mais du json (on pourrait faire du xml mais c&#8217;est moins à la mode).</p>
+<p>Ces pages n&#8217;affichent pas du html mais servent du json.</p>
 </div>
 <div class="paragraph">
-<p>Voici la liste des choses à faire :</p>
+<p>⇰ Voici la liste des choses à faire :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -110,10 +110,11 @@
 <h2 id="_groovy">2. Groovy</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="http://www.groovy-lang.org/Groovy" class="bare">http://www.groovy-lang.org/Groovy</a>] est un language alternatif pour la jvm.</p>
+<p><a href="http://groovy-lang.org/index.html">Groovy</a> est un language alternatif pour la jvm.</p>
 </div>
 <div class="paragraph">
-<p>Il existe pas mal de <a href="http://www.groovy-lang.org/differences.html">différences</a> entre java et groovy. Groovy essaye d&#8217;être le plus proche possible de java tout en enlevant ses lourdeurs.</p>
+<p>Il existe pas mal de <a href="http://www.groovy-lang.org/differences.html">différences</a> entre java et groovy.
+Groovy essaye d&#8217;être le plus naturel possible pour des développeurs java.</p>
 </div>
 <div class="paragraph">
 <p>Voici les différences clées :</p>
@@ -149,7 +150,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Clojure">Clojure</a>, a functional <a href="https://en.wikipedia.org/wiki/Lisp_(programming_language)">Lisp</a> dialect</p>
+<p><a href="https://en.wikipedia.org/wiki/Clojure">Clojure</a>, a functional Lisp dialect with focus on simplicity and concurrency</p>
 </li>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/Groovy_(programming_language)">Groovy</a>, a programming and scripting language</p>
@@ -159,6 +160,9 @@
 </li>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/JRuby">JRuby</a>, an implementation of <a href="https://en.wikipedia.org/wiki/Ruby_(programming_language)">Ruby</a></p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Kotlin_(programming_language)">Kotlin</a>, a statically-typed language from JetBrains, the developers of IntelliJ IDEA</p>
 </li>
 <li>
 <p><a href="https://en.wikipedia.org/wiki/Jython">Jython</a>, an implementation of <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a></p>
@@ -174,7 +178,7 @@
 <p>Nous allons reprendre quelques parties du code afin de voir ce que pourrait apporter Groovy.</p>
 </div>
 <div class="paragraph">
-<p>Afin de pouvoir faire du groovy avec gradle, on ajoute le <a href="https://docs.gradle.org/current/userguide/groovy_plugin.html">plugin groovy</a> en plus de java.</p>
+<p>⇰ Afin de pouvoir faire du groovy avec gradle, on ajoute le <a href="https://docs.gradle.org/current/userguide/groovy_plugin.html">plugin groovy</a> en plus de java.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -183,7 +187,7 @@ apply plugin: <span class="string"><span class="delimiter">'</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>Il faut aussi rajouter la lib groovy dans les dépendances et faire un refresh du projet gradle dans Intellij.</p>
+<p>⇰ Il faut aussi rajouter la lib groovy dans les dépendances et faire un refresh du projet gradle dans Intellij.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -191,7 +195,7 @@ apply plugin: <span class="string"><span class="delimiter">'</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>Le plugin groovy va chercher ses sources dans src/main/groovy et les tests dans src/test/groovy. Pour ne pas avoir à tout changer et faire tout compiler par groovy, on ajoute la configuration suivante.</p>
+<p>⇰ Par défaut, le plugin groovy va chercher ses sources dans src/main/groovy et les tests dans src/test/groovy. Pour ne pas avoir à tout changer et faire tout compiler par groovy, on ajoute la configuration suivante.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -233,10 +237,10 @@ apply plugin: <span class="string"><span class="delimiter">'</span><span class="
 <p>On va regarder ce que cela peut donner dans un test en premier.</p>
 </div>
 <div class="paragraph">
-<p>Renommez <code>RecipeServiceTest.java</code> en <code>RecipeServiceTest.groovy</code> (Refactor &gt; Rename File).</p>
+<p>⇰ Renommez <code>RecipeServiceTest.java</code> en <code>RecipeServiceTest.groovy</code> (Refactor &gt; Rename File).</p>
 </div>
 <div class="paragraph">
-<p>Dans <code>RecipeServiceTest</code> la méthode save peut devenir</p>
+<p>⇰ Dans <code>RecipeServiceTest</code> la méthode save peut devenir</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -268,7 +272,7 @@ apply plugin: <span class="string"><span class="delimiter">'</span><span class="
 <p>C&#8217;est beaucoup plus compacte et surtout beaucoup plus lisible. Faites la même chose avec toutes les méthodes de cette classe.</p>
 </div>
 <div class="paragraph">
-<p>Voici quelques idées.</p>
+<p>Voici quelques autres idées.</p>
 </div>
 <div class="paragraph">
 <div class="title">method name</div>
@@ -280,7 +284,7 @@ apply plugin: <span class="string"><span class="delimiter">'</span><span class="
 </div>
 </div>
 <div class="paragraph">
-<p>Peut devenir</p>
+<p>⇰ Peut devenir</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -301,7 +305,7 @@ recipeService.save(<span class="keyword">new</span> Recipe())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Peut devenir</p>
+<p>⇰ Peut devenir</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -315,7 +319,7 @@ recipeService.save(<span class="keyword">new</span> Recipe())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Devient</p>
+<p>⇰ Devient</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -329,7 +333,7 @@ recipeService.save(<span class="keyword">new</span> Recipe())</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Peut s&#8217;écrire plus simplement</p>
+<p>⇰ Peut s&#8217;écrire plus simplement</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -355,12 +359,15 @@ recipeService.save(<span class="keyword">new</span> Recipe())</code></pre>
 <p>Par contre, la flexibilité a un coût : moins d&#8217;erreurs peuvent être relevées au moment de la compilation.</p>
 </div>
 <div class="paragraph">
-<p>En Groovy, savoir si une méthode existe sur un object si fait au runtime. Impossible de savoir à la compilation si un appel est possible ou non.</p>
+<p>En Groovy, savoir si une méthode existe sur un object se fait au runtime.</p>
+</div>
+<div class="paragraph">
+<p>Il existe une annotation <a href="http://docs.groovy-lang.org/latest/html/gapi/groovy/transform/CompileStatic.html">@CompileStatic</a> qui permet de rétablir les checks au moment de la compilation.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Passez <code>IndexController</code> en groovy et appliquer les règles suivantes (et précédantes) afin de simplifier le code.</p>
+<p>Passez <code>IndexController</code> en groovy et appliquer les règles précédantes et suivantes, afin de simplifier le code.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -375,13 +382,13 @@ Une liste en Groovy s&#8217;écrit <code>["/index", "/"]</code> et non <code>{"/
 </table>
 </div>
 <div class="listingblock">
-<div class="title">Map</div>
+<div class="title">ModelMap</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">model.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">columns</span><span class="delimiter">&quot;</span></span>, randomColumns());</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>model étant une Map, on peut écrire</p>
+<p>⇰ model étant une Map, on peut écrire</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -390,7 +397,7 @@ Une liste en Groovy s&#8217;écrit <code>["/index", "/"]</code> et non <code>{"/
 </div>
 <div class="paragraph">
 <div class="title">Implicit return</div>
-<p>Le return est implicit en Groovy</p>
+<p>Le return est implicite en Groovy</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -398,7 +405,7 @@ Une liste en Groovy s&#8217;écrit <code>["/index", "/"]</code> et non <code>{"/
 </div>
 </div>
 <div class="paragraph">
-<p>peut s&#8217;écrire</p>
+<p>⇰ peut s&#8217;écrire</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -406,7 +413,7 @@ Une liste en Groovy s&#8217;écrit <code>["/index", "/"]</code> et non <code>{"/
 </div>
 </div>
 <div class="paragraph">
-<p>En fait une méthode retourne par défaut la dernière valeur évaluée.</p>
+<p>En Groovy, une méthode retourne par défaut la dernière valeur évaluée.</p>
 </div>
 <div class="listingblock">
 <div class="title">Groovy truth</div>
@@ -417,7 +424,7 @@ Une liste en Groovy s&#8217;écrit <code>["/index", "/"]</code> et non <code>{"/
 </div>
 </div>
 <div class="paragraph">
-<p>Le test de non nullité peut être simplifié en</p>
+<p>⇰ Le test de non nullité peut être simplifié en</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -426,20 +433,24 @@ Une liste en Groovy s&#8217;écrit <code>["/index", "/"]</code> et non <code>{"/
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<div class="title">Are you elvish ?</div>
+<p>Nous n&#8217;avons pas d&#8217;opérateur ternaire dans notre code, mais groovy permet d&#8217;utiliser le très sympathique <a href="http://docs.groovy-lang.org/docs/groovy-2.5.2/html/documentation/#_elvis_operator">opérateur elvis</a>.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_groovy_or_not_groovy">2.3. Groovy or not Groovy ?</h3>
 <div class="paragraph">
-<p>Groovy a ses avantages et incovénients comme tous les languages.</p>
+<p>Groovy a ses forces et faiblesses comme tous les languages.</p>
 </div>
 <div class="paragraph">
-<p>Sans couvertures de test, c&#8217;est assez dangereux de faire du Groovy.</p>
+<p>Sans couverture de test, c&#8217;est assez dangereux de faire du Groovy.</p>
 </div>
 <div class="paragraph">
 <p>Dans le web, c&#8217;est un language et un écosystème très plaisant.</p>
 </div>
 <div class="paragraph">
-<p>Il existe même un framework qui permet de faire des applications web très rapidement : <a href="https://grails.org/">Grails</a></p>
+<p>Il existe aussi un framework web basé sur Spring Boot : <a href="https://grails.org/">Grails</a></p>
 </div>
 </div>
 </div>
@@ -559,10 +570,10 @@ testCompile 'org.fluentlenium:fluentlenium-core:0.10.3' <i class="conum" data-va
 <p>On pourrait rajouter des commentaires, un système de note ou de like, proposer du sharing social&#8230;&#8203;</p>
 </div>
 <div class="paragraph">
-<p>Chaque fonctionnalités peut paraitre simple au départ et devnir un enfer dans les détails.</p>
+<p>Chaque fonctionnalité peut paraitre simple au départ et devenir complexe quand on rentre dans les détails.</p>
 </div>
 <div class="paragraph">
-<p>Avoir une bonne base de code maintenable est essentiel afin d&#8217;être capable d&#8217;intervenir quelle que soit la demande ou la dernière lubie de la personne en charge du moment.</p>
+<p>Maintenir un code base propre est important afin d&#8217;être capable de faire évoluer son projet continuellement.</p>
 </div>
 </div>
 </div>
