@@ -64,17 +64,37 @@
 </li>
 </ul>
 </div>
-<div class="imageblock" style="text-align: center">
-<div class="content">
-<img src="public.png" alt="Pages publiques" width="530" height="294">
-</div>
+<div class="literalblock">
 <div class="title">Pages publiques</div>
-</div>
-<div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="admin.png" alt="Pages d&#8217;admin" width="510" height="126">
+<pre>       +-------+
+       |{d}    |
+       |       | ------------------\
+       | index |                   |
+       +-------+                   |
+           |                       |
+    /------+------\                |    +-------+
+    |             |                |    |{d}    |
+    v             v                +---&gt;|       |
++-------+    +--------+            |    |recette|
+|{d}    |    |{d}     |            |    +-------+
+|       |    |recettes|            |
+| liste |    |   du   |------------+
+|       |    | moment |            |
++-------+    +--------+            |
+    |                              |
+    \------------------------------/</pre>
 </div>
+</div>
+<div class="literalblock">
 <div class="title">Pages d&#8217;admin</div>
+<div class="content">
+<pre>+-------+          +-------+          +-------+
+|{d}    |          |{d}    |          |{d}    |
+|       | --------&gt;|       | --------&gt;|edition|
+| index |          | liste |          |recette|
++-------+          +-------+          +-------+</pre>
+</div>
 </div>
 </div>
 </div>

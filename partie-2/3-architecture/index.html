@@ -39,9 +39,13 @@
 <div class="paragraph">
 <p>L&#8217;architecture est composée d&#8217;une application web qui est reliée à une base de données mongodb.</p>
 </div>
-<div class="imageblock" style="text-align: center">
+<div class="literalblock">
 <div class="content">
-<img src="architecture.png" alt="architecture" width="280" height="126">
+<pre>/-------\      +-------+
+|       |      |{s}    |
+|web app| ---&gt; | mongo |
+|       |      |       |
+\-------/      +-------+</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -90,10 +94,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="https://gradle.org/">Gradle</a> est un outils de build pour beaucoup de languages (java, groovy, scala, c&#8230;&#8203;)</p>
+<p><a href="https://gradle.org/" target="_blank" rel="noopener">Gradle</a> est un outils de build pour beaucoup de languages (java, groovy, scala, c&#8230;&#8203;)</p>
 </div>
 <div class="paragraph">
-<p>Il est écrit en groovy et se configure à l&#8217;aide d&#8217;un language spécifique (DSL)</p>
+<p>Il se configure à l&#8217;aide d&#8217;un language spécifique (DSL) en groovy</p>
 </div>
 <div class="paragraph">
 <p>Il est plus récent et plus souple que son concurent principal : maven</p>
@@ -112,7 +116,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="http://tomcat.apache.org/">Tomcat</a> est un serveur web pouvant lancer des applications java.</p>
+<p><a href="http://tomcat.apache.org/" target="_blank" rel="noopener">Tomcat</a> est un serveur web pouvant lancer des applications web java.</p>
 </div>
 <div class="paragraph">
 <p>Il est open source et offre de très bonnes performances.</p>
@@ -134,7 +138,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="http://projects.spring.io/spring-framework/">Spring</a> est un framework par injection de dépendances (DI).</p>
+<p><a href="http://projects.spring.io/spring-framework/" target="_blank" rel="noopener">Spring</a> est un framework par injection de dépendances (DI).</p>
 </div>
 <div class="paragraph">
 <p>Spring a aussi un module MVC pour le web, que nous utilisons.</p>
@@ -153,10 +157,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="https://www.mongodb.org/">MongoDB</a> est une base données NOSQL orientée document.</p>
+<p><a href="https://www.mongodb.org/" target="_blank" rel="noopener">MongoDB</a> est une base données NOSQL orientée document.</p>
 </div>
 <div class="paragraph">
-<p>Un document est un arbre json qui est stocké en Binary JSON (BSON). Ce sont des structures souples, sans schéma.</p>
+<p>Un document est un arbre json qui est stocké en Binary JSON (BSON).</p>
+</div>
+<div class="paragraph">
+<p>Ce sont des structures souples, sans schéma.</p>
 </div>
 </div>
 </div>
@@ -172,7 +179,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="http://getbootstrap.com/">Bootstrap</a> est un framework html, css et javascript pour développer des pages responsives.</p>
+<p><a href="http://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap</a> est un framework html, css et javascript pour développer des pages responsives.</p>
 </div>
 <div class="paragraph">
 <p>Développé initialement en interne chez twitter, il est aujourd&#8217;hui très largement utilisé.</p>
@@ -191,32 +198,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="http://jquery.com/">jquery</a> est un framework javascript très populaire.</p>
+<p><a href="http://jquery.com/" target="_blank" rel="noopener">jquery</a> est un framework javascript très populaire.</p>
 </div>
 <div class="paragraph">
 <p>Il est simple mais néanmoins très puissant.</p>
 </div>
 <div class="paragraph">
-<p>Il est utilisé par certaines fonctionnalités de boostrap.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="openblock float-group">
-<div class="content">
-<div class="imageblock left">
-<div class="content">
-<img src="bower.png" alt="bower" width="100">
-</div>
-</div>
-<div class="paragraph">
-<p><a href="http://bower.io/">Bower</a> est un outils de gestion de dépendances pour librairies front (css et js).</p>
-</div>
-<div class="paragraph">
-<p>Dans notre projet, on s&#8217;en sert pour récupérer jquery et bootstrap.</p>
+<p>Il est utilisé par certaines fonctionnalités de bootstrap.</p>
 </div>
 </div>
 </div>
@@ -228,7 +216,7 @@
 <h2 id="_structure_de_projet_standard">3. Structure de projet standard</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Maven a introduit le <a href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">Standard Directory Layout</a> : c&#8217;est une façon standard d&#8217;organiser ses sources.</p>
+<p>Maven a introduit le <a href="https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html" target="_blank" rel="noopener">Standard Directory Layout</a> : c&#8217;est une façon standard d&#8217;organiser ses sources.</p>
 </div>
 <div class="paragraph">
 <p>Gradle suit ce standard :</p>
@@ -328,7 +316,10 @@
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Au build, gradle va compiler les classes java et produire le war. La structure à l&#8217;intérieur du war est différente de celle des sources.</p>
+<p>Au build, gradle va compiler les classes java et produire le war.</p>
+</div>
+<div class="paragraph">
+<p>La structure à l&#8217;intérieur du war suit un standard qui est compris par les conteneurs de servlets tels que tomcat.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -347,9 +338,22 @@
 <div class="paragraph">
 <p>L&#8217;application a une structure traditionnelle MVC pour le web.</p>
 </div>
-<div class="imageblock" style="text-align: center">
+<div class="literalblock">
 <div class="content">
-<img src="mvc-simple.png" alt="mvc simple" width="1050" height="252">
+<pre>                                                                                 +----------+
+                              +-------------------+     +------------------+     |{s}       |
+                              |                   |     |                  |     |          |
+                        +----&gt;+    Controllers    +----&gt;+     Services     +----&gt;+          |
+                        |     |                   |     |                  |     |   Base   |
++------------------+    |     +-------------------+     +------------------+     |          |
+|                  |    |                                                        |          |
+|     request      +----+                                                        +----------+
+|    dispatcher    |    |
+|                  |    |     +-------------------+
++------------------+    |     |                   |
+                        +----&gt;+     JSP views     |
+                              |                   |
+                              +-------------------+</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -361,7 +365,7 @@
 <p><strong>request dispatcher</strong> : il est fournit par le framework. Il 'dispatch' les requêtes entrantes vers les bons controllers / vues.</p>
 </li>
 <li>
-<p><strong>controllers</strong> : ils recoivent la requête, utilisent les services et pilotent le rendu.</p>
+<p><strong>controllers</strong> : ils recoivent la requête, utilisent les services et préparent les données.</p>
 </li>
 <li>
 <p><strong>services</strong> : on y range la logique métier.</p>
@@ -444,13 +448,13 @@ Certaines étapes de ce cheminement sont optionnelles.
 <div class="ulist">
 <ul>
 <li>
-<p>tests unitaires avec junit4</p>
+<p>tests unitaires : test d&#8217;un composant isolé</p>
 </li>
 <li>
-<p>tests d&#8217;intégration avec junit4 et spring mocks</p>
+<p>tests d&#8217;intégration : test mettant en jeu plusieurs composant et potentiellement la base de données</p>
 </li>
 <li>
-<p>tests d&#8217;interface avec junit4 et selenium (+ fluentlenium)</p>
+<p>tests d&#8217;interface : simulation au travers d&#8217;un navigateur</p>
 </li>
 </ul>
 </div>
@@ -458,7 +462,7 @@ Certaines étapes de ce cheminement sont optionnelles.
 <p>Ces tests couvrent les points importants de l&#8217;application et nous assurent un meilleur niveau de qualité.</p>
 </div>
 <div class="paragraph">
-<p>Malheureusement, la couverture de test actuelle est très insuffisante.</p>
+<p>Malheureusement, dans le projet actuel, la couverture de test est très insuffisante.</p>
 </div>
 <div class="paragraph">
 <p><a href="../../index.html">&lt;&lt; Retour à l&#8217;index</a></p>

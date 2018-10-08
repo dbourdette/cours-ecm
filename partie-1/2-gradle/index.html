@@ -41,61 +41,74 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Gradle est un outils de build écrit en groovy.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>il permet d&#8217;automatiser toutes les tâches répétitives</p>
-</li>
-<li>
-<p>généralement, il aide à produire l'<strong>artéfact</strong> du projet comme par exemple une librairie, une application web, de la documentation&#8230;&#8203;</p>
-</li>
-</ul>
+<p>Gradle est un outils qui permet d&#8217;écrire des scripts de build en groovy (et en kotlin).</p>
 </div>
 <div class="paragraph">
-<p>En java, on produit souvent un <strong>jar</strong> (java archive) ou un <strong>war</strong> (web archive).</p>
+<p>Il permet d&#8217;exécuter une succession de tâches : un build.</p>
 </div>
 <div class="paragraph">
-<p>Le fichier <strong>build.gradle</strong> contient la définition du build.</p>
+<p>La définition du build est contenu dans le fichier <strong>build.gradle</strong> à la racine du projet.</p>
 </div>
-<div class="openblock">
-<div class="title">Les dépendances</div>
+<div class="paragraph">
+<p>Voici un exemple simple de build.gradle pour un projet java :</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
 <div class="content">
+<pre>apply plugin: 'java'</pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Pour construire le produit, on a besoin de librairies : les <strong>dépendances</strong> (.jar en java).</p>
-</div>
-<div class="paragraph">
-<p>Gradle va les chercher dans des <strong>repositories</strong> distants afin de pouvoir compiler notre code.</p>
-</div>
-</div>
+<p>En java, le produit du build est souvent un <strong>jar</strong> (java archive) ou un <strong>war</strong> (web archive - ie, une application web).</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">Alternatives</div>
 <div class="paragraph">
-<p>Les principales alternatives dans le monde java sont</p>
+<p>Les principales alternatives à gradle dans le monde java sont</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>ant</strong> : le premier outils de build en java configuré en xml.</p>
+<p><strong>ant</strong> : le premier outils de build en java configuré en xml. Assez daté.</p>
 </li>
 <li>
-<p><strong>maven</strong> : aussi configuré en xml, mais apporte énormément de conventions.</p>
-</li>
-<li>
-<p><strong>sbt</strong> : l&#8217;outils de build du monde scala.</p>
+<p><strong>maven</strong> : aussi en xml. Lourd mais très structuré.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>Les dépendances</strong></p>
+</div>
+<div class="paragraph">
+<p>Pour développer, on a rapidement besoin de librairies. Celles ci sont appelées <strong>dépendances</strong> (.jar en java).</p>
+</div>
+<div class="paragraph">
+<p>Gradle va les chercher dans des <strong>repositories</strong> distants afin de pouvoir compiler notre code.</p>
+</div>
+<div class="listingblock">
+<div class="title">build.gradle</div>
+<div class="content">
+<pre>dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.12' <i class="conum" data-value="1"></i><b>(1)</b>
+}</pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Ici notre projet utilise la lib slf4j-api en version 1.7.12</td>
+</tr>
+</table>
+</div>
 <div class="sect1">
 <h2 id="_installation">1. Installation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Sous mac, le plus simple est de passer par <a href="http://brew.sh/">homebrew</a>.</p>
+<p>Sous mac, le plus simple est de passer par <a href="http://brew.sh/" target="_blank" rel="noopener">homebrew</a>.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -114,27 +127,28 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Sans homebrew, voici la <a href="https://docs.gradle.org/current/userguide/installation.html">documentation</a></p>
+<p>Sans homebrew, voici la <a href="https://docs.gradle.org/current/userguide/installation.html" target="_blank" rel="noopener">documentation</a></p>
 </div>
 <div class="paragraph">
-<p>On peut vérifier que l&#8217;installation a réussie</p>
+<p>⇰ On peut vérifier que l&#8217;installation a réussie</p>
 </div>
 <div class="listingblock terminal">
 <div class="content">
 <pre class="CodeRay highlight"><code>test-project$ gradle -v
 
 ------------------------------------------------------------
-Gradle 2.4
+Gradle 4.9
 ------------------------------------------------------------
 
-Build time:   2015-05-05 08:09:24 UTC
-Build number: none
-Revision:     5c9c3bc20ca1c281ac7972643f1e2d190f2c943c
+Build time:   2018-07-16 08:14:03 UTC
+Revision:     efcf8c1cf533b03c70f394f270f46a174c738efc
 
-Groovy:       2.3.10
-Ant:          Apache Ant(TM) version 1.9.4 compiled on April 29 2014
-JVM:          1.8.0_20 (Oracle Corporation 25.20-b23)
-OS:           Mac OS X 10.10.3 x86_64</code></pre>
+Kotlin DSL:   0.18.4
+Kotlin:       1.2.41
+Groovy:       2.4.12
+Ant:          Apache Ant(TM) version 1.9.11 compiled on March 23 2018
+JVM:          1.8.0_25 (Oracle Corporation 25.25-b02)
+OS:           Mac OS X 10.10.5 x86_64</code></pre>
 </div>
 </div>
 </div>
@@ -143,65 +157,60 @@ OS:           Mac OS X 10.10.3 x86_64</code></pre>
 <h2 id="_gradle_init">2. gradle init</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Nous allons rajouter les fichiers lié à la définition du build gradle dans notre projet.</p>
+<p>⇰ Nous allons rajouter les fichiers lié à la définition du build gradle dans notre projet.</p>
 </div>
 <div class="listingblock terminal">
 <div class="content">
 <pre class="CodeRay highlight"><code>test-project$ gradle init
-:wrapper <i class="conum" data-value="1"></i><b>(1)</b>
-:init <i class="conum" data-value="2"></i><b>(2)</b>
 
-BUILD SUCCESSFUL
-
-Total time: 3.248 secs
-
-This build could be faster, please consider using the Gradle Daemon: &lt;3&gt; http://gradle.org/docs/2.4/userguide/gradle_daemon.html</code></pre>
+BUILD SUCCESSFUL in 1s
+2 actionable tasks: 2 executed</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>⇰ On peut voir les fichiers générés.</p>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ ls -la
+total 40
+drwxr-xr-x   8 dbourdette  staff   272  8 aoû 15:20 .
+drwxr-xr-x  18 dbourdette  staff   612  8 aoû 15:19 ..
+drwxr-xr-x   3 dbourdette  staff   102  8 aoû 15:20 .gradle          <i class="conum" data-value="1"></i><b>(1)</b>
+-rw-r--r--   1 dbourdette  staff  1170  8 aoû 15:20 build.gradle     <i class="conum" data-value="2"></i><b>(2)</b>
+drwxr-xr-x   3 dbourdette  staff   102  8 aoû 15:20 gradle           <i class="conum" data-value="3"></i><b>(3)</b>
+-rwxr-xr-x   1 dbourdette  staff  5299  8 aoû 15:20 gradlew          <i class="conum" data-value="4"></i><b>(4)</b>
+-rw-r--r--   1 dbourdette  staff  2260  8 aoû 15:20 gradlew.bat      <i class="conum" data-value="5"></i><b>(5)</b>
+-rw-r--r--   1 dbourdette  staff   585  8 aoû 15:20 settings.gradle  <i class="conum" data-value="6"></i><b>(6)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>éxécution de la tâche <strong>wrapper</strong></td>
+<td>répertoire de cache</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>éxécution de la tâche <strong>init</strong></td>
+<td>le fichier de build</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Voir la note sur le gradle daemon. Dans notre cas, ce ne va pas être nécessaire de l&#8217;activer.</td>
+<td>répertoire qui contient le wrapper</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>script wrapper pour linux</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>script wrapper pour windows</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>config multi projet</td>
 </tr>
 </table>
-</div>
-<div class="sidebarblock">
-<div class="content">
-<div class="title">Gradle daemon</div>
-<div class="paragraph">
-<p>The Gradle Daemon is a background process that does the heavy lifting of running builds, then stays alive between builds waiting for the next build. This allows data and code that is likely to be required in the next build to be kept in memory, ready to go. This <span class="underline"><em>dramatically</em></span> improves the performance of subsequent builds. Enabling the Gradle Daemon is an extremely cheap way to decrease build times.</p>
-</div>
-<div class="paragraph">
-<p>source <a href="https://docs.gradle.org/current/userguide/gradle_daemon.html" class="bare">https://docs.gradle.org/current/userguide/gradle_daemon.html</a></p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>On peut voir les fichiers générés.</p>
-</div>
-<div class="listingblock terminal">
-<div class="content">
-<pre class="CodeRay highlight"><code>test-project$ ls -la
-
-drwxr-xr-x   9 user  staff   306 22 jui 13:45 .
-drwxr-xr-x  59 user  staff  2006 22 jui 13:45 ..
--rw-r--r--   1 user  staff    46 22 jui 13:44 .gitignore
-drwxr-xr-x   3 user  staff   102 22 jui 13:45 .gradle         # rép. de cache
--rw-r--r--   1 user  staff  1236 22 jui 13:45 build.gradle    # fichier de build
-drwxr-xr-x   3 user  staff   102 22 jui 13:45 gradle          # rép. qui contient le wrapper
--rwxr-xr-x   1 user  staff  5080 22 jui 13:45 gradlew         # script wrapper pour linux
--rw-r--r--   1 user  staff  2404 22 jui 13:45 gradlew.bat     # script wrapper pour windows
--rw-r--r--   1 user  staff   646 22 jui 13:45 settings.gradle # config multi projet</code></pre>
-</div>
 </div>
 <div class="paragraph">
 <p>Ou via la commande <code>tree</code> (que l&#8217;on peut installer avec homebrew <code>brew install tree</code>)</p>
@@ -237,75 +246,26 @@ C&#8217;est pratique pour de l&#8217;intégration continue ou bien pour tester r
 </div>
 </div>
 <div class="paragraph">
-<p>Le fichier <strong><a href="https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html">settings.gradle</a></strong> est utile dans le cas d&#8217;un projet qui a des sous modules.</p>
+<p>Le fichier <strong><a href="https://docs.gradle.org/current/dsl/org.gradle.api.initialization.Settings.html" target="_blank" rel="noopener">settings.gradle</a></strong> est utile dans le cas d&#8217;un projet qui a des sous modules.</p>
 </div>
 <div class="paragraph">
-<p>Le fichier <strong><a href="https://docs.gradle.org/current/userguide/tutorial_using_tasks.html">build.gradle</a></strong> est celui qui contient la logique du build.</p>
+<p>On peut ajouter un <strong>gradle.properties</strong> qui permet de <a href="https://docs.gradle.org/current/userguide/build_environment.html" target="_blank" rel="noopener">configurer l&#8217;environnement de build</a></p>
 </div>
 <div class="paragraph">
-<p>On peut ajouter un <strong>gradle.properties</strong> qui permet de <a href="https://docs.gradle.org/current/userguide/build_environment.html">configurer l&#8217;environnement de build</a></p>
+<p>Le fichier <strong><a href="https://docs.gradle.org/current/userguide/tutorial_using_tasks.html" target="_blank" rel="noopener">build.gradle</a></strong> est celui qui contient la logique du build.</p>
 </div>
 <div class="paragraph">
-<p>En l&#8217;état, le build.gradle contient</p>
+<p>En l&#8217;état, il est preque vide :</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">/*
- * This build file was auto generated by running the Gradle 'init' task
- * by 'dbourdette' at '22/06/15 13:45' with Gradle 2.4
+ * This file was generated by the Gradle 'init' task.
  *
- * This generated file contains a commented-out sample Java project to get you started.
- * For more details take a look at the Java Quickstart chapter in the Gradle
- * user guide available at http://gradle.org/docs/2.4/userguide/tutorial_java_projects.html
- */</span>
-
-<span class="comment">/*
-// Apply the java plugin to add support for Java
-apply plugin: 'java' <i class="conum" data-value="1"></i><b>(1)</b>
-
-// In this section you declare where to find the dependencies of your project
-repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter() <i class="conum" data-value="2"></i><b>(2)</b>
-}
-
-// In this section you declare the dependencies for your production and test code
-dependencies {
-    // The production code uses the SLF4J logging API at compile time
-    compile 'org.slf4j:slf4j-api:1.7.12' <i class="conum" data-value="3"></i><b>(3)</b>
-
-    // Declare the dependency for your favourite test framework you want to use in your tests.
-    // TestNG is also supported by the Gradle Test task. Just change the
-    // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
-    // 'test.useTestNG()' to your build script.
-    testCompile 'junit:junit:4.12' <i class="conum" data-value="4"></i><b>(4)</b>
-}
-*/</span></code></pre>
+ * This is a general purpose Gradle build.
+ * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
+ */</span></code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>le plugin java est appliqué</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>le repository de librairies</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>une dépendance à la librairie de log slf4j</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>une dépendance pour les tests à la librairie junit</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Nous allons simplifier et utiliser ce fichier par la suite.</p>
 </div>
 </div>
 </div>
@@ -313,52 +273,59 @@ dependencies {
 <h2 id="_gradle_build">3. gradle build</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Pour commencer, on simplifie <strong>tout</strong> notre build.gradle</p>
+<p>⇰ Pour commencer, on remplace le contenu de notre build.gradle</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">java</span><span class="delimiter">'</span></span>
+<pre class="CodeRay highlight"><code data-lang="groovy">apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">java</span><span class="delimiter">'</span></span> <i class="conum" data-value="1"></i><b>(1)</b>
 
 repositories {
-    jcenter()
+    jcenter() <i class="conum" data-value="2"></i><b>(2)</b>
 }
 
-dependencies {
+dependencies { <i class="conum" data-value="3"></i><b>(3)</b>
 }</code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>on ajoute le plugin java</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>on utilise le repositroy <a href="https://bintray.com/bintray/jcenter" target="_blank" rel="noopener">jcenter</a></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>nos dépendances iront ici</td>
+</tr>
+</table>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="title">DSL</div>
 <div class="paragraph">
-<p>Le language du fichier build.gradle est du groovy, un language alternatif à java pour la jvm.</p>
+<p>Le language du fichier build.gradle est du <strong>groovy</strong>, un language alternatif à java pour la jvm.</p>
 </div>
 <div class="paragraph">
-<p>En profitant de groovy, gradle propose un Domain Specific Language (DSL) : c&#8217;est un language informatique particulièrement adapté à un problème donné.</p>
+<p>La souplesse de groovy permet de définir une synthaxe spécifique pour le build.</p>
+</div>
+<div class="paragraph">
+<p>Un <strong>Domain Specific Language</strong> (DSL) : c&#8217;est une synthaxe particulièrement adaptée à un problème donné.</p>
 </div>
 </div>
 </div>
 <div class="paragraph">
-<p>Avec la commande <code>gradle build</code>, on obtient</p>
+<p>⇰ Avec la commande <code>gradle build</code>, on obtient</p>
 </div>
 <div class="listingblock terminal">
 <div class="content">
 <pre class="CodeRay highlight"><code>test-project$ gradle build
-:compileJava UP-TO-DATE
-:processResources UP-TO-DATE
-:classes UP-TO-DATE
-:jar
-:assemble
-:compileTestJava UP-TO-DATE
-:processTestResources UP-TO-DATE
-:testClasses UP-TO-DATE
-:test UP-TO-DATE
-:check UP-TO-DATE
-:build
 
-BUILD SUCCESSFUL
-
-Total time: 2.518 secs</code></pre>
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 up-to-date</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -366,8 +333,21 @@ Total time: 2.518 secs</code></pre>
 </div>
 <div class="listingblock terminal">
 <div class="content">
-<pre class="CodeRay highlight"><code>test-project$ ls build/libs/
-test-project.jar</code></pre>
+<pre class="CodeRay highlight"><code>.
+├── build
+│   ├── libs
+│   │   └── test-project.jar
+│   └── tmp
+│       └── jar
+│           └── MANIFEST.MF
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+└── settings.gradle</code></pre>
 </div>
 </div>
 </div>
@@ -378,7 +358,7 @@ test-project.jar</code></pre>
 <div class="sect2">
 <h3 id="_version">4.1. Version</h3>
 <div class="paragraph">
-<p>Si on souhaite que notre jar soit versionné, on peut rajouter le gradle.properties.</p>
+<p>⇰ Si on souhaite que notre jar soit versionné, on peut rajouter le gradle.properties à la racine.</p>
 </div>
 <div class="listingblock">
 <div class="title">gradle.properties</div>
@@ -387,12 +367,26 @@ test-project.jar</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Un <code>gradle clean build</code> donne alors</p>
+<p>⇰ Un <code>gradle clean build</code> donne alors</p>
 </div>
 <div class="listingblock terminal">
 <div class="content">
-<pre class="CodeRay highlight"><code>test-project$ ls build/libs/
-test-project-0.1.0.jar</code></pre>
+<pre class="CodeRay highlight"><code>.
+├── build
+│   ├── libs
+│   │   └── test-project-0.1.0.jar
+│   └── tmp
+│       └── jar
+│           └── MANIFEST.MF
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+└── settings.gradle</code></pre>
 </div>
 </div>
 <div class="sidebarblock">
@@ -405,7 +399,7 @@ test-project-0.1.0.jar</code></pre>
 <p>Par exemple : mon-projet-<strong>1.1.3</strong>.zip.</p>
 </div>
 <div class="paragraph">
-<p>La forme de numérotation la plus répandue est <a href="http://semver.org/">semver</a>) pour Semantic Versioning.</p>
+<p>La forme de numérotation la plus répandue est <a href="http://semver.org/" target="_blank" rel="noopener">semver</a>) pour Semantic Versioning.</p>
 </div>
 </div>
 </div>
@@ -414,6 +408,9 @@ test-project-0.1.0.jar</code></pre>
 <h3 id="_version_de_java">4.2. Version de java</h3>
 <div class="paragraph">
 <p>La version de java permet de définir le niveau de language supporté.</p>
+</div>
+<div class="paragraph">
+<p>⇰ On change le sourceCompatibility dans le build.gradle</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
@@ -460,21 +457,45 @@ Il faut maintenant un jdk 8 par défaut sur sa machine pour compiler notre proje
 <p><code>build</code> n&#8217;est qu&#8217;une tâche disponible parmis d&#8217;autres.</p>
 </div>
 <div class="paragraph">
-<p>Il est possible de définir simplement ses propres tâches</p>
+<p>⇰ Il est possible de définir simplement ses propres tâches</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="groovy">task hello &lt;&lt; {
-    println <span class="string"><span class="delimiter">'</span><span class="content">Hello world!</span><span class="delimiter">'</span></span>
+<pre class="CodeRay highlight"><code data-lang="groovy">apply <span class="key">plugin</span>: <span class="string"><span class="delimiter">'</span><span class="content">java</span><span class="delimiter">'</span></span>
+
+repositories {
+    jcenter()
+}
+
+sourceCompatibility=<span class="float">1.8</span>
+
+task hello {
+    doLast {
+        println <span class="string"><span class="delimiter">'</span><span class="content">Hello world!</span><span class="delimiter">'</span></span>
+    }
+}
+
+dependencies {
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Chaque plugin, comme le <a href="https://docs.gradle.org/current/userguide/java_plugin.html">plugin java</a> apporte son lot de tâches.</p>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>test-project$ gradle hello
+
+&gt; Task :hello
+Hello world!
+
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>La liste des tasks est disponible via <code>gradle tasks</code></p>
+<p>Chaque plugin, comme le <a href="https://docs.gradle.org/current/userguide/java_plugin.html" target="_blank" rel="noopener">plugin java</a> apporte son lot de tâches et de conventions.</p>
+</div>
+<div class="paragraph">
+<p>⇰ La liste des tâches est disponible via <code>gradle tasks</code></p>
 </div>
 </div>
 </div>
@@ -485,7 +506,7 @@ Il faut maintenant un jdk 8 par défaut sur sa machine pour compiler notre proje
 <p>Une dépendance est une librairie nécessaire pour son projet.</p>
 </div>
 <div class="paragraph">
-<p>Par exemple, afin d&#8217;utiliser junit pour les tests :</p>
+<p>⇰ Par exemple, afin d&#8217;utiliser junit pour les tests :</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
@@ -499,7 +520,7 @@ repositories {
 sourceCompatibility=<span class="float">1.8</span>
 
 dependencies {
-    testCompile <span class="string"><span class="delimiter">'</span><span class="content">junit:junit:4.12</span><span class="delimiter">'</span></span> <i class="conum" data-value="1"></i><b>(1)</b>
+    testImplementation <span class="string"><span class="delimiter">'</span><span class="content">junit:junit:4.12</span><span class="delimiter">'</span></span> <i class="conum" data-value="1"></i><b>(1)</b>
 }</code></pre>
 </div>
 </div>
@@ -512,32 +533,25 @@ dependencies {
 </table>
 </div>
 <div class="paragraph">
-<p>junit sera donc disponible pour les tests (<strong>testCompile</strong>).</p>
+<p>junit sera donc disponible pour les tests (configuration <strong>testImplementation</strong> des dépendances).</p>
+</div>
+<div class="paragraph">
+<p>La liste des configurations pour le plugin java est disponible sur la <a href="https://docs.gradle.org/current/userguide/java_plugin.html#tab:configurations" target="_blank" rel="noopener">page du plugin</a></p>
+</div>
+<div class="paragraph">
+<p>Une configuration peut être vue simplement comme un groupe de dépendances avec un nom.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
-<div class="title">Dependency configurations</div>
+<div class="title">What is a configuration?</div>
 <div class="paragraph">
-<p>The Java plugin defines a number of standard configurations. These configurations represent the classpaths that the Java plugin uses. Some are listed below, and you can find more details in Table 23.5, “Java plugin - dependency configurations”.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>compile</strong>: The dependencies required to compile the production source of the project.</p>
-</li>
-<li>
-<p><strong>runtime</strong>: The dependencies required by the production classes at runtime. By default, also includes the compile time dependencies.</p>
-</li>
-<li>
-<p><strong>testCompile</strong>: The dependencies required to compile the test source of the project. By default, also includes the compiled production classes and the compile time dependencies.</p>
-</li>
-<li>
-<p><strong>testRuntime</strong>: The dependencies required to run the tests. By default, also includes the compile, runtime and test compile dependencies.</p>
-</li>
-</ul>
+<p>Every dependency declared for a Gradle project applies to a specific scope. For example some dependencies should be used for compiling source code whereas others only need to be available at runtime. Gradle represents the scope of a dependency with the help of a Configuration. Every configuration can be identified by a unique name.</p>
 </div>
 <div class="paragraph">
-<p>source <a href="https://docs.gradle.org/current/userguide/artifact_dependencies_tutorial.html" class="bare">https://docs.gradle.org/current/userguide/artifact_dependencies_tutorial.html</a></p>
+<p>Many Gradle plugins add pre-defined configurations to your project. The Java plugin, for example, adds configurations to represent the various classpaths it needs for source code compilation, executing tests and the like. See the Java plugin chapter for an example. The sections above demonstrate how to declare dependencies for different use cases.</p>
+</div>
+<div class="paragraph">
+<p>source <a href="https://docs.gradle.org/current/userguide/managing_dependency_configurations.html" class="bare">https://docs.gradle.org/current/userguide/managing_dependency_configurations.html</a></p>
 </div>
 </div>
 </div>
@@ -547,13 +561,13 @@ dependencies {
 <h2 id="_les_repositories_distants">7. Les repositories distants</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Gradle va chercher les dépendances dans des <a href="https://docs.gradle.org/current/userguide/artifact_dependencies_tutorial.html">repositories</a>.</p>
+<p>Gradle va chercher les dépendances dans des <a href="https://docs.gradle.org/current/userguide/dependency_management_for_java_projects.html#sec:repositories_java_tutorial">repositories</a> (des bibliothèques contenant des libs java).</p>
 </div>
 <div class="paragraph">
-<p>Ici, nous avons utilisé <a href="https://bintray.com/bintray/jcenter">jcenter</a>. Il existe aussi un autre repository public majeur : <a href="http://search.maven.org/">mavenCentral</a></p>
+<p>Ici, nous avons utilisé <a href="https://bintray.com/bintray/jcenter" target="_blank" rel="noopener">jcenter</a>. Il existe aussi un autre repository public majeur : <a href="http://search.maven.org/">mavenCentral</a></p>
 </div>
 <div class="paragraph">
-<p>Il est possible d&#8217;utiliser un repository hébergé par une entreprise, par exemple :</p>
+<p>Il est possible de configurer un repository au sein d&#8217;une entreprise et de pointer dessus :</p>
 </div>
 <div class="listingblock">
 <div class="title">build.gradle</div>
@@ -566,10 +580,10 @@ dependencies {
 </div>
 </div>
 <div class="paragraph">
-<p>Un repository d&#8217;entreprise permet de stocker tout ce que l&#8217;on construit au quotidien.</p>
+<p>Ce repository servira notamment à stocker nos propres libraires que nous produisons.</p>
 </div>
 <div class="paragraph">
-<p>Nos propres projets peuvent devenir des librairies disponibles pour d&#8217;autres projets.</p>
+<p>Il est alors possible d&#8217;utiliser celles ci dans d&#8217;autres projets.</p>
 </div>
 </div>
 </div>
@@ -577,7 +591,7 @@ dependencies {
 <h2 id="_plugins">8. Plugins</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Voici quelques <a href="https://docs.gradle.org/current/userguide/standard_plugins.html">plugins standards</a> :</p>
+<p>Voici quelques <a href="https://docs.gradle.org/current/userguide/standard_plugins.html" target="_blank" rel="noopener">plugins standards</a> :</p>
 </div>
 <div class="ulist">
 <ul>

@@ -47,7 +47,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Le développement par les tests est une technique de développement Agile</p>
+<p>Le développement par les tests est une technique fondamentale de l&#8217;agilité</p>
 </div>
 <div class="sect1">
 <h2 id="_le_cycle_de_développement">1. Le cycle de développement</h2>
@@ -59,8 +59,9 @@
 </div>
 <div class="imageblock" style="text-align: center">
 <div class="content">
-<img src="TDD%20cycle.png" alt="TDD cycle" width="380" height="518">
+<img src="tdd_flow.png" alt="tdd flow">
 </div>
+<div class="title">Figure 1. Cycle TDD</div>
 </div>
 </div>
 <div class="sect2">
@@ -71,13 +72,16 @@
 <div class="ulist">
 <ul>
 <li>
-<p>On se place en tant qu&#8217;utilisateur de ce que l&#8217;on construit</p>
+<p>On construit le design au fur et à mesure des tests</p>
 </li>
 <li>
-<p>Le code est testé et on réduit le risque de régression</p>
+<p>Les APIs résultantes plus claires et plus explicites</p>
 </li>
 <li>
-<p>On aboutit à un design plus ouvert / plus flexible</p>
+<p>Le code est évidemment testé et on réduit le risque de régression</p>
+</li>
+<li>
+<p>En cas de bug, il est plus facile de reproduire et corriger</p>
 </li>
 </ul>
 </div>
@@ -88,7 +92,7 @@
 <h2 id="_junit">2. jUnit</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://en.wikipedia.org/wiki/Kent_Beck">Kent Beck</a> est à l&#8217;origine du TDD et des frameworks xUnit.</p>
+<p><a href="https://en.wikipedia.org/wiki/Kent_Beck" target="_blank" rel="noopener">Kent Beck</a> est à l&#8217;origine du TDD et des frameworks xUnit.</p>
 </div>
 <div class="paragraph">
 <p>En java, jUnit est un framework permettant d&#8217;écrire des tests unitaires.</p>
@@ -159,7 +163,7 @@
 <div class="sect2">
 <h3 id="_répertoires_de_source">3.1. Répertoires de source</h3>
 <div class="paragraph">
-<p>Dans notre 'test-project' nous ajoutons les répertoires suivants :</p>
+<p>⇰ Dans notre 'test-project' nous ajoutons les répertoires suivants :</p>
 </div>
 <div class="listingblock terminal">
 <div class="content">
@@ -180,7 +184,7 @@
 <div class="sect2">
 <h3 id="_package_fr_ecm_test">3.2. package fr.ecm.test</h3>
 <div class="paragraph">
-<p>Puis on ajoute le package <code>fr.ecm.tp</code> dans <code>src/main/java</code></p>
+<p>⇰ Puis on ajoute le package <code>fr.ecm.tp</code> dans <code>src/main/java</code></p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="add-package.png" alt="add package"></span></p>
@@ -207,13 +211,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Pour le moment, on est a peu près sûr que cette classe ne fait ce qu&#8217;elle devrait.</p>
+<p>Pour le moment, cette classe ne fait pas grand chose.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_calculatortest_java">3.4. CalculatorTest.java</h3>
 <div class="paragraph">
-<p>En faisant un <span class="keyseq"><kbd>alt</kbd>+<kbd>return</kbd></span> sur le nom de la classe on peut facilement ajouter un test</p>
+<p>⇰ En faisant un <span class="keyseq"><kbd>alt</kbd>+<kbd>return</kbd></span> sur le nom de la classe on peut facilement ajouter un test</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="create-test.png" alt="create test"></span></p>
@@ -243,7 +247,7 @@ il est possible de créer cette classe de test sans le raccourçi intellij, mais
 <div class="sect2">
 <h3 id="_premier_test">3.5. Premier test</h3>
 <div class="paragraph">
-<p>Nous rajoutons notre premier test</p>
+<p>⇰ Nous rajoutons notre premier test</p>
 </div>
 <div class="listingblock">
 <div class="title">CalculatorTest.java</div>
@@ -273,7 +277,7 @@ il est possible de créer cette classe de test sans le raccourçi intellij, mais
 </table>
 </div>
 <div class="paragraph">
-<p>On lance le test en faisant un click droit sur la classe</p>
+<p>⇰ On lance le test en faisant un <span class="keyseq"><kbd>alt</kbd>+<kbd>return</kbd></span> (ou un click droit sur la classe)</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="launch-test.png" alt="launch test"></span></p>
@@ -288,10 +292,10 @@ il est possible de créer cette classe de test sans le raccourçi intellij, mais
 <div class="sect2">
 <h3 id="_faire_passer_le_test">3.6. Faire passer le test</h3>
 <div class="paragraph">
-<p>Faites ce qu&#8217;il faut pour que le test passe.</p>
+<p>⇰ Faites ce qu&#8217;il faut pour que le test passe.</p>
 </div>
 <div class="paragraph">
-<p>Après cela, pour le moment, il n&#8217;y a pas grand chose à améliorer (to refactor).</p>
+<p>Après cela, pour le moment, il n&#8217;y a pas grand chose à améliorer (no refactoring).</p>
 </div>
 </div>
 <div class="sect2">
@@ -300,7 +304,7 @@ il est possible de créer cette classe de test sans le raccourçi intellij, mais
 <p>La soustraction n&#8217;est pas très intéressante (ce n&#8217;est qu&#8217;une addition déguisée).</p>
 </div>
 <div class="paragraph">
-<p>Faire le test et puis le code pour la multiplication <code>calculator.multiply(6, 4)</code></p>
+<p>⇰ Faire le test et puis le code pour la multiplication <code>calculator.multiply(6, 4)</code></p>
 </div>
 </div>
 <div class="sect2">
@@ -343,7 +347,7 @@ il est possible de créer cette classe de test sans le raccourçi intellij, mais
 </div>
 </div>
 <div class="paragraph">
-<p>Ecrire les tests <code>divide</code> et <code>divideByZero</code> et le code associé.</p>
+<p>⇰ Ecrire les tests <code>divide</code> et <code>divideByZero</code> et le code associé.</p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -355,13 +359,13 @@ il est possible de créer cette classe de test sans le raccourçi intellij, mais
 <p>Le Test Driven Development (TDD) est une pratique simple et extraordinairement enrichissante.</p>
 </div>
 <div class="paragraph">
-<p>Elle simplifie l&#8217;activité de coding et aide à produire du code plus ouvert.</p>
+<p>Elle simplifie l&#8217;activité de coding et aide à produire du code plus simple.</p>
 </div>
 <div class="paragraph">
 <p>Le TDD n&#8217;est pas une spécificité java, cela s&#8217;applique à tous les languages.</p>
 </div>
 <div class="paragraph">
-<p><a href="http://www.amazon.fr/Test-Driven-Development-Kent-Beck/dp/0321146530">Test Driven Development: By Example</a> explique les mécaniques du développement par les tests.</p>
+<p><a href="http://www.amazon.fr/Test-Driven-Development-Kent-Beck/dp/0321146530" target="_blank" rel="noopener">Test Driven Development: By Example</a> explique les mécaniques du développement par les tests.</p>
 </div>
 </div>
 </div>

@@ -7,6 +7,7 @@
 <meta name="generator" content="Asciidoctor 1.5.7.1">
 <title>Partie 1 : la forge logicielle : pratiques et outils</title>
 <link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="./coderay-asciidoctor.css">
 </head>
 <body class="article">
@@ -19,19 +20,58 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Java est un language <strong>fortement typé</strong>.</p>
+<p>Il existe beaucoup de languages de programmation pour faire du web.</p>
 </div>
 <div class="paragraph">
-<p>Avec une certaine lourdeur syntaxique, il semble peu adapté au web.</p>
+<p>Si on considère l&#8217;ensemble des options possibles, le choix tient beaucoup au hasard.</p>
 </div>
 <div class="paragraph">
-<p><strong>Son environnement d&#8217;exécution</strong> et ses nombreux <strong>frameworks</strong> le rendent pourtant incontournable.</p>
+<p>Alors, pourquoi pas faire :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>du <strong>java</strong>,</p>
+</li>
+<li>
+<p>avec le framework <strong>spring</strong>,</p>
+</li>
+<li>
+<p>sur une base <strong>mongodb</strong></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Le but va être de faire des modifications sur un projet fictif.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Avant toutes choses, il faut avoir un jdk installé sur sa machine
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock terminal">
+<div class="content">
+<pre class="CodeRay highlight"><code>$ java -version
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le jdk oracle est disponible sur <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">la page de téléchargement</a></p>
 </div>
 <div class="sect1">
 <h2 id="_partie_1_la_forge_logicielle_pratiques_et_outils">Partie 1 : la forge logicielle : pratiques et outils</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Avant de rentrer de le projet, nous devons mettre en place quelques outils.</p>
+<p>Avant de rentrer dans le projet, nous allons préparer quelques outils.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
