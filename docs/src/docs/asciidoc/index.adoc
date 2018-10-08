@@ -3,17 +3,11 @@
 
 image::banner.jpg[alt='Applications web en java']
 
-Il existe beaucoup de languages de programmation pour faire du web.
+Je vous propose de travailler sur un projet en *java* avec le framework *spring* et une base *mongodb*
 
-Si on considère l'ensemble des options possibles, le choix tient beaucoup au hasard.
+Choisir, c'est renoncer, et il existe beaucoup trop de possibilités pour faire du web.
 
-Alors, pourquoi pas faire :
-
-* du *java*,
-* avec le framework *spring*,
-* sur une base *mongodb*
-
-Le but va être de faire des modifications sur un projet fictif.
+Mais heureusement, aucune n'est vraiment complètement mauvaise.
 
 IMPORTANT: Avant toutes choses, il faut avoir un jdk installé sur sa machine
 
