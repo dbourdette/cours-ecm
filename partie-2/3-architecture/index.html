@@ -39,13 +39,9 @@
 <div class="paragraph">
 <p>L&#8217;architecture est composée d&#8217;une application web qui est reliée à une base de données mongodb.</p>
 </div>
-<div class="literalblock">
+<div class="imageblock" style="text-align: center">
 <div class="content">
-<pre>/-------\      +-------+
-|       |      |{s}    |
-|web app| ---&gt; | mongo |
-|       |      |       |
-\-------/      +-------+</pre>
+<img src="architecture.png" alt="architecture" width="280" height="126">
 </div>
 </div>
 <div class="paragraph">
@@ -338,22 +334,9 @@
 <div class="paragraph">
 <p>L&#8217;application a une structure traditionnelle MVC pour le web.</p>
 </div>
-<div class="literalblock">
+<div class="imageblock" style="text-align: center">
 <div class="content">
-<pre>                                                                                 +----------+
-                              +-------------------+     +------------------+     |{s}       |
-                              |                   |     |                  |     |          |
-                        +----&gt;+    Controllers    +----&gt;+     Services     +----&gt;+          |
-                        |     |                   |     |                  |     |   Base   |
-+------------------+    |     +-------------------+     +------------------+     |          |
-|                  |    |                                                        |          |
-|     request      +----+                                                        +----------+
-|    dispatcher    |    |
-|                  |    |     +-------------------+
-+------------------+    |     |                   |
-                        +----&gt;+     JSP views     |
-                              |                   |
-                              +-------------------+</pre>
+<img src="mvc-simple.png" alt="mvc simple" width="970" height="252">
 </div>
 </div>
 <div class="paragraph">
