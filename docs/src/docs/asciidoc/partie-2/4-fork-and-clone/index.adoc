@@ -3,7 +3,7 @@ include::../../header.adoc[]
 = Récupération du projet
 :stylesheet: ../../style.css
 
-Le code source du projet est sous github https://github.com/dbourdette/cours-ecm-2018
+Le code source du projet est sous github https://github.com/dbourdette/cours-ecm
 
 == Fork
 
@@ -13,7 +13,7 @@ Github permet de rappatrier simplement un repository vers son compte en faisant 
 
 NOTE: le guide complet du fork de github : https://help.github.com/articles/fork-a-repo/
 
-⇰ Simplement, depuis https://github.com/dbourdette/cours-ecm-2018, il suffit d'appuyer sur le bouton fork.
+⇰ Simplement, depuis https://github.com/dbourdette/cours-ecm, il suffit d'appuyer sur le bouton fork.
 
 image:fork_button.jpg[Fork]
 
